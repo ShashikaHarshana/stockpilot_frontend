@@ -1,6 +1,7 @@
 import React from 'react'
 import Chart from '../components/Chart'
 import LineChart from "../../../stockpilot_frontend/src/components/technicalIndicators/linechart";
+import StochChart from "../components/technicalIndicators/stochChart";
 
 const Graph = () => {
     return (
@@ -12,6 +13,7 @@ const Graph = () => {
             {/*<LineChart type={'rsi'}/>*/}
             {/*<LineChart type={'obv'}/>*/}
             {/*<LineChart type={'roc'}/>*/}
+            <StochChart/>
         </div>
     )
 }
