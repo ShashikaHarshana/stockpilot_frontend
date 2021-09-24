@@ -14,7 +14,7 @@ import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core'
 import { useTheme } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
-import { useDispatch } from 'react-redux'
+
 import NavBar from '../components/NavBar'
 
 const useStyles = makeStyles(theme => ({
