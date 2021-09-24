@@ -179,22 +179,6 @@ const SignUp = () => {
     }
   }
 
-  // const handleChange = e => {
-  //   const { name, value } = e.target
-  //   setUser({ ...user, [name]: value })
-  // }
-
-  // const handleSubmit = e => {
-  //   e.preventDefault()
-  //   console.log('submitted')
-  //   Axios.post(url, {
-  //     user: user
-  //   }).then(resp => {
-  //     console.log(resp.data)
-  //   })
-  //   setUser(initialValues)
-  // }
-
   return (
     <div style={{ maxHeight: '100vh', maxWidth: '100vw', overflow: 'hidden' }}>
       <img src={top} alt='top' className={classes.topImg} />

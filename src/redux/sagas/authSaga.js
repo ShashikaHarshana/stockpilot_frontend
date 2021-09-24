@@ -1,13 +1,44 @@
-import { all } from 'redux-saga/effects'
-import { AUTH_USER_REQUEST } from '../ducks/auth'
+import { takeEvery, all, call, put } from 'redux-saga/effects'
+import {
+  authUserFail,
+  authUserSuccess,
+  AUTH_USER_REQUEST,
+  userRegisterFail,
+  userRegisterSuccess,
+  USER_REGISTER_REQUEST
+} from '../ducks/auth'
+import * as service from './serviceSaga'
 
-function * authFlow () {
-  while (true) {
-    const action = yield take(AUTH_USER_REQUEST)
-    console.log(action)
+//saga workers
+function * login ({ payload }) {
+  try {
+    const user = yield call(service.login, payload)
+    yield put(authUserSuccess(user))
+  } catch (error) {
+    console.log(error)
+    yield put(authUserFail(error))
   }
 }
 
-export function * authSaga () {
-  yield all([authFlow(), RegisterWatcher()])
+function * register ({ payload }) {
+  try {
+    const user = yield call(service.register, payload)
+    yield put(userRegisterSuccess(user))
+  } catch (error) {
+    console.log(error)
+    yield put(userRegisterFail(error))
+  }
+}
+
+//saga watchers
+function * watchLogin () {
+  yield takeEvery(AUTH_USER_REQUEST, login)
+}
+
+function * watchRegister () {
+  yield takeEvery(USER_REGISTER_REQUEST, register)
+}
+
+export function * watchAuth () {
+  yield all([watchLogin(), watchRegister()])
 }

@@ -56,8 +56,7 @@ const useStyles = makeStyles(theme => ({
       width: 300,
       height: 465,
       padding: 15,
-      marginLeft: -15,
-      margin: '0 auto'
+      marginLeft: -15
     }
   },
   linksContainer: {
@@ -131,6 +130,7 @@ const SignIn = () => {
     e.preventDefault()
     console.log('submitted')
     dispatch(authUser(creds))
+    // console.log(creds)
 
     setCreds(initialFValues)
   }
