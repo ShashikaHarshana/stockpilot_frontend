@@ -1,6 +1,6 @@
 import React from 'react'
 import Chart from '../components/Chart'
-import LineChart from "../components/technicalIndicators/linechart";
+import LineChart from "../../../stockpilot_frontend/src/components/technicalIndicators/linechart";
 
 const Graph = () => {
     return (

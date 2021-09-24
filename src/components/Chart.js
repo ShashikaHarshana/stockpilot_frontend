@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import { createChart, CrosshairMode } from 'lightweight-charts'
-import getMAChart from "./technicalIndicators/maChartFunction";
+import getMAChart from "../../../stockpilot_frontend/src/components/technicalIndicators/maChartFunction";
 
 function Chart () {
   const ref = React.useRef()
