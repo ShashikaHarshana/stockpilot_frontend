@@ -130,7 +130,6 @@ const useStyles = makeStyles(theme => ({
   },
   bottomLeft: {
     position: 'absolute',
-    position: 'absolute',
     top: '100rem',
     left: '-0.5rem',
     height: 'calc(1274.73px*0.8)',
