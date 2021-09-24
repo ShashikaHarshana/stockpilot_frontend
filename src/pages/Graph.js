@@ -13,7 +13,7 @@ const Graph = () => {
             {/*<LineChart type={'rsi'}/>*/}
             {/*<LineChart type={'obv'}/>*/}
             {/*<LineChart type={'roc'}/>*/}
-            <StochChart/>
+            {/*<StochChart/>*/}
         </div>
     )
 }

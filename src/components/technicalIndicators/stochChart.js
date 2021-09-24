@@ -35,7 +35,6 @@ function StochChart ({type}) {
 
                 let dataSlowk = data['slowk']
                 let dataSlowd = data['slowd']
-                console.log(dataSlowd)
                 for (let key in dataSlowk) {
                     if (dataSlowk.hasOwnProperty(key)) {
                         let object = {

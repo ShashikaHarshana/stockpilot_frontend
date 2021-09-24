@@ -1,13 +1,16 @@
 import React, {useEffect, useState} from 'react'
 import { createChart, CrosshairMode } from 'lightweight-charts'
 import getMAChart from "../../../stockpilot_frontend/src/components/technicalIndicators/maChartFunction";
+import getBBands from "./technicalIndicators/bbands";
 
 function Chart () {
   const ref = React.useRef()
-  const [ma, setMa] = useState(true);
-  const [sma, setSma] = useState(true);
-  const [ema, setEma] = useState(true);
-  const [wma, setWma] = useState(true);
+  const [ma, setMa] = useState(false);
+  const [sma, setSma] = useState(false);
+  const [ema, setEma] = useState(false);
+  const [wma, setWma] = useState(false);
+  const [bbands, setBbands] = useState(true);
+
 
   // const [maSeries, setMaSeries] = useState(null);
   // const [smaSeries, setSmaSeries] = useState(null);
@@ -105,6 +108,12 @@ function Chart () {
     if (wma){
       const wmaSeries = chart.addLineSeries({lineWidth:1, title: 'WMA'});
       getMAChart('wma', wmaSeries)
+    }
+    if (bbands){
+      const bbandUpper = chart.addLineSeries({lineWidth:1, title: 'BBAND Upper', color:'purple'});
+      const bbandMiddle = chart.addLineSeries({lineWidth:1, title: 'BBAND Middle', color:'orange'});
+      const bbandLower = chart.addLineSeries({lineWidth:1, title: 'BBAND Lower', color:'purple'});
+      getBBands(bbandUpper, bbandMiddle, bbandLower)
     }
 
 
