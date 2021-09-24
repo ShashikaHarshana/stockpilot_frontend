@@ -43,6 +43,9 @@ function App () {
             <Route exact path='/profile'>
               <Profile />
             </Route>
+            <Route exact path='/graph'>
+              <Graph />
+            </Route>
           </Switch>
         </Container>
       </ThemeProvider>
@@ -63,9 +66,7 @@ function App () {
     //         <SignUp />
     //       </Route>
 
-    //       <Route exact path='/graph'>
-    //         <Graph />
-    //       </Route>
+
 
     //       <Route exact path='*'>
     //         <ErrorPage />

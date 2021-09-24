@@ -1,8 +1,22 @@
-import React, { useEffect } from 'react'
+import React, {useEffect, useState} from 'react'
 import { createChart, CrosshairMode } from 'lightweight-charts'
+import getMAChart from "../../../stockpilot_frontend/src/components/technicalIndicators/maChartFunction";
+import getBBands from "./technicalIndicators/bbands";
 
 function Chart () {
   const ref = React.useRef()
+  const [ma, setMa] = useState(false);
+  const [sma, setSma] = useState(false);
+  const [ema, setEma] = useState(false);
+  const [wma, setWma] = useState(false);
+  const [bbands, setBbands] = useState(true);
+
+
+  // const [maSeries, setMaSeries] = useState(null);
+  // const [smaSeries, setSmaSeries] = useState(null);
+  // const [emaSeries, setEmaSeries] = useState(null);
+  // const [wmaSeries, setWmaSeries] = useState(null);
+
 
   useEffect(() => {
     const chart = createChart(ref.current, {
@@ -40,75 +54,68 @@ function Chart () {
       }
     })
 
-    // fetch('https://api.binance.com/api/v3/klines?symbol=BNBUSDT&interval=1m')
-    //     .then(res => res.json())
-    //     .then((data) => {
-    //         let tempCandlesticks = []
-    //         data.forEach(row => {
-    //             let object = {
-    //                 time: row[0] /1000,
-    //                 open: row[1],
-    //                 high: row[2],
-    //                 low: row[3],
-    //                 close: row[4]
-    //             }
-    //             tempCandlesticks.push(object);
-    //         })
-    //         candleSeries.setData(tempCandlesticks);
-    //     })
-    //     .catch()
-
     fetch('http://127.0.0.1:5000/binance/api/historical/BNBUSDT')
-      .then(res => res.json())
-      .then(data => {
-        console.log(data)
-        let tempCandlesticks = []
-        data.forEach(row => {
-          let object = {
-            time: row[0] / 1000,
-            open: row[1],
-            high: row[2],
-            low: row[3],
-            close: row[4]
-          }
-          tempCandlesticks.push(object)
+        .then(res => res.json())
+        .then(data => {
+          let tempCandlesticks = []
+          data.forEach(row => {
+            let object = {
+              time: row[0] / 1000,
+              open: row[1],
+              high: row[2],
+              low: row[3],
+              close: row[4]
+            }
+            tempCandlesticks.push(object)
+          })
+          candleSeries.setData(tempCandlesticks)
         })
-        candleSeries.setData(tempCandlesticks)
-      })
-      .catch()
+        .catch()
+
 
     let eventSource = new EventSource(
-      'http://localhost:5000/binance/listen/BNBUSDT'
+        'http://localhost:5000/binance/listen/BNBUSDT'
     )
 
     eventSource.addEventListener(
-      'message',
-      function (e) {
-        let parsedData = JSON.parse(e.data)
-        let object = {
-          time: parsedData.k.t / 1000,
-          open: parsedData.k.o,
-          high: parsedData.k.h,
-          low: parsedData.k.l,
-          close: parsedData.k.c
-        }
-        candleSeries.update(object)
-      },
-      false
+        'message',
+        function (e) {
+          let parsedData = JSON.parse(e.data)
+          let object = {
+            time: parsedData.k.t / 1000,
+            open: parsedData.k.o,
+            high: parsedData.k.h,
+            low: parsedData.k.l,
+            close: parsedData.k.c
+          }
+          candleSeries.update(object)
+        },
+        false
     )
 
-    // let binanceSocket = new WebSocket("wss://stream.binance.com:9443/ws/bnbusdt@kline_15m");
-    // binanceSocket.onmessage = (event) => {
-    //     let parsedData = JSON.parse(event.data)
-    //     let object = {
-    //         time: parsedData.k.t /1000,
-    //         open: parsedData.k.o,
-    //         high: parsedData.k.h,
-    //         low: parsedData.k.l,
-    //         close: parsedData.k.c
-    //     }
-    //     candleSeries.update(object)
-    // }
+    if (ma){
+      const maSeries = chart.addLineSeries({lineWidth:1, title:'MA'});
+      getMAChart('ma', maSeries)
+    }
+    if (ema){
+      const emaSeries = chart.addLineSeries({lineWidth:1, title:'EMA'});
+      getMAChart('ema', emaSeries)
+    }
+    if (sma){
+      const smaSeries = chart.addLineSeries({lineWidth:1, title: 'SMA'});
+      getMAChart('sma', smaSeries)
+    }
+    if (wma){
+      const wmaSeries = chart.addLineSeries({lineWidth:1, title: 'WMA'});
+      getMAChart('wma', wmaSeries)
+    }
+    if (bbands){
+      const bbandUpper = chart.addLineSeries({lineWidth:1, title: 'BBAND Upper', color:'purple'});
+      const bbandMiddle = chart.addLineSeries({lineWidth:1, title: 'BBAND Middle', color:'orange'});
+      const bbandLower = chart.addLineSeries({lineWidth:1, title: 'BBAND Lower', color:'purple'});
+      getBBands(bbandUpper, bbandMiddle, bbandLower)
+    }
+
 
     return () => {
       chart.remove()
@@ -116,9 +123,9 @@ function Chart () {
   }, [])
 
   return (
-    <>
-      <div ref={ref} />
-    </>
+      <>
+        <div ref={ref} />
+      </>
   )
 }
 
