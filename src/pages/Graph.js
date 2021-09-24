@@ -2,6 +2,7 @@ import React from 'react'
 import Chart from '../components/Chart'
 import LineChart from "../../../stockpilot_frontend/src/components/technicalIndicators/linechart";
 import StochChart from "../components/technicalIndicators/stochChart";
+import MACDChart from "../components/technicalIndicators/macd";
 
 const Graph = () => {
     return (
@@ -14,6 +15,7 @@ const Graph = () => {
             {/*<LineChart type={'obv'}/>*/}
             {/*<LineChart type={'roc'}/>*/}
             {/*<StochChart/>*/}
+            <MACDChart />
         </div>
     )
 }
