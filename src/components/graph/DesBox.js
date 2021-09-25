@@ -61,7 +61,7 @@ const DesBox = ({ title }) => {
     <div>
       <Box className={classes.box}>
         <Paper elevation={8} className={classes.detailPaper}>
-          <Grid container sm={3}>
+          <Grid container item sm={3}>
             <Typography variant='h6' style={{ fontWeight: '600' }}>
               {title}
             </Typography>
@@ -94,7 +94,7 @@ const DesBox = ({ title }) => {
             </Grid> */}
           </Grid>
 
-          <Grid container sm={4}>
+          <Grid container item sm={4}>
             <Button
               onClick={handleClick}
               className={classes.addBtn}

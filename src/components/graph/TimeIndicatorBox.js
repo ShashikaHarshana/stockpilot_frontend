@@ -46,7 +46,7 @@ const TimeIndicatorBox = () => {
     <div>
       <Box>
         <Paper elevation={8} className={classes.timeIndicatorPaper}>
-          <Grid sm={3}>
+          <Grid item sm={3}>
             <Typography>Time Interval</Typography>
           </Grid>
           <Grid container spacing={4} className={classes.textContainer}>
@@ -67,6 +67,7 @@ const TimeIndicatorBox = () => {
             </Grid>
           </Grid>
           <Grid
+            item
             style={{
               display: 'flex',
               alignItems: 'center',

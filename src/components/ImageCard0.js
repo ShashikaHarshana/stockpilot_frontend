@@ -67,7 +67,7 @@ const ImageCard = ({ mobile }) => {
   return (
     <Paper elevation={13} className={classes.card}>
       <div className={classes.cardMedia}>
-        <img class className={classes.img} src={img} alt='' />
+        <img className={classes.img} src={img} alt='' />
       </div>
       <div>
         <Typography
@@ -77,7 +77,7 @@ const ImageCard = ({ mobile }) => {
         >
           Crypto Currency
         </Typography>
-        <Typography variant='body2' color='text.secondary'>
+        <Typography variant='body2' color='textSecondary'>
           {mobile ? ' ' : subTitle}
         </Typography>
         <Button

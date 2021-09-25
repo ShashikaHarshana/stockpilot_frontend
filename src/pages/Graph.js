@@ -12,14 +12,7 @@ import TimeIndicatorBox from '../components/graph/TimeIndicatorBox'
 const useStyles = makeStyles({})
 
 const Graph = () => {
-  return (
-    <div>
-      <NavBar />
-      <DesBox />
-      <TimeIndicatorBox />
-      {/* <Chart /> */}
-    </div>
-  )
+  return <div>{/* <Chart /> */}</div>
 }
 
 export default Graph
