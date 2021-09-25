@@ -13,11 +13,13 @@ import home from '../../svgs/drawer/home.svg'
 
 import logout from '../../svgs/drawer/logout.svg'
 
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 import profilePic from '../../svgs/profilePic.png'
 import { Avatar } from '@material-ui/core'
+import { useDispatch } from 'react-redux'
+import { logOut } from '../../redux/ducks/auth'
 
 const useStyles = makeStyles({
   root: {
@@ -38,12 +40,18 @@ const useStyles = makeStyles({
 const MobDrawer = ({ openDrawer, setOpenDrawer }) => {
   const classes = useStyles()
   const { isLoggedIn } = useSelector(state => state.auth)
+  const dispatch = useDispatch()
+  const history = useHistory()
 
   const handleOpenDrawer = () => {
     setOpenDrawer(true)
   }
   const handleCloseDrawer = () => {
     setOpenDrawer(false)
+  }
+  const handleClick = () => {
+    dispatch(logOut())
+    history.push('/')
   }
 
   return (
@@ -99,7 +107,7 @@ const MobDrawer = ({ openDrawer, setOpenDrawer }) => {
           </ListItem>
           {isLoggedIn && (
             <>
-              <ListItem button component={Link} to='/'>
+              <ListItem button onClick={handleClick} component={Link} to='/'>
                 <ListItemIcon className={classes.listIcon}>
                   <img className={classes.bitcoin} src={logout} />
                 </ListItemIcon>

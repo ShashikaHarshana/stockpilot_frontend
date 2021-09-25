@@ -131,6 +131,14 @@ const useStyles = makeStyles(theme => ({
     height: '2rem',
     width: '15rem'
   },
+
+  logoCard: {
+    [theme.breakpoints.down('sm')]: {
+      width: 300,
+      height: 20,
+      marginTop: '1rem'
+    }
+  },
   logoContainer: {
     [theme.breakpoints.down('sm')]: {
       display: 'none'
@@ -203,24 +211,39 @@ const SignUp = () => {
         </article>
         <article>
           <Paper className={classes.paper} elevation={8}>
-            <Typography
-              variant={`${mobile ? 'h5' : 'h4'}`}
-              style={{
-                margin: '0 auto',
-                display: 'flex',
-                justifyContent: 'center'
-              }}
-            >
-              Welcome to{' '}
-              <span
-                className={classes.primary}
+            <Grid>
+              <Typography
+                variant={`${mobile ? 'h5' : 'h4'}`}
                 style={{
-                  marginLeft: '1rem'
+                  margin: '0 auto',
+                  display: 'flex',
+                  justifyContent: 'center'
                 }}
               >
-                STOCKPILOT
-              </span>
-            </Typography>
+                Welcome to{' '}
+                {!mobile && (
+                  <span
+                    className={classes.primary}
+                    style={{
+                      marginLeft: '1rem'
+                    }}
+                  >
+                    STOCKPILOT
+                  </span>
+                )}
+              </Typography>
+              {mobile && (
+                <Grid component={Link} to='/'>
+                  <img
+                    src={logo}
+                    component={Link}
+                    to='/'
+                    alt='top'
+                    className={classes.logoCard}
+                  />
+                </Grid>
+              )}
+            </Grid>
             <Grid container className={classes.linksContainer}>
               <Grid
                 item

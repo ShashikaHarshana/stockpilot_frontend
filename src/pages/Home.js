@@ -16,6 +16,7 @@ import { useTheme } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 
 import NavBar from '../components/NavBar'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles(theme => ({
   topcornerImg: {
@@ -157,6 +158,7 @@ const Home = () => {
   const theme = useTheme()
   const mobile = useMediaQuery(theme.breakpoints.down('sm'))
   const classes = useStyles()
+  const { isLoggedIn } = useSelector(state => state.auth)
 
   return (
     <main>
@@ -188,11 +190,11 @@ const Home = () => {
           <Button
             className={classes.signupBtn}
             component={Link}
-            to='/sign_up'
+            to={`${isLoggedIn ? '/stock' : '/sign_up'}`}
             variant='contained'
             color='secondary'
           >
-            Sign Up
+            Get Started
           </Button>
         </article>
         <article className={classes.article}>
@@ -235,7 +237,7 @@ const Home = () => {
           <Button
             className={classes.signupBtnB}
             component={Link}
-            to='/sign_up'
+            to={`${isLoggedIn ? '/crypto' : '/sign_up'}`}
             variant='contained'
             color='secondary'
           >

@@ -12,7 +12,7 @@ import {
   IconButton,
   useMediaQuery
 } from '@material-ui/core'
-import { withRouter } from 'react-router'
+import { Redirect, useHistory, withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
 import logo from '../../svgs/signUp/logo.svg'
 import SearchBox from './SearchBox'
@@ -25,6 +25,8 @@ import MailIcon from '@material-ui/icons/Mail'
 import { useSelector } from 'react-redux'
 import { useTheme } from '@material-ui/styles'
 import MobDrawer from './MobDrawer'
+import { useDispatch } from 'react-redux'
+import { logOut } from '../../redux/ducks/auth'
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -113,9 +115,10 @@ const NavBar = () => {
   const mobile = useMediaQuery(theme.breakpoints.down('sm'))
   const classes = useStyles({ open, mobile })
   // console.log(mobile)
-
+  const dispatch = useDispatch()
   const { isLoggedIn } = useSelector(state => state.auth)
   console.log(isLoggedIn)
+  const history = useHistory()
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget)
@@ -123,6 +126,12 @@ const NavBar = () => {
 
   const handleClose = () => {
     setAnchorEl(null)
+  }
+
+  const handleLogOut = () => {
+    handleClose()
+    dispatch(logOut())
+    history.push('/')
   }
 
   return (
@@ -219,7 +228,7 @@ const NavBar = () => {
                     >
                       My account
                     </MenuItem>
-                    <MenuItem onClick={handleClose}>Logout</MenuItem>
+                    <MenuItem onClick={handleLogOut}>Logout</MenuItem>
                   </Menu>
                 </div>
               </>

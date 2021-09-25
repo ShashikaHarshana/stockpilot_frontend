@@ -7,6 +7,8 @@ import {
   Typography,
   Button
 } from '@material-ui/core'
+import { useSelector } from 'react-redux'
+import { useHistory } from 'react-router'
 
 const useStyles = makeStyles({
   box: {
@@ -45,6 +47,16 @@ const useStyles = makeStyles({
 
 const DesBox = ({ title }) => {
   const classes = useStyles()
+  const { isLoggedIn } = useSelector(state => state.auth)
+  const history = useHistory()
+
+  const handleClick = () => {
+    if (!isLoggedIn) {
+      return history.push('/sign_up')
+    } else {
+      //add to watch list
+    }
+  }
   return (
     <div>
       <Box className={classes.box}>
@@ -84,6 +96,7 @@ const DesBox = ({ title }) => {
 
           <Grid container sm={4}>
             <Button
+              onClick={handleClick}
               className={classes.addBtn}
               variant='contained'
               color='primary'
