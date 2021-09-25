@@ -7,50 +7,106 @@ import Divider from '@material-ui/core/Divider'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
-import InboxIcon from '@material-ui/icons/MoveToInbox'
-import MailIcon from '@material-ui/icons/Mail'
+import Bitcoin from '../../svgs/drawer/bitcoin.svg'
+import stock from '../../svgs/drawer/stock.svg'
+import home from '../../svgs/drawer/home.svg'
 
-import HomeIcon from '@material-ui/icons/Home'
+import logout from '../../svgs/drawer/logout.svg'
+
+import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+
+import profilePic from '../../svgs/profilePic.png'
+import { Avatar } from '@material-ui/core'
 
 const useStyles = makeStyles({
+  root: {
+    width: '100vw'
+  },
   list: {
-    border: '1px solid red'
+    width: '50vw'
   },
   listIcon: {
-    marginRight: -20
+    marginRight: -10
+  },
+  bitcoin: {
+    height: 20,
+    width: 20
   }
 })
 
-const MobDrawer = () => {
-  const [openDrawer, setOpenDrawer] = useState(true)
+const MobDrawer = ({ openDrawer, setOpenDrawer }) => {
   const classes = useStyles()
+  const { isLoggedIn } = useSelector(state => state.auth)
 
-  const handleOpenDrawer = () => {}
+  const handleOpenDrawer = () => {
+    setOpenDrawer(true)
+  }
   const handleCloseDrawer = () => {
     setOpenDrawer(false)
   }
 
   return (
     <>
-      <Button onClick={() => setOpenDrawer(true)}>drawer</Button>
-      <Drawer onClose={handleCloseDrawer} open={openDrawer} anchor='right'>
+      <Drawer
+        onClose={handleCloseDrawer}
+        open={openDrawer}
+        anchor='right'
+        className={classes.root}
+      >
         <List className={classes.list}>
-          <ListItem button>
+          {isLoggedIn ? (
+            <>
+              <ListItem component={Link} to='/sign_in'>
+                <Avatar
+                  src={profilePic}
+                  style={{ margin: '0 auto', height: '70px', width: '70px' }}
+                  component={Link}
+                  to='/profile'
+                ></Avatar>
+              </ListItem>
+            </>
+          ) : (
+            <>
+              <ListItem component={Link} to='/sign_in'>
+                <Button style={{ margin: '0 auto' }}>Log in</Button>
+              </ListItem>
+
+              <ListItem component={Link} to='/sign_up'>
+                <Button variant='contained' color='secondary' fullWidth>
+                  sign Up
+                </Button>
+              </ListItem>
+            </>
+          )}
+          <ListItem button component={Link} to='/'>
             <ListItemIcon className={classes.listIcon}>
-              <HomeIcon />
+              <img src={home} className={classes.bitcoin} />
             </ListItemIcon>
             <ListItemText>Home</ListItemText>
           </ListItem>
-
-          <ListItem button>
-            <ListItemIcon className={classes.listIcon}></ListItemIcon>
+          <ListItem button component={Link} to='/stock'>
+            <ListItemIcon className={classes.listIcon}>
+              <img src={stock} className={classes.bitcoin} />
+            </ListItemIcon>
             <ListItemText>Stock</ListItemText>
           </ListItem>
-
-          <ListItem button>
-            <ListItemIcon className={classes.listIcon}></ListItemIcon>
+          <ListItem button component={Link} to='/crypto'>
+            <ListItemIcon className={classes.listIcon}>
+              <img className={classes.bitcoin} src={Bitcoin} />
+            </ListItemIcon>
             <ListItemText>Crypto</ListItemText>
           </ListItem>
+          {isLoggedIn && (
+            <>
+              <ListItem button component={Link} to='/'>
+                <ListItemIcon className={classes.listIcon}>
+                  <img className={classes.bitcoin} src={logout} />
+                </ListItemIcon>
+                <ListItemText>Log Out</ListItemText>
+              </ListItem>
+            </>
+          )}
           <Divider />
         </List>
       </Drawer>
@@ -59,3 +115,10 @@ const MobDrawer = () => {
 }
 
 export default MobDrawer
+
+// <ListItem button component={Link} to='/profile'>
+//   <ListItemIcon className={classes.listIcon}>
+//     <img className={classes.bitcoin} src={profile} />
+//   </ListItemIcon>
+//   <ListItemText>Profile</ListItemText>
+// </ListItem>

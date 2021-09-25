@@ -38,7 +38,7 @@ export const userRegisterFail = error => ({
 
 const initialState = {
   user: null,
-  isLoggedIn: true,
+  isLoggedIn: false,
   isLoading: false,
   error: null
 }

@@ -1,3 +1,4 @@
+import React, { useState } from 'react'
 import {
   AppBar,
   Button,
@@ -11,7 +12,6 @@ import {
   IconButton,
   useMediaQuery
 } from '@material-ui/core'
-import React, { useState } from 'react'
 import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
 import logo from '../../svgs/signUp/logo.svg'
@@ -24,6 +24,7 @@ import Badge from '@material-ui/core/Badge'
 import MailIcon from '@material-ui/icons/Mail'
 import { useSelector } from 'react-redux'
 import { useTheme } from '@material-ui/styles'
+import MobDrawer from './MobDrawer'
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -105,7 +106,9 @@ const useStyles = makeStyles(theme => ({
 
 const NavBar = () => {
   const [open, setOpen] = useState(false)
-  const [anchorEl, setAnchorEl] = React.useState(null)
+  const [anchorEl, setAnchorEl] = useState(null)
+  const [openDrawer, setOpenDrawer] = useState(false)
+  console.log(openDrawer)
   const theme = useTheme()
   const mobile = useMediaQuery(theme.breakpoints.down('sm'))
   const classes = useStyles({ open, mobile })
@@ -124,6 +127,7 @@ const NavBar = () => {
 
   return (
     <div>
+      <MobDrawer openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} />
       <AppBar position='static' elevation={0} className={classes.appBar}>
         <Toolbar disableGutters className={classes.toolBar}>
           <Grid item component={Link} to='/'>
@@ -169,7 +173,10 @@ const NavBar = () => {
                 onClick={() => setOpen(true)}
                 className={classes.searchIcon}
               />
-              <MenuIcon className={classes.searchIcon} />
+              <MenuIcon
+                onClick={() => setOpenDrawer(true)}
+                className={classes.searchIcon}
+              />
             </div>
           </div>
           <Grid item className={classes.signUpTab}>

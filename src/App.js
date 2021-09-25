@@ -54,7 +54,7 @@ function App () {
             </Route>
 
             <Route exact path='/test'>
-              <MobDrawer />
+              <NavBar />
             </Route>
             <Route exact path='*'>
               <ErrorPage />
