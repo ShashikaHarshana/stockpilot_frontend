@@ -17,7 +17,7 @@ import Form from '../components/Form'
 import { makeStyles } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 import { useForm } from '../components/hooks/useForm.js'
-
+import logo from '../svgs/signUp/logo.svg'
 import bottom from '../svgs/signUp/bottomLeft.svg'
 import top from '../svgs/signUp/topRight.svg'
 import facebook from '../svgs/signUp/facebook.svg'
@@ -97,8 +97,8 @@ const useStyles = makeStyles(theme => ({
     left: '-1rem',
     bottom: '-3rem',
     marginBottom: 0,
-    width: 300,
-    height: 280,
+    width: 250,
+    height: 230,
     [theme.breakpoints.down('sm')]: {
       width: 100,
       height: 93,
@@ -124,6 +124,17 @@ const useStyles = makeStyles(theme => ({
   facebook: {
     width: '35px',
     height: '35px'
+  },
+  logo: {
+    position: 'absolute',
+    top: '1rem',
+    height: '2rem',
+    width: '15rem'
+  },
+  logoContainer: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'none'
+    }
   }
 }))
 
@@ -181,10 +192,11 @@ const SignUp = () => {
 
   return (
     <div style={{ maxHeight: '100vh', maxWidth: '100vw', overflow: 'hidden' }}>
-      <img src={top} alt='top' className={classes.topImg} />
-
+      <img src={top} alt='top' className={classes.topImg} />;
+      <Grid className={classes.logoContainer} item component={Link} to='/'>
+        <img src={logo} alt='top' className={classes.logo} />
+      </Grid>
       <img src={bottom} className={classes.bottomImg} alt='bottom' />
-
       <Grid container className={classes.container}>
         <article>
           <img src={signUpImg} className={classes.img} alt='' />

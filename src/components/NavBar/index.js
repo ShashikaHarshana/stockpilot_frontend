@@ -1,12 +1,27 @@
-import { AppBar, Button, Grid, Tabs, Toolbar, Tab } from '@material-ui/core'
+import {
+  AppBar,
+  Button,
+  Grid,
+  Tabs,
+  Toolbar,
+  Tab,
+  Avatar,
+  Menu,
+  MenuItem,
+  IconButton
+} from '@material-ui/core'
 import React, { useState } from 'react'
 import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
-import logo from '../../svgs/home/stockPilot.svg'
+import logo from '../../svgs/signUp/logo.svg'
 import SearchBox from './SearchBox'
 import { makeStyles } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 import MenuIcon from '@material-ui/icons/Menu'
+import profilePic from '../../svgs/profilePic.png'
+import Badge from '@material-ui/core/Badge'
+import MailIcon from '@material-ui/icons/Mail'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -21,11 +36,6 @@ const useStyles = makeStyles(theme => ({
   },
   linkContainer: {
     transform: 'translateX(calc(150px*0.8))',
-    [theme.breakpoints.down('sm')]: {
-      display: 'none'
-    }
-  },
-  singUpTab: {
     [theme.breakpoints.down('sm')]: {
       display: 'none'
     }
@@ -57,7 +67,7 @@ const useStyles = makeStyles(theme => ({
   },
   img: {
     height: 'calc(37px*0.8)',
-    width: 'calc(178px*0.8)',
+    width: 'calc(250px*0.8)',
     [theme.breakpoints.down('sm')]: {
       height: '25px',
       width: '120px'
@@ -78,13 +88,30 @@ const useStyles = makeStyles(theme => ({
   },
   searchIcon: {
     display: props => (props.open ? 'none' : 'flex')
+  },
+  signUpTab: {
+    display: 'flex',
+    [theme.breakpoints.down('sm')]: {
+      display: 'none'
+    }
   }
 }))
 
 const NavBar = () => {
   const [open, setOpen] = useState(false)
-
   const classes = useStyles({ open })
+  const [anchorEl, setAnchorEl] = React.useState(null)
+
+  const { isLoggedIn } = useSelector(state => state.auth)
+  console.log(isLoggedIn)
+
+  const handleClick = event => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
 
   return (
     <div>
@@ -134,24 +161,71 @@ const NavBar = () => {
             />
             <MenuIcon className={classes.searchIcon} />
           </div>
-          <Grid item className={classes.singUpTab}>
-            <Button
-              component={Link}
-              className={classes.logBtn}
-              to='/sign_in'
-              variant='text'
-            >
-              Log In
-            </Button>
-            <Button
-              className={classes.signupBtn}
-              component={Link}
-              to='/sign_up'
-              variant='contained'
-              color='secondary'
-            >
-              Sign Up
-            </Button>
+          <Grid item className={classes.signUpTab}>
+            {isLoggedIn ? (
+              <>
+                <Button
+                  component={Link}
+                  to='/watchList'
+                  variant='text'
+                  className={classes.logBtn}
+                >
+                  Watch List
+                </Button>
+                <IconButton style={{ marginRight: '10px' }}>
+                  <Badge badgeContent={4} color='secondary'>
+                    <MailIcon />
+                  </Badge>
+                </IconButton>
+                <div>
+                  <Avatar
+                    alt='profile pic'
+                    src={profilePic}
+                    aria-controls='simple-menu'
+                    aria-haspopup='true'
+                    onClick={handleClick}
+                  >
+                    Open Menu
+                  </Avatar>
+                  <Menu
+                    id='simple-menu'
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                  >
+                    <MenuItem
+                      component={Link}
+                      to='/profile'
+                      onClick={handleClose}
+                    >
+                      My account
+                    </MenuItem>
+                    <MenuItem onClick={handleClose}>Logout</MenuItem>
+                  </Menu>
+                </div>
+              </>
+            ) : (
+              <>
+                <Button
+                  component={Link}
+                  className={classes.logBtn}
+                  to='/sign_in'
+                  variant='text'
+                >
+                  Log In
+                </Button>
+                <Button
+                  className={classes.signupBtn}
+                  component={Link}
+                  to='/sign_up'
+                  variant='contained'
+                  color='secondary'
+                >
+                  Sign Up
+                </Button>
+              </>
+            )}
           </Grid>
         </Toolbar>
       </AppBar>

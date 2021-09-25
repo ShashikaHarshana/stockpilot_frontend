@@ -43,6 +43,13 @@ function App () {
             <Route exact path='/profile'>
               <Profile />
             </Route>
+
+            <Route exact path='/graph'>
+              <Graph />
+            </Route>
+            <Route exact path='*'>
+              <ErrorPage />
+            </Route>
           </Switch>
         </Container>
       </ThemeProvider>
