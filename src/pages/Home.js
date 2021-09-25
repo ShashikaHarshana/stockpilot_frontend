@@ -22,8 +22,8 @@ const useStyles = makeStyles(theme => ({
     position: 'absolute',
     top: '-10px',
     left: '-30px',
-    height: 'calc(153*0.8)px',
-    width: 'calc(263px*0.8)',
+    height: 'calc(130*0.8)px',
+    width: 'calc(200px*0.8)',
     [theme.breakpoints.down('sm')]: {
       height: '22px',
       width: '38px',

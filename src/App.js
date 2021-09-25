@@ -14,6 +14,9 @@ import NavBar from './components/NavBar'
 import { Button, Container } from '@material-ui/core'
 
 import { makeStyles } from '@material-ui/core'
+import Crypto from './pages/Crypto'
+import Stock from './pages/Stock'
+import MobDrawer from './components/NavBar/MobDrawer'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -43,9 +46,15 @@ function App () {
             <Route exact path='/profile'>
               <Profile />
             </Route>
+            <Route exact path='/crypto'>
+              <Crypto />
+            </Route>
+            <Route exact path='/stock'>
+              <Stock />
+            </Route>
 
-            <Route exact path='/graph'>
-              <Graph />
+            <Route exact path='/test'>
+              <MobDrawer />
             </Route>
             <Route exact path='*'>
               <ErrorPage />

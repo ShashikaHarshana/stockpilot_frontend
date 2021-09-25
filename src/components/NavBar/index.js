@@ -8,7 +8,8 @@ import {
   Avatar,
   Menu,
   MenuItem,
-  IconButton
+  IconButton,
+  useMediaQuery
 } from '@material-ui/core'
 import React, { useState } from 'react'
 import { withRouter } from 'react-router'
@@ -22,6 +23,7 @@ import profilePic from '../../svgs/profilePic.png'
 import Badge from '@material-ui/core/Badge'
 import MailIcon from '@material-ui/icons/Mail'
 import { useSelector } from 'react-redux'
+import { useTheme } from '@material-ui/styles'
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -54,12 +56,14 @@ const useStyles = makeStyles(theme => ({
   },
   logBtn: {
     color: '#707070',
+    // border: '1px solid red',
     '&:hover': {
       backgroundColor: '#fff',
       color: '#222'
     },
     transition: 'all 0.5s ease',
-    marginRight: 'calc(30px*0.8)'
+    // marginRight: 'calc(30px*0.8)'
+    marginRight: 0
   },
   signupBtn: {
     borderRadius: '40px',
@@ -81,13 +85,15 @@ const useStyles = makeStyles(theme => ({
     }
   },
   searchIcons: {
+    display: props => (props.open ? 'none' : null),
     [theme.breakpoints.up('sm')]: {
       display: 'none'
     }
+
     // display: props => (props.open ? 'none' : 'flex'),
   },
   searchIcon: {
-    display: props => (props.open ? 'none' : 'flex')
+    // display: props => (props.open ? 'none' : 'flex')
   },
   signUpTab: {
     display: 'flex',
@@ -99,8 +105,11 @@ const useStyles = makeStyles(theme => ({
 
 const NavBar = () => {
   const [open, setOpen] = useState(false)
-  const classes = useStyles({ open })
   const [anchorEl, setAnchorEl] = React.useState(null)
+  const theme = useTheme()
+  const mobile = useMediaQuery(theme.breakpoints.down('sm'))
+  const classes = useStyles({ open, mobile })
+  // console.log(mobile)
 
   const { isLoggedIn } = useSelector(state => state.auth)
   console.log(isLoggedIn)
@@ -135,7 +144,7 @@ const NavBar = () => {
               variant='text'
               label='Stock'
               component={Link}
-              to='/'
+              to='/stock'
               className={classes.tabBtn}
             >
               Stock
@@ -144,7 +153,7 @@ const NavBar = () => {
               variant='text'
               label='Cripto'
               component={Link}
-              to='/graph'
+              to='/crypto'
               className={classes.tabBtn}
             >
               crypto
@@ -153,13 +162,15 @@ const NavBar = () => {
           <Grid item className={classes.search}>
             <SearchBox open={open} setOpen={setOpen} />
           </Grid>
-          <div style={{ display: 'flex' }} className={classes.searchIcons}>
-            <SearchIcon
-              style={{ marginRight: '10px', color: '#A6A4A4' }}
-              onClick={() => setOpen(true)}
-              className={classes.searchIcon}
-            />
-            <MenuIcon className={classes.searchIcon} />
+          <div className={classes.searchIcons}>
+            <div style={{ display: 'flex' }}>
+              <SearchIcon
+                style={{ marginRight: '10px', color: '#A6A4A4' }}
+                onClick={() => setOpen(true)}
+                className={classes.searchIcon}
+              />
+              <MenuIcon className={classes.searchIcon} />
+            </div>
           </div>
           <Grid item className={classes.signUpTab}>
             {isLoggedIn ? (

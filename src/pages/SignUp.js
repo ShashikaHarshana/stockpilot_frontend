@@ -192,7 +192,7 @@ const SignUp = () => {
 
   return (
     <div style={{ maxHeight: '100vh', maxWidth: '100vw', overflow: 'hidden' }}>
-      <img src={top} alt='top' className={classes.topImg} />;
+      <img src={top} alt='top' className={classes.topImg} />
       <Grid className={classes.logoContainer} item component={Link} to='/'>
         <img src={logo} alt='top' className={classes.logo} />
       </Grid>
