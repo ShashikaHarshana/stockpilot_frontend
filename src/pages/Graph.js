@@ -15,7 +15,7 @@ const Graph = () => {
             {/*<LineChart type={'obv'}/>*/}
             {/*<LineChart type={'roc'}/>*/}
             {/*<StochChart/>*/}
-            <MACDChart />
+            {/*<MACDChart />*/}
         </div>
     )
 }

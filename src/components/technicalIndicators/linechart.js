@@ -5,7 +5,7 @@ import {Typography} from "@material-ui/core";
 function LineChart ({type}) {
     const ref = React.useRef()
 
-    const url = 'http://127.0.0.1:5000/ta/' + type;
+    const url = 'http://127.0.0.1:5000/ta/' + type + '/crypto/BNBUSDT/1m';
     console.log(url);
 
     useEffect(() => {

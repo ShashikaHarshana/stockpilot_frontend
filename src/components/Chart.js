@@ -9,7 +9,7 @@ function Chart () {
   const [sma, setSma] = useState(false);
   const [ema, setEma] = useState(false);
   const [wma, setWma] = useState(false);
-  const [bbands, setBbands] = useState(true);
+  const [bbands, setBbands] = useState(false);
 
 
   // const [maSeries, setMaSeries] = useState(null);
@@ -53,10 +53,13 @@ function Chart () {
         secondsVisible: true
       }
     })
-
-    fetch('http://127.0.0.1:5000/binance/api/historical/BNBUSDT')
+    let tempStockUrl = 'http://127.0.0.1:5000/stock/historical/aapl/5m'
+    let tempCryptoUrl = 'http://127.0.0.1:5000/binance/historical/BNBUSDT/1m'
+    let binanceURL = 'https://api.binance.com/api/v3/klines?symbol=BNBUSDT&interval=1m'
+    fetch(tempCryptoUrl)
         .then(res => res.json())
         .then(data => {
+          // console.log(data)
           let tempCandlesticks = []
           data.forEach(row => {
             let object = {
@@ -68,13 +71,14 @@ function Chart () {
             }
             tempCandlesticks.push(object)
           })
+          console.log(tempCandlesticks)
           candleSeries.setData(tempCandlesticks)
         })
         .catch()
 
 
     let eventSource = new EventSource(
-        'http://localhost:5000/binance/listen/BNBUSDT'
+        'http://localhost:5000/binance/listen/BNBUSDT/1m'
     )
 
     eventSource.addEventListener(

@@ -2,7 +2,7 @@
 
 let getMAChart = (type, lineSeries) => {
 
-    const url = 'http://127.0.0.1:5000/ta/' + type;
+    const url = 'http://127.0.0.1:5000/ta/' + type + '/crypto/BNBUSDT/1m';
 
     fetch(url)
         .then(res => res.json())

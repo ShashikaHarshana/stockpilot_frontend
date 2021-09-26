@@ -5,7 +5,7 @@ import {Typography} from "@material-ui/core";
 function StochChart ({type}) {
     const ref = React.useRef()
 
-    const url = 'http://127.0.0.1:5000/ta/stoch';
+    const url = 'http://127.0.0.1:5000/ta/stoch' + '/stock/amzn/5m';
 
     useEffect(() => {
         const chart = createChart(ref.current, {
