@@ -5,9 +5,9 @@ import getBBands from './technicalIndicators/bbands'
 
 function StockChart () {
   const ref = React.useRef()
-  const [ma, setMa] = useState(false)
-  const [sma, setSma] = useState(false)
-  const [ema, setEma] = useState(false)
+  const [ma, setMa] = useState(true)
+  const [sma, setSma] = useState(true)
+  const [ema, setEma] = useState(true)
   const [wma, setWma] = useState(false)
   const [bbands, setBbands] = useState(false)
 
