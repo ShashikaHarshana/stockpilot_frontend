@@ -6,6 +6,8 @@ export const USER_REGISTER_REQUEST = 'USER_REGISTER'
 const USER_REGISTER_SUCCESS = 'USER_REGISTER_SUCCESS'
 const USER_REGISTER_FAIL = 'USER_REGISTER_FAIL'
 
+export const USER_LOGOUT = 'USER_LOGOUT'
+
 export const authUser = creds => ({
   type: AUTH_USER_REQUEST,
   payload: creds
@@ -34,6 +36,10 @@ export const userRegisterSuccess = user => ({
 export const userRegisterFail = error => ({
   type: USER_REGISTER_FAIL,
   payload: error
+})
+
+export const logOut = () => ({
+  type: USER_LOGOUT
 })
 
 const initialState = {
@@ -78,7 +84,11 @@ export const authReducer = (state = initialState, { type, payload }) => {
         isLoading: false,
         error: payload
       }
+    case USER_LOGOUT:
+      return { ...state, isLoggedIn: false }
     default:
       return state
   }
 }
+
+//comment

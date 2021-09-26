@@ -1,18 +1,13 @@
-import { useMediaQuery } from '@material-ui/core'
-import { useTheme } from '@material-ui/styles'
 import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import NavBar from '../components/NavBar'
 
 const Profile = () => {
   const handleClick = () => {}
 
-  const { mobile } = useSelector(state => state.page)
-
   return (
     <div>
+      <NavBar />
       <h2>This is profile</h2>
-      {mobile && <h3>mobile</h3>}
-      <button onClick={handleClick}>click me</button>
     </div>
   )
 }

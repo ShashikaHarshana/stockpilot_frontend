@@ -17,7 +17,7 @@ import Form from '../components/Form'
 import { makeStyles } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 import { useForm } from '../components/hooks/useForm.js'
-
+import logo from '../svgs/signUp/logo.svg'
 import bottom from '../svgs/signUp/bottomLeft.svg'
 import top from '../svgs/signUp/topRight.svg'
 import facebook from '../svgs/signUp/facebook.svg'
@@ -97,8 +97,8 @@ const useStyles = makeStyles(theme => ({
     left: '-1rem',
     bottom: '-3rem',
     marginBottom: 0,
-    width: 300,
-    height: 280,
+    width: 210,
+    height: 190,
     [theme.breakpoints.down('sm')]: {
       width: 100,
       height: 93,
@@ -110,8 +110,8 @@ const useStyles = makeStyles(theme => ({
     right: '-2rem',
     top: '-2rem',
     marginBottom: 0,
-    width: 'calc(290px*0.8)',
-    height: 'calc(260px*0.8)',
+    width: 'calc(250px*0.8)',
+    height: 'calc(220px*0.8)',
     [theme.breakpoints.down('sm')]: {
       width: 100,
       height: 93
@@ -124,6 +124,25 @@ const useStyles = makeStyles(theme => ({
   facebook: {
     width: '35px',
     height: '35px'
+  },
+  logo: {
+    position: 'absolute',
+    top: '2rem',
+    height: '2rem',
+    width: '15rem'
+  },
+
+  logoCard: {
+    [theme.breakpoints.down('sm')]: {
+      width: 300,
+      height: 20,
+      marginTop: '1rem'
+    }
+  },
+  logoContainer: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'none'
+    }
   }
 }))
 
@@ -182,33 +201,49 @@ const SignUp = () => {
   return (
     <div style={{ maxHeight: '100vh', maxWidth: '100vw', overflow: 'hidden' }}>
       <img src={top} alt='top' className={classes.topImg} />
-
+      <Grid className={classes.logoContainer} item component={Link} to='/'>
+        <img src={logo} alt='top' className={classes.logo} />
+      </Grid>
       <img src={bottom} className={classes.bottomImg} alt='bottom' />
-
       <Grid container className={classes.container}>
         <article>
           <img src={signUpImg} className={classes.img} alt='' />
         </article>
         <article>
           <Paper className={classes.paper} elevation={8}>
-            <Typography
-              variant={`${mobile ? 'h5' : 'h4'}`}
-              style={{
-                margin: '0 auto',
-                display: 'flex',
-                justifyContent: 'center'
-              }}
-            >
-              Welcome to{' '}
-              <span
-                className={classes.primary}
+            <Grid>
+              <Typography
+                variant={`${mobile ? 'h5' : 'h4'}`}
                 style={{
-                  marginLeft: '1rem'
+                  margin: '0 auto',
+                  display: 'flex',
+                  justifyContent: 'center'
                 }}
               >
-                STOCKPILOT
-              </span>
-            </Typography>
+                Welcome to{' '}
+                {!mobile && (
+                  <span
+                    className={classes.primary}
+                    style={{
+                      marginLeft: '1rem'
+                    }}
+                  >
+                    STOCKPILOT
+                  </span>
+                )}
+              </Typography>
+              {mobile && (
+                <Grid component={Link} to='/'>
+                  <img
+                    src={logo}
+                    component={Link}
+                    to='/'
+                    alt='top'
+                    className={classes.logoCard}
+                  />
+                </Grid>
+              )}
+            </Grid>
             <Grid container className={classes.linksContainer}>
               <Grid
                 item

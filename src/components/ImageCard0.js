@@ -11,6 +11,7 @@ import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt'
 import zIndex from '@material-ui/core/styles/zIndex'
 import img from '../svgs/home/card1.svg'
 import { makeStyles } from '@material-ui/core'
+import { Link } from 'react-router-dom'
 
 const subTitle =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi augue nunc, tempor at congue a, efficitur at sapien. Sed efficitur molestie ex, nec sagittis ipsum.'
@@ -66,7 +67,7 @@ const ImageCard = ({ mobile }) => {
   return (
     <Paper elevation={13} className={classes.card}>
       <div className={classes.cardMedia}>
-        <img class className={classes.img} src={img} alt='' />
+        <img className={classes.img} src={img} alt='' />
       </div>
       <div>
         <Typography
@@ -76,7 +77,7 @@ const ImageCard = ({ mobile }) => {
         >
           Crypto Currency
         </Typography>
-        <Typography variant='body2' color='text.secondary'>
+        <Typography variant='body2' color='textSecondary'>
           {mobile ? ' ' : subTitle}
         </Typography>
         <Button
@@ -84,6 +85,8 @@ const ImageCard = ({ mobile }) => {
           className={classes.btn}
           variant='text'
           color='secondary'
+          component={Link}
+          to='/crypto'
         >
           {`Analyze Crypto`}
           <span style={{ marginTop: 'calc(0.75rem*0.8)' }}>

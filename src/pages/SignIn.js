@@ -21,6 +21,7 @@ import facebook from '../svgs/signUp/facebook.svg'
 import google from '../svgs/signUp/google.svg'
 import { useDispatch } from 'react-redux'
 import { authUser } from '../redux/ducks/auth'
+import logo from '../svgs/signUp/logo.svg'
 
 const initialFValues = {
   email: '',
@@ -63,10 +64,6 @@ const useStyles = makeStyles(theme => ({
     margin: '0 auto',
     marginTop: '0.6rem',
     marginBottom: '1rem'
-    // [theme.breakpoints.down('sm')]: {
-    //   display: 'flex',
-    //   flexDirection: 'column'
-    // }
   },
 
   btn: {
@@ -82,8 +79,8 @@ const useStyles = makeStyles(theme => ({
     left: '-1rem',
     bottom: '-3rem',
     marginBottom: 0,
-    width: 300,
-    height: 280,
+    width: 210,
+    height: 190,
     [theme.breakpoints.down('sm')]: {
       width: 100,
       height: 93,
@@ -95,8 +92,8 @@ const useStyles = makeStyles(theme => ({
     right: '-2rem',
     top: '-2rem',
     marginBottom: 0,
-    width: 'calc(290px*0.8)',
-    height: 'calc(260px*0.8)',
+    width: 'calc(250px*0.8)',
+    height: 'calc(220px*0.8)',
     [theme.breakpoints.down('sm')]: {
       width: 100,
       height: 93
@@ -109,6 +106,17 @@ const useStyles = makeStyles(theme => ({
   facebook: {
     width: '35px',
     height: '35px'
+  },
+  logo: {
+    position: 'absolute',
+    top: '2rem',
+    height: '2rem',
+    width: '15rem'
+  },
+  logoContainer: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'none'
+    }
   }
 }))
 
@@ -138,7 +146,9 @@ const SignIn = () => {
   return (
     <div style={{ maxHeight: '100vh', maxWidth: '100vw', overflow: 'hidden' }}>
       <img src={top} alt='top' className={classes.topImg} />
-
+      <Grid className={classes.logoContainer} item component={Link} to='/'>
+        <img src={logo} alt='top' className={classes.logo} />
+      </Grid>
       <img src={bottom} className={classes.bottomImg} alt='bottom' />
       <Grid container className={classes.container}>
         <article>

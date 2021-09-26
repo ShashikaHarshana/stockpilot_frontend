@@ -1,23 +1,18 @@
+import { Box, Grid, IconButton, Paper, Typography } from '@material-ui/core'
 import React from 'react'
 import Chart from '../components/Chart'
-import LineChart from "../../../stockpilot_frontend/src/components/technicalIndicators/linechart";
-import StochChart from "../components/technicalIndicators/stochChart";
-import MACDChart from "../components/technicalIndicators/macd";
+import NavBar from '../components/NavBar'
+import { makeStyles } from '@material-ui/core'
+import { Button } from '@material-ui/core'
+import { Link } from 'react-router-dom'
+
+import DesBox from '../components/graph/DesBox'
+import TimeIndicatorBox from '../components/graph/TimeIndicatorBox'
+
+const useStyles = makeStyles({})
 
 const Graph = () => {
-    return (
-        <div className="App" style={{
-            position: 'absolute', left: '50%', top: '50%',
-            transform: 'translate(-50%, -50%)'
-        }}>
-            <Chart/>
-            {/*<LineChart type={'rsi'}/>*/}
-            {/*<LineChart type={'obv'}/>*/}
-            {/*<LineChart type={'roc'}/>*/}
-            {/*<StochChart/>*/}
-            {/*<MACDChart />*/}
-        </div>
-    )
+  return <div>{/* <Chart /> */}</div>
 }
 
 export default Graph

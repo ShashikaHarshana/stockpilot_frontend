@@ -14,6 +14,10 @@ import NavBar from './components/NavBar'
 import { Button, Container } from '@material-ui/core'
 
 import { makeStyles } from '@material-ui/core'
+import Crypto from './pages/Crypto'
+import Stock from './pages/Stock'
+import MobDrawer from './components/NavBar/MobDrawer'
+import WatchList from './pages/WatchList'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -43,8 +47,21 @@ function App () {
             <Route exact path='/profile'>
               <Profile />
             </Route>
-            <Route exact path='/graph'>
-              <Graph />
+            <Route exact path='/crypto'>
+              <Crypto />
+            </Route>
+            <Route exact path='/stock'>
+              <Stock />
+            </Route>
+
+            <Route exact path='/watch_list'>
+              <WatchList />
+            </Route>
+            <Route exact path='/test'>
+              <NavBar />
+            </Route>
+            <Route exact path='*'>
+              <ErrorPage />
             </Route>
           </Switch>
         </Container>
@@ -66,7 +83,9 @@ function App () {
     //         <SignUp />
     //       </Route>
 
-
+    //       <Route exact path='/graph'>
+    //         <Graph />
+    //       </Route>
 
     //       <Route exact path='*'>
     //         <ErrorPage />

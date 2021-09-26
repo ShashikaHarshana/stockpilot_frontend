@@ -11,6 +11,9 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.secondary.light,
     '& .MuiButton-label': {
       color: theme.palette.secondary.main
+    },
+    '&:hover': {
+      backgroundColor: theme.palette.secondary.darkLight
     }
   },
   primary: {
