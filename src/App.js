@@ -20,6 +20,7 @@ import MobDrawer from './components/NavBar/MobDrawer'
 import WatchList from './pages/WatchList'
 import SingleMarket from './components/SingleMaret'
 import Footer from './components/Footer'
+import Chart from './components/Chart'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -63,7 +64,7 @@ function App () {
               <WatchList />
             </Route>
             <Route exact path='/test'>
-              <Footer />
+              <Chart />
             </Route>
             <Route exact path='*'>
               <ErrorPage />
