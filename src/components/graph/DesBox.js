@@ -60,7 +60,7 @@ const DesBox = ({ title }) => {
   return (
     <div>
       <Box className={classes.box}>
-        <Paper elevation={8} className={classes.detailPaper}>
+        <Paper elevation={4} className={classes.detailPaper}>
           <Grid container item sm={3}>
             <Typography variant='h6' style={{ fontWeight: '600' }}>
               {title}

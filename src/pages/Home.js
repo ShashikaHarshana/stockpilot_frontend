@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import topRightImg from '../svgs/home/topRight.svg'
 import topImg from '../svgs/home/topImg.svg'
-import { Button, Typography } from '@material-ui/core'
+import { Button, Grid, Typography } from '@material-ui/core'
 import ImageCard0 from '../components/ImageCard0'
 import ImageCard1 from '../components/ImageCard1'
 
@@ -17,6 +17,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 
 import NavBar from '../components/NavBar'
 import { useSelector } from 'react-redux'
+import Footer from '../components/Footer'
 
 const useStyles = makeStyles(theme => ({
   topcornerImg: {
@@ -71,7 +72,7 @@ const useStyles = makeStyles(theme => ({
     }
   },
   section: {
-    minHeight: '80vh',
+    minHeight: '100vh',
     // background: '#222',
     display: 'flex',
     alignItems: 'center',
@@ -122,24 +123,23 @@ const useStyles = makeStyles(theme => ({
   },
   bottom: {
     position: 'absolute',
-    left: '55rem',
-    top: '140rem',
+    left: '48rem',
+    top: '155rem',
     [theme.breakpoints.down('sm')]: {
       left: '5rem',
-      top: '140rem'
+      top: '150rem'
     }
   },
   bottomLeft: {
     position: 'absolute',
-    position: 'absolute',
-    top: '100rem',
+    top: '125rem',
     left: '-0.5rem',
-    height: 'calc(1274.73px*0.8)',
-    width: 'calc(915.51px*0.8)',
+    height: 'calc(1115.73px*0.8)',
+    width: 'calc(800.51px*0.8)',
     [theme.breakpoints.down('sm')]: {
       height: 388,
       width: 290,
-      top: '115rem'
+      top: '120rem'
     }
   },
   subTitle: {
@@ -151,6 +151,11 @@ const useStyles = makeStyles(theme => ({
     marginTop: 'calc(40px*0.8)',
     p: '10px 25px',
     borderRadius: '30px'
+  },
+  footer: {
+    position: 'absolute',
+    bottom: '1rem',
+    border: '1px solid red'
   }
 }))
 
@@ -245,6 +250,18 @@ const Home = () => {
           </Button>
         </article>
       </section>
+      <br />
+      <Grid
+        style={{
+          transform: 'translateY(650px)',
+          width: '100%',
+          // width: '1200px',
+          margin: '0 auto'
+        }}
+      >
+        <Footer />
+      </Grid>
+      {/* <Footer className={classes.footer} /> */}
     </main>
   )
 }

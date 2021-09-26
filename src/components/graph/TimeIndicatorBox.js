@@ -45,7 +45,7 @@ const TimeIndicatorBox = () => {
   return (
     <div>
       <Box>
-        <Paper elevation={8} className={classes.timeIndicatorPaper}>
+        <Paper elevation={2} className={classes.timeIndicatorPaper}>
           <Grid item sm={3}>
             <Typography>Time Interval</Typography>
           </Grid>

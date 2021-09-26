@@ -12,12 +12,14 @@ import ErrorPage from './pages/ErrorPage'
 import theme from './utils/theme'
 import NavBar from './components/NavBar'
 import { Button, Container } from '@material-ui/core'
-
+import DesCard from './components/graph/DesCard'
 import { makeStyles } from '@material-ui/core'
 import Crypto from './pages/Crypto'
 import Stock from './pages/Stock'
 import MobDrawer from './components/NavBar/MobDrawer'
 import WatchList from './pages/WatchList'
+import SingleMarket from './components/SingleMaret'
+import Footer from './components/Footer'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -54,11 +56,14 @@ function App () {
               <Stock />
             </Route>
 
+            <Route exact path='/crypto/:title'>
+              <SingleMarket />
+            </Route>
             <Route exact path='/watch_list'>
               <WatchList />
             </Route>
             <Route exact path='/test'>
-              <NavBar />
+              <Footer />
             </Route>
             <Route exact path='*'>
               <ErrorPage />
