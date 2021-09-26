@@ -1,6 +1,6 @@
 import { Box, Grid, IconButton, Paper, Typography } from '@material-ui/core'
 import React from 'react'
-import Chart from '../components/Chart'
+import CryptoChart from '../components/CryptoChart'
 import NavBar from '../components/NavBar'
 import { makeStyles } from '@material-ui/core'
 import { Button } from '@material-ui/core'

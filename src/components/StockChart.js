@@ -3,13 +3,13 @@ import { createChart, CrosshairMode } from 'lightweight-charts'
 import getMAChart from './technicalIndicators/maChartFunction'
 import getBBands from './technicalIndicators/bbands'
 
-function Chart () {
+function StockChart () {
   const ref = React.useRef()
   const [ma, setMa] = useState(false)
   const [sma, setSma] = useState(false)
   const [ema, setEma] = useState(false)
   const [wma, setWma] = useState(false)
-  const [bbands, setBbands] = useState(true)
+  const [bbands, setBbands] = useState(false)
 
   // const [maSeries, setMaSeries] = useState(null);
   // const [smaSeries, setSmaSeries] = useState(null);
@@ -52,7 +52,7 @@ function Chart () {
       }
     })
 
-    fetch('http://127.0.0.1:5000/binance/historical/BNBUSDT/1m')
+    fetch('http://127.0.0.1:5000/stock/historical/aapl/5m')
       .then(res => res.json())
       .then(data => {
         let tempCandlesticks = []
@@ -69,26 +69,6 @@ function Chart () {
         candleSeries.setData(tempCandlesticks)
       })
       .catch()
-
-    let eventSource = new EventSource(
-      'http://localhost:5000/binance/listen/BNBUSDT/1m'
-    )
-
-    eventSource.addEventListener(
-      'message',
-      function (e) {
-        let parsedData = JSON.parse(e.data)
-        let object = {
-          time: parsedData.k.t / 1000,
-          open: parsedData.k.o,
-          high: parsedData.k.h,
-          low: parsedData.k.l,
-          close: parsedData.k.c
-        }
-        candleSeries.update(object)
-      },
-      false
-    )
 
     if (ma) {
       const maSeries = chart.addLineSeries({ lineWidth: 1, title: 'MA' })
@@ -137,4 +117,4 @@ function Chart () {
   )
 }
 
-export default Chart
+export default StockChart
