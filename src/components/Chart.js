@@ -52,7 +52,7 @@ function Chart () {
       }
     })
 
-    fetch('http://127.0.0.1:5000/binance/api/historical/BNBUSDT')
+    fetch('http://127.0.0.1:5000/binance/historical/BNBUSDT/1m')
       .then(res => res.json())
       .then(data => {
         let tempCandlesticks = []
@@ -71,7 +71,7 @@ function Chart () {
       .catch()
 
     let eventSource = new EventSource(
-      'http://localhost:5000/binance/listen/BNBUSDT'
+      'http://localhost:5000/binance/listen/BNBUSDT/1m'
     )
 
     eventSource.addEventListener(
