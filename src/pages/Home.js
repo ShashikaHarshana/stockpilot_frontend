@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react'
 import topRightImg from '../svgs/home/topRight.svg'
 import topImg from '../svgs/home/topImg.svg'
-import { Button, Typography } from '@material-ui/core'
+import { Button, Grid, Typography } from '@material-ui/core'
 import ImageCard0 from '../components/ImageCard0'
 import ImageCard1 from '../components/ImageCard1'
-
 import cardsLeft from '../svgs/home/cardsLeft.svg'
 import cardsRight from '../svgs/home/cardsRight.svg'
 import middleImg from '../svgs/home/middleImg.svg'
@@ -14,9 +13,9 @@ import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core'
 import { useTheme } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
-
 import NavBar from '../components/NavBar'
 import { useSelector } from 'react-redux'
+import Footer from '../components/Footer'
 
 const useStyles = makeStyles(theme => ({
   topcornerImg: {
@@ -150,6 +149,11 @@ const useStyles = makeStyles(theme => ({
     marginTop: 'calc(40px*0.8)',
     p: '10px 25px',
     borderRadius: '30px'
+  },
+  footer: {
+    position: 'absolute',
+    bottom: '1rem',
+    border: '1px solid red'
   }
 }))
 
@@ -162,7 +166,6 @@ const Home = () => {
   return (
     <main>
       <NavBar />
-
       <img
         src={topRightImg}
         alt='leftCornerImg'
@@ -172,7 +175,6 @@ const Home = () => {
       <img src={elipse} className={classes.elipseLeft} alt='' />
       <img src={cardsRight} alt='' className={classes.cardsRight} />
       <img src={botmLeft} className={classes.bottomLeft} alt='' />
-
       <section className={classes.section1}>
         <article className={classes.articleTypo}>
           <Typography
@@ -244,6 +246,17 @@ const Home = () => {
           </Button>
         </article>
       </section>
+
+      <Grid
+        style={{
+          transform: 'translateY(650px)',
+          width: '100%',
+          // width: '1200px',
+          margin: '0 auto'
+        }}
+      >
+        <Footer />
+      </Grid>
     </main>
   )
 }
