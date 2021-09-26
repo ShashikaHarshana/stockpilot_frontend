@@ -79,8 +79,8 @@ const useStyles = makeStyles(theme => ({
     left: '-1rem',
     bottom: '-3rem',
     marginBottom: 0,
-    width: 250,
-    height: 230,
+    width: 210,
+    height: 190,
     [theme.breakpoints.down('sm')]: {
       width: 100,
       height: 93,
@@ -92,8 +92,8 @@ const useStyles = makeStyles(theme => ({
     right: '-2rem',
     top: '-2rem',
     marginBottom: 0,
-    width: 'calc(290px*0.8)',
-    height: 'calc(260px*0.8)',
+    width: 'calc(250px*0.8)',
+    height: 'calc(220px*0.8)',
     [theme.breakpoints.down('sm')]: {
       width: 100,
       height: 93

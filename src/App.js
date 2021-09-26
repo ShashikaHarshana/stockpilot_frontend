@@ -17,6 +17,7 @@ import { makeStyles } from '@material-ui/core'
 import Crypto from './pages/Crypto'
 import Stock from './pages/Stock'
 import MobDrawer from './components/NavBar/MobDrawer'
+import WatchList from './pages/WatchList'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -53,6 +54,9 @@ function App () {
               <Stock />
             </Route>
 
+            <Route exact path='/watch_list'>
+              <WatchList />
+            </Route>
             <Route exact path='/test'>
               <NavBar />
             </Route>

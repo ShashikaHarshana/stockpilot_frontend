@@ -70,7 +70,8 @@ const useStyles = makeStyles(theme => ({
   },
   signupBtn: {
     borderRadius: '40px',
-    padding: '5px 25px'
+    padding: '5px 25px',
+    marginLeft: '10px'
   },
   img: {
     height: 'calc(37px*0.8)',
