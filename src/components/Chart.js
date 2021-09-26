@@ -58,7 +58,7 @@ function Chart () {
     //     })
     //     .catch()
 
-    fetch('http://127.0.0.1:5000/binance/api/historical/BNBUSDT')
+    fetch('http://127.0.0.1:5000/stock/historical/aapl/5m')
       .then(res => res.json())
       .then(data => {
         console.log(data)
