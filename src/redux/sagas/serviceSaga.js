@@ -1,11 +1,11 @@
-import axios from 'axios'
-export function login (creds) {
-  axios.post(url, creds)
-}
+// import axios from 'axios'
+// export function login (creds) {
+//   axios.post(url, creds)
+// }
 
-export function register (user) {
-  console.log(user)
-}
+// export function register (user) {
+//   console.log(user)
+// }
 
-///user/login
-//user/register
+// ///user/login
+// //user/register
