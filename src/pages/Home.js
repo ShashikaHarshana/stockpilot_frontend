@@ -4,7 +4,6 @@ import topImg from '../svgs/home/topImg.svg'
 import { Button, Grid, Typography } from '@material-ui/core'
 import ImageCard0 from '../components/ImageCard0'
 import ImageCard1 from '../components/ImageCard1'
-
 import cardsLeft from '../svgs/home/cardsLeft.svg'
 import cardsRight from '../svgs/home/cardsRight.svg'
 import middleImg from '../svgs/home/middleImg.svg'
@@ -14,7 +13,6 @@ import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core'
 import { useTheme } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
-
 import NavBar from '../components/NavBar'
 import { useSelector } from 'react-redux'
 import Footer from '../components/Footer'
@@ -72,7 +70,7 @@ const useStyles = makeStyles(theme => ({
     }
   },
   section: {
-    minHeight: '100vh',
+    minHeight: '80vh',
     // background: '#222',
     display: 'flex',
     alignItems: 'center',
@@ -123,23 +121,23 @@ const useStyles = makeStyles(theme => ({
   },
   bottom: {
     position: 'absolute',
-    left: '48rem',
-    top: '155rem',
+    left: '55rem',
+    top: '140rem',
     [theme.breakpoints.down('sm')]: {
       left: '5rem',
-      top: '150rem'
+      top: '140rem'
     }
   },
   bottomLeft: {
     position: 'absolute',
-    top: '125rem',
+    top: '100rem',
     left: '-0.5rem',
-    height: 'calc(1115.73px*0.8)',
-    width: 'calc(800.51px*0.8)',
+    height: 'calc(1274.73px*0.8)',
+    width: 'calc(915.51px*0.8)',
     [theme.breakpoints.down('sm')]: {
       height: 388,
       width: 290,
-      top: '120rem'
+      top: '115rem'
     }
   },
   subTitle: {
@@ -168,7 +166,6 @@ const Home = () => {
   return (
     <main>
       <NavBar />
-
       <img
         src={topRightImg}
         alt='leftCornerImg'
@@ -178,7 +175,6 @@ const Home = () => {
       <img src={elipse} className={classes.elipseLeft} alt='' />
       <img src={cardsRight} alt='' className={classes.cardsRight} />
       <img src={botmLeft} className={classes.bottomLeft} alt='' />
-
       <section className={classes.section1}>
         <article className={classes.articleTypo}>
           <Typography
@@ -250,7 +246,7 @@ const Home = () => {
           </Button>
         </article>
       </section>
-      <br />
+
       <Grid
         style={{
           transform: 'translateY(650px)',
@@ -261,7 +257,6 @@ const Home = () => {
       >
         <Footer />
       </Grid>
-      {/* <Footer className={classes.footer} /> */}
     </main>
   )
 }

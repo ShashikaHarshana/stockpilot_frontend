@@ -4,6 +4,8 @@ import useTable from '../components/hooks/useTable'
 import NavBar from '../components/NavBar'
 import Controls from '../components/controls/Controls'
 import CloseIcon from '@material-ui/icons/Close'
+import { makeStyles } from '@material-ui/core'
+
 
 const headCells = [
   //   { id: 'no', label: 'No', disableSorting: true },
@@ -16,8 +18,6 @@ const headCells = [
   { id: 'low', label: 'Low' },
   { id: 'actions', label: 'Actions', disableSorting: true }
 ]
-
-import { makeStyles } from '@material-ui/core'
 
 const useStyles = makeStyles({})
 

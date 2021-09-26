@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { createChart, CrosshairMode } from 'lightweight-charts'
-import getMAChart from './technicalIndicators/maChartFunction'
+import getMAChart from '../../../stockpilot_frontend/src/components/technicalIndicators/maChartFunction'
 import getBBands from './technicalIndicators/bbands'
 
-function Chart () {
+function CryptoChart () {
   const ref = React.useRef()
   const [ma, setMa] = useState(false)
   const [sma, setSma] = useState(false)
   const [ema, setEma] = useState(false)
   const [wma, setWma] = useState(false)
-  const [bbands, setBbands] = useState(true)
+  const [bbands, setBbands] = useState(false)
 
   // const [maSeries, setMaSeries] = useState(null);
   // const [smaSeries, setSmaSeries] = useState(null);
@@ -51,10 +51,14 @@ function Chart () {
         secondsVisible: true
       }
     })
-
-    fetch('http://127.0.0.1:5000/binance/historical/BNBUSDT/1m')
+    let tempStockUrl = 'http://127.0.0.1:5000/stock/historical/aapl/5m'
+    let tempCryptoUrl = 'http://127.0.0.1:5000/binance/historical/BNBUSDT/1m'
+    let binanceURL =
+      'https://api.binance.com/api/v3/klines?symbol=BNBUSDT&interval=1m'
+    fetch(tempCryptoUrl)
       .then(res => res.json())
       .then(data => {
+        // console.log(data)
         let tempCandlesticks = []
         data.forEach(row => {
           let object = {
@@ -66,6 +70,7 @@ function Chart () {
           }
           tempCandlesticks.push(object)
         })
+        console.log(tempCandlesticks)
         candleSeries.setData(tempCandlesticks)
       })
       .catch()
@@ -137,4 +142,4 @@ function Chart () {
   )
 }
 
-export default Chart
+export default CryptoChart
