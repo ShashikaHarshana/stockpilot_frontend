@@ -22,8 +22,9 @@ function * login ({ payload }) {
 
 function * register ({ payload }) {
   try {
-    const user = yield call(service.register, payload)
-    yield put(userRegisterSuccess(user))
+    const response = yield call(service.register, payload)
+    let message = response.data.message
+    yield put(userRegisterSuccess(message))
   } catch (error) {
     console.log(error)
     yield put(userRegisterFail(error))

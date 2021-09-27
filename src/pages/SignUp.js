@@ -24,6 +24,9 @@ import facebook from '../svgs/signUp/facebook.svg'
 import google from '../svgs/signUp/google.svg'
 import { useDispatch } from 'react-redux'
 import { userRegister } from '../redux/ducks/auth'
+import * as PropTypes from "prop-types";
+import { Alert } from '@material-ui/lab';
+
 
 const initialFValues = {
   id: 0,
@@ -198,6 +201,20 @@ const SignUp = () => {
     }
   }
 
+  const message = useSelector(state => state.auth.message);
+
+  const showAlert = () => {
+    console.log(message)
+    if (message != null) {
+      if (message === 'Successfully Registered'){
+        return <Alert severity="success"> {message} </Alert>
+      } else {
+        return <Alert severity="error"> {message} </Alert>
+      }
+    }
+  };
+
+
   return (
     <div style={{ maxHeight: '100vh', maxWidth: '100vw', overflow: 'hidden' }}>
       <img src={top} alt='top' className={classes.topImg} />
@@ -338,7 +355,9 @@ const SignUp = () => {
                 Log in
               </Button>
             </Typography>
+            {showAlert()}
           </Paper>
+
         </article>
       </Grid>
     </div>

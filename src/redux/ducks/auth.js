@@ -46,7 +46,8 @@ const initialState = {
   user: null,
   isLoggedIn: false,
   isLoading: false,
-  error: null
+  error: null,
+  message: null
 }
 
 export const authReducer = (state = initialState, { type, payload }) => {
@@ -74,11 +75,11 @@ export const authReducer = (state = initialState, { type, payload }) => {
     case USER_REGISTER_SUCCESS:
       return {
         ...state,
-        user: payload,
+        message: payload,
         isLoggedIn: true,
         isLoading: false
       }
-    case AUTH_USER_FAIL:
+    case USER_REGISTER_FAIL:
       return {
         ...state,
         isLoading: false,
