@@ -12,8 +12,14 @@ import * as service from './serviceSaga'
 //saga workers
 function * login ({ payload }) {
   try {
-    const user = yield call(service.login, payload)
-    yield put(authUserSuccess(user))
+    const response = yield call(service.login, payload)
+    let data = response.data
+    if (response.data.message === 'Login Successful!'){
+      yield put(authUserSuccess(data))
+    } else {
+      yield put(authUserFail(data.message))
+    }
+
   } catch (error) {
     console.log(error)
     yield put(authUserFail(error))

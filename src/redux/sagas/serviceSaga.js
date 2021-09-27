@@ -1,5 +1,5 @@
 import axios from "axios";
-import {REGISTER_URL} from "../../CONSTANTS";
+import {LOGIN_URL, REGISTER_URL} from "../../CONSTANTS";
 
 
 export function register (user) {
@@ -10,7 +10,9 @@ export function register (user) {
 
 
 export function login (creds) {
-  // axios.post(url, creds)
+    return axios.post(LOGIN_URL, {
+        creds
+    });
 }
 //
 ///user/login
