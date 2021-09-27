@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { createChart, CrosshairMode } from 'lightweight-charts'
 import getMAChart from '../../../stockpilot_frontend/src/components/technicalIndicators/maChartFunction'
 import getBBands from './technicalIndicators/bbands'
+import { useSelector } from 'react-redux'
 
 function CryptoChart () {
   const ref = React.useRef()
-  const [ma, setMa] = useState(false)
-  const [sma, setSma] = useState(false)
-  const [ema, setEma] = useState(false)
-  const [wma, setWma] = useState(false)
-  const [bbands, setBbands] = useState(false)
+  const { market, marketType, internalIndicators, timeInterval } = useSelector(
+    state => state.chart
+  )
+  console.log(market)
 
   // const [maSeries, setMaSeries] = useState(null);
   // const [smaSeries, setSmaSeries] = useState(null);
@@ -74,7 +74,7 @@ function CryptoChart () {
         console.log(tempCandlesticks)
         candleSeries.setData(tempCandlesticks)
       })
-      .catch()
+      .catch(e)
 
     let eventSource = new EventSource(
       'http://localhost:5000/binance/listen/BNBUSDT/1m'
@@ -98,19 +98,19 @@ function CryptoChart () {
 
     if (ma) {
       const maSeries = chart.addLineSeries({ lineWidth: 1, title: 'MA' })
-      getMAChart('ma', maSeries)
+      getMAChart('ma', maSeries, market, marketType, timeInterval)
     }
     if (ema) {
       const emaSeries = chart.addLineSeries({ lineWidth: 1, title: 'EMA' })
-      getMAChart('ema', emaSeries)
+      getMAChart('ema', emaSeries, market, marketType, timeInterval)
     }
     if (sma) {
       const smaSeries = chart.addLineSeries({ lineWidth: 1, title: 'SMA' })
-      getMAChart('sma', smaSeries)
+      getMAChart('sma', smaSeries, market, marketType, timeInterval)
     }
     if (wma) {
       const wmaSeries = chart.addLineSeries({ lineWidth: 1, title: 'WMA' })
-      getMAChart('wma', wmaSeries)
+      getMAChart('wma', wmaSeries, market, marketType, timeInterval)
     }
     if (bbands) {
       const bbandUpper = chart.addLineSeries({

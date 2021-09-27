@@ -50,7 +50,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const DesBox = ({ title }) => {
+const DesBox = ({ type }) => {
   const classes = useStyles()
   const { isLoggedIn } = useSelector(state => state.auth)
   const history = useHistory()
@@ -68,7 +68,7 @@ const DesBox = ({ title }) => {
         <Paper elevation={4} className={classes.detailPaper}>
           <Grid container item sm={3}>
             <Typography variant='h6' style={{ fontWeight: '600' }}>
-              <SelectMarket />
+              <SelectMarket type={type} />
             </Typography>
           </Grid>
           <Grid item container spacing={4} className={classes.textContainer}>

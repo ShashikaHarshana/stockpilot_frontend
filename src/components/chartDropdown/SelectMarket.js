@@ -23,19 +23,20 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const allMarkets = ['BBC', 'BNB', 'BDC', 'AAPL']
+const stockMarkets = ['AAPL', 'BNB', 'BDC', 'AAPL']
+const cryptoMarkets = ['BNBBTC', 'BNBUSDT', 'LTCBTC']
 
-const SelectMarket = () => {
+const SelectMarket = ({ type }) => {
   const classes = useStyles()
   const dispatch = useDispatch()
-  const [market, setMarket] = React.useState(allMarkets[0])
+  const [market, setMarket] = React.useState(stockMarkets[0])
 
   const handleChange = event => {
     setMarket(event.target.value)
   }
 
   useEffect(() => {
-    dispatch(updateMarket(market))
+    dispatch(updateMarket(market.toLowerCase()))
   }, [market])
 
   return (
@@ -55,11 +56,17 @@ const SelectMarket = () => {
           <MenuItem value={'BNB'}>BNB</MenuItem>
           <MenuItem value={'BDC'}>BDC</MenuItem>
           <MenuItem value={'AAPL'}>AAPL</MenuItem> */}
-          {allMarkets.map((market, index) => (
-            <MenuItem key={index} value={market}>
-              {market}
-            </MenuItem>
-          ))}
+          {type === 'stock'
+            ? stockMarkets.map((market, index) => (
+                <MenuItem key={index} value={market}>
+                  {market}
+                </MenuItem>
+              ))
+            : cryptoMarkets.map((market, index) => (
+                <MenuItem key={index} value={market}>
+                  {market}
+                </MenuItem>
+              ))}
         </Select>
         {/* <FormHelperText>Change Market</FormHelperText> */}
       </FormControl>

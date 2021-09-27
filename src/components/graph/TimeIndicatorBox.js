@@ -49,11 +49,13 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const TimeIndicatorBox = () => {
-  const timeIntervals = ['1m', '5m', '1H', '1D', '1W']
+const TimeIndicatorBox = ({ type }) => {
+  const stockTimeIntervals = ['5m', '10m', '1H', '1D', '1W']
+  const cryptoTimeIntervals = ['1m', '10m', '1H', '1D', '1W']
+
   const dispatch = useDispatch()
   const classes = useStyles()
-  const [timeInterval, setTimeInterval] = useState('1m')
+  const [timeInterval, setTimeInterval] = useState(stockTimeIntervals[0])
 
   useEffect(() => {
     dispatch(updateTimeInterval(timeInterval))
@@ -67,37 +69,35 @@ const TimeIndicatorBox = () => {
             <Typography>Time Interval</Typography>
           </Grid>
           <Grid container spacing={4} className={classes.textContainer}>
-            {timeIntervals.map((time, index) => {
-              return (
-                <Grid item key={index}>
-                  <Button
-                    onClick={() => {
-                      setTimeInterval(time)
-                    }}
-                    className={classes.btn}
-                  >
-                    {time}
-                  </Button>
-                </Grid>
-              )
-            })}
-            {/* <Grid item>
-              <Button className={classes.btn}>
-                1m
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button className={classes.btn}>5m</Button>
-            </Grid>
-            <Grid item>
-              <Button className={classes.btn}>1H</Button>
-            </Grid>
-            <Grid item>
-              <Button className={classes.btn}>1D</Button>
-            </Grid>
-            <Grid item>
-              <Button className={classes.btn}>1W</Button>
-            </Grid> */}
+            {type === 'stock'
+              ? stockTimeIntervals.map((time, index) => {
+                  return (
+                    <Grid item key={index}>
+                      <Button
+                        onClick={() => {
+                          setTimeInterval(time)
+                        }}
+                        className={classes.btn}
+                      >
+                        {time}
+                      </Button>
+                    </Grid>
+                  )
+                })
+              : cryptoTimeIntervals.map((time, index) => {
+                  return (
+                    <Grid item key={index}>
+                      <Button
+                        onClick={() => {
+                          setTimeInterval(time)
+                        }}
+                        className={classes.btn}
+                      >
+                        {time}
+                      </Button>
+                    </Grid>
+                  )
+                })}
           </Grid>
           <Grid
             item
@@ -110,14 +110,6 @@ const TimeIndicatorBox = () => {
           >
             <DropdownSelect />
             <DropDownSelectExt />
-            {/* <Menu>Menu</Menu> */}
-            {/* <IconButton style={{ marginRight: '1rem' }}>
-              <img src={candleStick} alt='candleStick' />
-            </IconButton> */}
-
-            {/* <IconButton>
-              <img src={indicators} alt='indicators' />
-            </IconButton> */}
           </Grid>
         </Paper>
       </Box>

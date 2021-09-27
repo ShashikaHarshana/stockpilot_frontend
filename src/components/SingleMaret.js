@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Grid, Button } from '@material-ui/core'
 import { useParams } from 'react-router'
 import DesBox from '../components/graph/DesBox'
@@ -12,6 +12,8 @@ import StochChart from './technicalIndicators/stochChart'
 import { makeStyles } from '@material-ui/core'
 import CryptoChart from './CryptoChart'
 import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { updateMarketType } from '../redux/ducks/chart'
 // import { Gif } from '@material-ui/icons'
 
 const useStyles = makeStyles({
@@ -25,35 +27,41 @@ const useStyles = makeStyles({
 
 const SingleMarket = () => {
   const classes = useStyles()
+  const dispatch = useDispatch()
   const { type } = useParams()
-  const [test, setTest] = useState(false)
-  const state = useSelector(state => state.chart)
-  // console.log(state.timeInterval)
+
+  const { externalIndicators } = useSelector(state => state.chart)
+
+  const { macd, obv, roc, rsi, stoch } = externalIndicators
+
+  useEffect(() => {
+    dispatch(updateMarketType(type))
+  }, [])
 
   return (
     <div>
       <NavBar />
-      {/* <Button onClick={() => setTest(!test)}>test</Button> */}
-      <DesBox title={type} />
-      <TimeIndicatorBox />
+      <DesBox type={type} />
+      <TimeIndicatorBox type={type} />
       <Grid container>
         <Grid className={classes.mainChart}>
-          <StockChart />
-          <CryptoChart />
+          {type === 'stock' ? <StockChart /> : <CryptoChart />}
         </Grid>
         <Grid item className={classes.lineChart}>
-          <LineChart type='obv' />
-          <LineChart type='roc' />
-          <LineChart type='rsi' />
+          {obv && <LineChart type='obv' />}
+          {roc && <LineChart type='roc' />}
+          {rsi && <LineChart type='rsi' />}
         </Grid>
-        {test && (
+        {macd && (
           <Grid item>
             <MACDChart />
           </Grid>
         )}
-        <Grid item>
-          <StochChart />
-        </Grid>
+        {stoch && (
+          <Grid item>
+            <StochChart />
+          </Grid>
+        )}
       </Grid>
     </div>
   )

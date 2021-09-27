@@ -1,11 +1,18 @@
 import React, { useEffect } from 'react'
 import { createChart, CrosshairMode } from 'lightweight-charts'
 import { Typography } from '@material-ui/core'
+import { useSelector } from 'react-redux'
 
 function LineChart ({ type }) {
   const ref = React.useRef()
+  const { market, marketType, internalIndicators, timeInterval } = useSelector(
+    state => state.chart
+  )
 
-  const url = 'http://127.0.0.1:5000/ta/' + type + '/stock/aapl/5m'
+  const url =
+    'http://127.0.0.1:5000/ta/' +
+    type +
+    `/${marketType}/${market}/${timeInterval}`
   console.log(url)
 
   useEffect(() => {
@@ -65,7 +72,7 @@ function LineChart ({ type }) {
     return () => {
       chart.remove()
     }
-  }, [])
+  }, [market, marketType, timeInterval])
 
   return (
     <>

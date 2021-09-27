@@ -1,11 +1,15 @@
 import React, { useEffect } from 'react'
 import { createChart, CrosshairMode } from 'lightweight-charts'
 import { Typography } from '@material-ui/core'
+import { useSelector } from 'react-redux'
 
 function MACDChart ({ type }) {
   const ref = React.useRef()
 
-  const url = 'http://127.0.0.1:5000/ta/macd' + '/stock/aapl/5m'
+  const { market, marketType, timeInterval } = useSelector(state => state.chart)
+
+  const url =
+    'http://127.0.0.1:5000/ta/macd' + `/${marketType}/${market}/${timeInterval}`
 
   useEffect(() => {
     const chart = createChart(ref.current, {
@@ -83,7 +87,7 @@ function MACDChart ({ type }) {
     return () => {
       chart.remove()
     }
-  }, [])
+  }, [market, marketType, timeInterval])
 
   return (
     <>
