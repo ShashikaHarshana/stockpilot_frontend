@@ -9,8 +9,8 @@ function MACDChart ({ type }) {
 
   useEffect(() => {
     const chart = createChart(ref.current, {
-      width: 600,
-      height: 100,
+      width: 1067,
+      height: 300,
       crosshair: {
         mode: CrosshairMode.Normal
       }

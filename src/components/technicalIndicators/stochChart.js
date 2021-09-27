@@ -9,8 +9,8 @@ function StochChart ({ type }) {
 
   useEffect(() => {
     const chart = createChart(ref.current, {
-      width: 600,
-      height: 100,
+      width: 1067,
+      height: 250,
       crosshair: {
         mode: CrosshairMode.Normal
       }
@@ -68,4 +68,4 @@ function StochChart ({ type }) {
   )
 }
 
-export default StochChart
+export default React.memo(StochChart)

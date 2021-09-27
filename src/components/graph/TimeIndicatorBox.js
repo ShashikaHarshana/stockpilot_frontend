@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { IconButton, makeStyles } from '@material-ui/core'
-import { Box, Grid, Paper, Typography } from '@material-ui/core'
-import Button from '../controls/Button'
+import { Box, Grid, Paper, Typography, Button } from '@material-ui/core'
+
 import candleStick from '../../svgs/chart/candleStick.svg'
 import indicators from '../../svgs/chart/indicators.svg'
+import DropdownSelect from '../chartDropdown/DropdownSelect'
+import DropDownSelectExt from '../chartDropdown/DropDownSelectExt'
+import { useDispatch } from 'react-redux'
+import { updateTimeInterval } from '../../redux/ducks/chart'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   box: {
     marginTop: '1rem'
   },
@@ -37,11 +41,24 @@ const useStyles = makeStyles({
     padding: '5px 25px',
     width: '210px',
     color: '#fff'
+  },
+  btn: {
+    '&:focus': {
+      color: theme.palette.secondary.main
+    }
   }
-})
+}))
 
 const TimeIndicatorBox = () => {
+  const timeIntervals = ['1m', '5m', '1H', '1D', '1W']
+  const dispatch = useDispatch()
   const classes = useStyles()
+  const [timeInterval, setTimeInterval] = useState('1m')
+
+  useEffect(() => {
+    dispatch(updateTimeInterval(timeInterval))
+  }, [timeInterval])
+
   return (
     <div>
       <Box>
@@ -50,21 +67,37 @@ const TimeIndicatorBox = () => {
             <Typography>Time Interval</Typography>
           </Grid>
           <Grid container spacing={4} className={classes.textContainer}>
-            <Grid item>
-              <Typography>1m</Typography>
+            {timeIntervals.map((time, index) => {
+              return (
+                <Grid item key={index}>
+                  <Button
+                    onClick={() => {
+                      setTimeInterval(time)
+                    }}
+                    className={classes.btn}
+                  >
+                    {time}
+                  </Button>
+                </Grid>
+              )
+            })}
+            {/* <Grid item>
+              <Button className={classes.btn}>
+                1m
+              </Button>
             </Grid>
             <Grid item>
-              <Typography>5m</Typography>
+              <Button className={classes.btn}>5m</Button>
             </Grid>
             <Grid item>
-              <Typography>1H</Typography>
+              <Button className={classes.btn}>1H</Button>
             </Grid>
             <Grid item>
-              <Typography>1D</Typography>
+              <Button className={classes.btn}>1D</Button>
             </Grid>
             <Grid item>
-              <Typography>1W</Typography>
-            </Grid>
+              <Button className={classes.btn}>1W</Button>
+            </Grid> */}
           </Grid>
           <Grid
             item
@@ -75,14 +108,16 @@ const TimeIndicatorBox = () => {
             }}
             sm={5}
           >
+            <DropdownSelect />
+            <DropDownSelectExt />
             {/* <Menu>Menu</Menu> */}
-            <IconButton style={{ marginRight: '1rem' }}>
+            {/* <IconButton style={{ marginRight: '1rem' }}>
               <img src={candleStick} alt='candleStick' />
-            </IconButton>
+            </IconButton> */}
 
-            <IconButton>
+            {/* <IconButton>
               <img src={indicators} alt='indicators' />
-            </IconButton>
+            </IconButton> */}
           </Grid>
         </Paper>
       </Box>

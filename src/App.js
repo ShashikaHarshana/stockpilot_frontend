@@ -21,6 +21,9 @@ import WatchList from './pages/WatchList'
 import SingleMarket from './components/SingleMaret'
 import Footer from './components/Footer'
 import CryptoChart from './components/CryptoChart'
+import DropdownSelect from './components/chartDropdown/DropdownSelect'
+import DropDownSelectExt from './components/chartDropdown/DropDownSelectExt'
+import SelectMarket from './components/chartDropdown/SelectMarket'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -50,21 +53,24 @@ function App () {
             <Route exact path='/profile'>
               <Profile />
             </Route>
-            <Route exact path='/crypto'>
+            {/* <Route exact path='/crypto'>
               <Crypto />
             </Route>
             <Route exact path='/stock'>
               <Stock />
-            </Route>
-
-            <Route exact path='/crypto/:title'>
+            </Route> */}
+            {/* <Route exact path='/crypto/:title'>
               <SingleMarket />
-            </Route>
+            </Route> */}
             <Route exact path='/watch_list'>
               <WatchList />
             </Route>
+
+            <Route exact path='/analyze/:type'>
+              <SingleMarket />
+            </Route>
             <Route exact path='/test'>
-              <CryptoChart />
+              <SelectMarket />
             </Route>
             <Route exact path='*'>
               <ErrorPage />

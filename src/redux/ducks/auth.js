@@ -44,7 +44,7 @@ export const logOut = () => ({
 
 const initialState = {
   user: null,
-  isLoggedIn: false,
+  isLoggedIn: true,
   isLoading: false,
   error: null
 }

@@ -9,8 +9,9 @@ import {
 } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
+import SelectMarket from '../chartDropdown/SelectMarket'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   box: {
     marginTop: '1rem'
   },
@@ -41,9 +42,13 @@ const useStyles = makeStyles({
     borderRadius: '40px',
     padding: '5px 25px',
     width: '210px',
-    color: '#fff'
+    color: '#fff',
+    backgroundColor: theme.palette.success.main,
+    '&:hover': {
+      backgroundColor: theme.palette.success.dark
+    }
   }
-})
+}))
 
 const DesBox = ({ title }) => {
   const classes = useStyles()
@@ -63,12 +68,12 @@ const DesBox = ({ title }) => {
         <Paper elevation={4} className={classes.detailPaper}>
           <Grid container item sm={3}>
             <Typography variant='h6' style={{ fontWeight: '600' }}>
-              {title}
+              <SelectMarket />
             </Typography>
           </Grid>
           <Grid item container spacing={4} className={classes.textContainer}>
             <Grid item>
-              <Typography className={classes.textUpper}>0.073101</Typography>
+              <Typography className={classes.textUpper}>Price</Typography>
               <Typography className={classes.textLower}>$3316.16</Typography>
             </Grid>
             <Grid item>
@@ -99,7 +104,7 @@ const DesBox = ({ title }) => {
               onClick={handleClick}
               className={classes.addBtn}
               variant='contained'
-              color='primary'
+              // color='primary'
             >
               Add to Watch List
             </Button>

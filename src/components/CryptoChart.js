@@ -18,8 +18,8 @@ function CryptoChart () {
 
   useEffect(() => {
     const chart = createChart(ref.current, {
-      width: 600,
-      height: 300,
+      width: 1067,
+      height: 450,
       // layout: {
       //     backgroundColor: '#f2f2f2',
       //     textColor: 'rgba(255, 255, 255, 0.9)',
@@ -53,9 +53,10 @@ function CryptoChart () {
     })
     let tempStockUrl = 'http://127.0.0.1:5000/stock/historical/aapl/5m'
     let tempCryptoUrl = 'http://127.0.0.1:5000/binance/historical/BNBUSDT/1m'
+    let newCrypto = 'http://127.0.0.1:5000/binance/listen/BNBUSDT/5m'
     let binanceURL =
       'https://api.binance.com/api/v3/klines?symbol=BNBUSDT&interval=1m'
-    fetch(tempCryptoUrl)
+    fetch(newCrypto)
       .then(res => res.json())
       .then(data => {
         // console.log(data)

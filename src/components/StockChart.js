@@ -18,8 +18,8 @@ function StockChart () {
 
   useEffect(() => {
     const chart = createChart(ref.current, {
-      width: 600,
-      height: 300,
+      width: 1067,
+      height: 450,
       // layout: {
       //     backgroundColor: '#f2f2f2',
       //     textColor: 'rgba(255, 255, 255, 0.9)',
