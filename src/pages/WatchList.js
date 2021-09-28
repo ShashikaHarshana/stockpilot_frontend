@@ -7,7 +7,7 @@ import CloseIcon from '@material-ui/icons/Close'
 import { makeStyles } from '@material-ui/core'
 import {authUser} from "../redux/ducks/auth";
 import {useDispatch, useSelector} from "react-redux";
-import {viewWatchlist} from "../redux/ducks/watchlist";
+import {removeFromWatchlist, viewWatchlist} from "../redux/ducks/watchlist";
 import {login} from "../redux/sagas/serviceSaga";
 
 
@@ -31,6 +31,7 @@ const WatchList = () => {
   const [highVal, setHighVal] = useState(0)
   const token = useSelector(state => state.auth.token)
   let brands = useSelector(state => state.watchlist.brands)
+
   if (brands === null){
     dispatch(viewWatchlist(token))
   }
@@ -62,9 +63,12 @@ const WatchList = () => {
     }
   }, [brands])
 
+  console.log(brands)
+  console.log(records1)
+  console.log(records)
 
   useEffect(() => {
-    if (brands !== null && records1.size === brands.length){
+    if (brands !== null && records1.size >= brands.length){
       let temp = []
       for (let i in brands) {
         temp.push(records1.get(brands[i]))
@@ -88,6 +92,12 @@ const WatchList = () => {
     recordsAfterPagingAndSorting
   } = useTable(records, headCells, filterFn)
 
+  const handleDelete = (symbol) => {
+    dispatch(removeFromWatchlist({"token": token, "brands": symbol}))
+    let tempRecords1 = records1;
+    tempRecords1.delete(symbol)
+    setRecords1(tempRecords1)
+  }
 
   return (
     <div>
@@ -108,6 +118,7 @@ const WatchList = () => {
                 <TableCell>
                   <Controls.ActionButton
                     color='secondary'
+                    onClick={() => handleDelete(item.symbol)}
                     // onClick={() => {
                     //   setConfirmDialog({
                     //     isOpen: true,

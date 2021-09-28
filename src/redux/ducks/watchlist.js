@@ -100,7 +100,8 @@ export const watchlistReducer = (state = initialState, { type, payload }) => {
         case REMOVE_FROM_WATCHLIST_SUCCESS:
             return {
                 ...state,
-                message: payload,
+                message: payload.message,
+                brands: payload.brands,
                 isLoading: false
             }
         case REMOVE_FROM_WATCHLIST_FAIL:

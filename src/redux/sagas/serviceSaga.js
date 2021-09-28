@@ -40,12 +40,9 @@ export function addToWatchlist (data) {
 }
 
 export function removeFromWatchlist (data) {
-    return axios.post(REMOVE_FROM_WATCHLIST_URL, {
-        'brands' : data.brands
-    },{
-        headers: {
-            'x-access-token': data.token
-        }
+    return axios.delete(REMOVE_FROM_WATCHLIST_URL, {
+        data: { 'brands' : data.brands },
+        headers: { 'x-access-token': data.token }
     });
 }
 

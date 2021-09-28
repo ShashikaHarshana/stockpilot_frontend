@@ -40,9 +40,11 @@ function * addToWatchlist ({ payload }) {
 function * removeFromWatchlist ({ payload }) {
     try {
         const response = yield call(service.removeFromWatchlist, payload)
+        const watchlistResponse = yield call(service.viewWatchlist, payload.token)
         let message = response.data.message
-        if (response.data.error === 'false'){
-            yield put(removeFromWatchlistSuccess(message))
+        let brands = watchlistResponse.data.brands
+        if (response.data.error === false){
+            yield put(removeFromWatchlistSuccess({message, brands}))
         } else {
             yield put(removeFromWatchlistFail(message))
         }
