@@ -180,6 +180,13 @@ const Home = () => {
       <img src={botmLeft} className={classes.bottomLeft} alt='' />
       <section className={classes.section1}>
         <article className={classes.articleTypo}>
+          {/* <Typography
+            variant={`${mobile ? 'h4' : 'h3'}`}
+            style={{ fontWeight: 300 }}
+          >
+            Smart Investing Platform
+          </Typography> */}
+
           <Typography
             variant={`${mobile ? 'h4' : 'h3'}`}
             style={{ fontWeight: 300 }}
@@ -190,7 +197,6 @@ const Home = () => {
             The one stop website for all your stock and crypto analysis needs
             without any commission or deposits.
           </Typography>
-
           <Button
             className={classes.signupBtn}
             component={Link}
