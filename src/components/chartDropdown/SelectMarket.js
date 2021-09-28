@@ -24,7 +24,23 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const stockMarkets = ['AAPL', 'BNB', 'BDC', 'AAPL']
+const stockMarkets = [
+  'AAPL',
+  'MSFT',
+  'GOOG',
+  'AMZN',
+  'FB',
+  'TSLA',
+  'NVDA',
+  'V',
+  'JPM',
+  'JNJ',
+  'BABA',
+  'WMT',
+  'UNH',
+  'HD'
+]
+
 const cryptoMarkets = ['BNBUSDT', 'BNBBTC', 'LTCBTC']
 
 const SelectMarket = ({ type }) => {
