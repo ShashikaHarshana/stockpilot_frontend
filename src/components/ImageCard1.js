@@ -13,6 +13,7 @@ import img from '../svgs/home/card2.svg'
 
 import { makeStyles } from '@material-ui/core'
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 const subTitle =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi augue nunc, tempor at congue a, efficitur at sapien. Sed efficitur molestie ex, nec sagittis ipsum.'
 
@@ -66,6 +67,7 @@ const useStyles = makeStyles(theme => ({
 
 const ImageCard = ({ mobile }) => {
   const classes = useStyles()
+  const { isLoggedIn } = useSelector(state => state.auth)
   return (
     <Paper elevation={13} className={classes.card}>
       <div className={classes.cardMedia}>
@@ -88,7 +90,7 @@ const ImageCard = ({ mobile }) => {
           variant='text'
           color='secondary'
           component={Link}
-          to='/stock'
+          to={`${isLoggedIn ? '/analyze/stock' : '/sign_up'}`}
         >
           {`Analyze Stock`}
           <span style={{ marginTop: 'calc(0.75rem*0.8)' }}>
