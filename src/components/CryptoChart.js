@@ -2,24 +2,32 @@ import React, { useEffect, useState } from 'react'
 import { createChart, CrosshairMode } from 'lightweight-charts'
 import getMAChart from '../../../stockpilot_frontend/src/components/technicalIndicators/maChartFunction'
 import getBBands from './technicalIndicators/bbands'
+import { useSelector } from 'react-redux'
 
 function CryptoChart () {
   const ref = React.useRef()
-  const [ma, setMa] = useState(false)
-  const [sma, setSma] = useState(false)
-  const [ema, setEma] = useState(false)
-  const [wma, setWma] = useState(false)
-  const [bbands, setBbands] = useState(false)
+  const { market, marketType, internalIndicators, timeInterval } = useSelector(
+    state => state.chart
+  )
+  const { ma, sma, ema, wma, bbands } = internalIndicators
+
+  // console.log(market)
 
   // const [maSeries, setMaSeries] = useState(null);
   // const [smaSeries, setSmaSeries] = useState(null);
   // const [emaSeries, setEmaSeries] = useState(null);
   // const [wmaSeries, setWmaSeries] = useState(null);
 
+  // const [ma, setMa] = useState(false)
+  // const [sma, setSma] = useState(false)
+  // const [ema, setEma] = useState(false)
+  // const [wma, setWma] = useState(false)
+  // const [bbands, setBbands] = useState(false)
+
   useEffect(() => {
     const chart = createChart(ref.current, {
-      width: 600,
-      height: 300,
+      width: 1067,
+      height: 450,
       // layout: {
       //     backgroundColor: '#f2f2f2',
       //     textColor: 'rgba(255, 255, 255, 0.9)',
@@ -53,9 +61,11 @@ function CryptoChart () {
     })
     let tempStockUrl = 'http://127.0.0.1:5000/stock/historical/aapl/5m'
     let tempCryptoUrl = 'http://127.0.0.1:5000/binance/historical/BNBUSDT/1m'
+    let newCrypto = `http://127.0.0.1:5000/binance/historical/${market.toUpperCase()}/${timeInterval}`
+
     let binanceURL =
       'https://api.binance.com/api/v3/klines?symbol=BNBUSDT&interval=1m'
-    fetch(tempCryptoUrl)
+    fetch(newCrypto)
       .then(res => res.json())
       .then(data => {
         // console.log(data)
@@ -76,7 +86,7 @@ function CryptoChart () {
       .catch()
 
     let eventSource = new EventSource(
-      'http://localhost:5000/binance/listen/BNBUSDT/1m'
+      `http://localhost:5000/binance/listen/${market.toUpperCase()}/${timeInterval}`
     )
 
     eventSource.addEventListener(
@@ -97,19 +107,19 @@ function CryptoChart () {
 
     if (ma) {
       const maSeries = chart.addLineSeries({ lineWidth: 1, title: 'MA' })
-      getMAChart('ma', maSeries)
+      getMAChart('ma', maSeries, market, marketType, timeInterval)
     }
     if (ema) {
       const emaSeries = chart.addLineSeries({ lineWidth: 1, title: 'EMA' })
-      getMAChart('ema', emaSeries)
+      getMAChart('ema', emaSeries, market, marketType, timeInterval)
     }
     if (sma) {
       const smaSeries = chart.addLineSeries({ lineWidth: 1, title: 'SMA' })
-      getMAChart('sma', smaSeries)
+      getMAChart('sma', smaSeries, market, marketType, timeInterval)
     }
     if (wma) {
       const wmaSeries = chart.addLineSeries({ lineWidth: 1, title: 'WMA' })
-      getMAChart('wma', wmaSeries)
+      getMAChart('wma', wmaSeries, market, marketType, timeInterval)
     }
     if (bbands) {
       const bbandUpper = chart.addLineSeries({
@@ -127,13 +137,20 @@ function CryptoChart () {
         title: 'BBAND Lower',
         color: 'purple'
       })
-      getBBands(bbandUpper, bbandMiddle, bbandLower)
+      getBBands(
+        bbandUpper,
+        bbandMiddle,
+        bbandLower,
+        market,
+        marketType,
+        timeInterval
+      )
     }
 
     return () => {
       chart.remove()
     }
-  }, [])
+  }, [market, timeInterval, internalIndicators])
 
   return (
     <>

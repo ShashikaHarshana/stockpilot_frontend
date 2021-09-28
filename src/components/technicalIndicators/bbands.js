@@ -1,5 +1,18 @@
-let getBBands = (bbandUpper, bbandMiddle, bbandLower) => {
-  const url = 'http://127.0.0.1:5000/ta/bbands' + '/stock/aapl/5m'
+let getBBands = (
+  bbandUpper,
+  bbandMiddle,
+  bbandLower,
+  market,
+  marketType,
+  timeInterval
+) => {
+  const url =
+    'http://127.0.0.1:5000/ta/bbands' +
+    `/${marketType}/${
+      marketType === 'crypto' ? market.toUpperCase() : market
+    }/${timeInterval}`
+
+  console.log(market, marketType, timeInterval)
 
   fetch(url)
     .then(res => res.json())
