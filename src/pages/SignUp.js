@@ -12,7 +12,7 @@ import signUpImg from '../svgs/signUp/signUpImg.svg'
 import Controls from '../components/controls/Controls'
 import FacebookIcon from '@material-ui/icons/Facebook'
 import { Button } from '@material-ui/core'
-import { Link } from 'react-router-dom'
+import {Link, Redirect} from 'react-router-dom'
 import Form from '../components/Form'
 import { makeStyles } from '@material-ui/core'
 import { useSelector } from 'react-redux'
@@ -24,6 +24,9 @@ import facebook from '../svgs/signUp/facebook.svg'
 import google from '../svgs/signUp/google.svg'
 import { useDispatch } from 'react-redux'
 import { userRegister } from '../redux/ducks/auth'
+import * as PropTypes from "prop-types";
+import { Alert } from '@material-ui/lab';
+
 
 const initialFValues = {
   id: 0,
@@ -154,6 +157,7 @@ const SignUp = () => {
   const theme = useTheme()
   const mobile = useMediaQuery(theme.breakpoints.down('sm'))
   const dispatch = useDispatch()
+  const isRegistered = useSelector(state => state.auth.isRegistered)
 
   const validate = (fieldValues = values) => {
     let temp = { ...errors }
@@ -198,151 +202,170 @@ const SignUp = () => {
     }
   }
 
-  return (
-    <div style={{ maxHeight: '100vh', maxWidth: '100vw', overflow: 'hidden' }}>
-      <img src={top} alt='top' className={classes.topImg} />
-      <Grid className={classes.logoContainer} item component={Link} to='/'>
-        <img src={logo} alt='top' className={classes.logo} />
-      </Grid>
-      <img src={bottom} className={classes.bottomImg} alt='bottom' />
-      <Grid container className={classes.container}>
-        <article>
-          <img src={signUpImg} className={classes.img} alt='' />
-        </article>
-        <article>
-          <Paper className={classes.paper} elevation={8}>
-            <Grid>
-              <Typography
-                variant={`${mobile ? 'h5' : 'h4'}`}
-                style={{
-                  margin: '0 auto',
-                  display: 'flex',
-                  justifyContent: 'center'
-                }}
-              >
-                Welcome to{' '}
-                {!mobile && (
-                  <span
-                    className={classes.primary}
-                    style={{
-                      marginLeft: '1rem'
-                    }}
+  const message = useSelector(state => state.auth.message);
+
+  const showAlert = () => {
+    console.log(message)
+    if (message != null) {
+      if (message === 'Successfully Registered'){
+        return <Alert severity="success"> {message} </Alert>
+      } else {
+        return <Alert severity="error"> {message} </Alert>
+      }
+    }
+  };
+  console.log(isRegistered)
+  if (isRegistered){
+    return <Redirect to="/sign_in" />
+  } else {
+    return (
+        <div style={{maxHeight: '100vh', maxWidth: '100vw', overflow: 'hidden'}}>
+          <img src={top} alt='top' className={classes.topImg}/>
+          <Grid className={classes.logoContainer} item component={Link} to='/'>
+            <img src={logo} alt='top' className={classes.logo}/>
+          </Grid>
+          <img src={bottom} className={classes.bottomImg} alt='bottom'/>
+          <Grid container className={classes.container}>
+            <article>
+              <img src={signUpImg} className={classes.img} alt=''/>
+            </article>
+            <article>
+              <Paper className={classes.paper} elevation={8}>
+                <Grid>
+                  <Typography
+                      variant={`${mobile ? 'h5' : 'h4'}`}
+                      style={{
+                        margin: '0 auto',
+                        display: 'flex',
+                        justifyContent: 'center'
+                      }}
                   >
+                    Welcome to{' '}
+                    {!mobile && (
+                        <span
+                            className={classes.primary}
+                            style={{
+                              marginLeft: '1rem'
+                            }}
+                        >
                     STOCKPILOT
                   </span>
-                )}
-              </Typography>
-              {mobile && (
-                <Grid component={Link} to='/'>
-                  <img
-                    src={logo}
-                    component={Link}
-                    to='/'
-                    alt='top'
-                    className={classes.logoCard}
-                  />
+                    )}
+                  </Typography>
+                  {mobile && (
+                      <Grid component={Link} to='/'>
+                        <img
+                            src={logo}
+                            component={Link}
+                            to='/'
+                            alt='top'
+                            className={classes.logoCard}
+                        />
+                      </Grid>
+                  )}
                 </Grid>
-              )}
-            </Grid>
-            <Grid container className={classes.linksContainer}>
-              <Grid
-                item
-                sm={12}
-                md={6}
-                style={{ display: 'flex', justifyContent: 'center' }}
-              >
-                <IconButton disableRipple>
-                  <img className={classes.google} src={google} alt='' />
+                <Grid container className={classes.linksContainer}>
+                  <Grid
+                      item
+                      sm={12}
+                      md={6}
+                      style={{display: 'flex', justifyContent: 'center'}}
+                  >
+                    <IconButton disableRipple>
+                      <img className={classes.google} src={google} alt=''/>
 
-                  <Typography style={{ marginLeft: '1rem', color: '#222' }}>
-                    Sign in with Google
-                  </Typography>
-                </IconButton>
-              </Grid>
-              <Grid
-                item
-                sm={12}
-                md={6}
-                style={{ display: 'flex', justifyContent: 'center' }}
-              >
-                <IconButton disableRipple>
-                  <img className={classes.facebook} src={facebook} alt='' />
+                      <Typography style={{marginLeft: '1rem', color: '#222'}}>
+                        Sign in with Google
+                      </Typography>
+                    </IconButton>
+                  </Grid>
+                  <Grid
+                      item
+                      sm={12}
+                      md={6}
+                      style={{display: 'flex', justifyContent: 'center'}}
+                  >
+                    <IconButton disableRipple>
+                      <img className={classes.facebook} src={facebook} alt=''/>
 
-                  <Typography style={{ marginLeft: '1rem', color: '#222' }}>
-                    Sign in with facebook
-                  </Typography>
-                </IconButton>
-              </Grid>
-            </Grid>
-            <form onSubmit={handleSubmit}>
-              <Grid style={{ marginTop: '1rem' }}>
-                <Controls.Input
-                  fullWidth
-                  label='First Name'
-                  name='firstName'
-                  value={values.firstName}
-                  onChange={handleInputChange}
-                  error={errors.firstName}
-                />
-              </Grid>
-              <Grid style={{ marginTop: '1rem' }}>
-                <Controls.Input
-                  fullWidth
-                  label='Last Name'
-                  name='lastName'
-                  value={values.lastName}
-                  onChange={handleInputChange}
-                  error={errors.lastName}
-                />
-              </Grid>
-              <Grid style={{ marginTop: '1rem' }}>
-                <Controls.Input
-                  fullWidth
-                  label='Email'
-                  name='email'
-                  value={values.email}
-                  onChange={handleInputChange}
-                  error={errors.email}
-                />
-              </Grid>
-              <Grid style={{ marginTop: '1rem' }}>
-                <Controls.Input
-                  fullWidth
-                  placeholder='Password should be min.8 characters and numbers '
-                  label='Password'
-                  name='password'
-                  type='password'
-                  value={values.password}
-                  onChange={handleInputChange}
-                  error={errors.password}
-                />
-              </Grid>
-              <Button
-                className={classes.btn}
-                variant='contained'
-                color='secondary'
-                type='submit'
-                fullWidth
-              >
-                Sign up
-              </Button>
-            </form>
-            <Typography className={classes.bottom}>
-              Already have an account?{' '}
-              <Button
-                component={Link}
-                to='/sign_in'
-                variant='text'
-                className={classes.primary}
-              >
-                Log in
-              </Button>
-            </Typography>
-          </Paper>
-        </article>
-      </Grid>
-    </div>
-  )
+                      <Typography style={{marginLeft: '1rem', color: '#222'}}>
+                        Sign in with facebook
+                      </Typography>
+                    </IconButton>
+                  </Grid>
+                </Grid>
+                <form onSubmit={handleSubmit}>
+                  <Grid style={{marginTop: '1rem'}}>
+                    <Controls.Input
+                        fullWidth
+                        label='First Name'
+                        name='firstName'
+                        value={values.firstName}
+                        onChange={handleInputChange}
+                        error={errors.firstName}
+                    />
+                  </Grid>
+                  <Grid style={{marginTop: '1rem'}}>
+                    <Controls.Input
+                        fullWidth
+                        label='Last Name'
+                        name='lastName'
+                        value={values.lastName}
+                        onChange={handleInputChange}
+                        error={errors.lastName}
+                    />
+                  </Grid>
+                  <Grid style={{marginTop: '1rem'}}>
+                    <Controls.Input
+                        fullWidth
+                        label='Email'
+                        name='email'
+                        value={values.email}
+                        onChange={handleInputChange}
+                        error={errors.email}
+                    />
+                  </Grid>
+                  <Grid style={{marginTop: '1rem'}}>
+                    <Controls.Input
+                        fullWidth
+                        placeholder='Password should be min.8 characters and numbers '
+                        label='Password'
+                        name='password'
+                        type='password'
+                        value={values.password}
+                        onChange={handleInputChange}
+                        error={errors.password}
+                    />
+                  </Grid>
+                  <Button
+                      className={classes.btn}
+                      variant='contained'
+                      color='secondary'
+                      type='submit'
+                      fullWidth
+                  >
+                    Sign up
+                  </Button>
+                </form>
+                <Typography className={classes.bottom}>
+                  Already have an account?{' '}
+                  <Button
+                      component={Link}
+                      to='/sign_in'
+                      variant='text'
+                      className={classes.primary}
+                  >
+                    Log in
+                  </Button>
+                </Typography>
+                {showAlert()}
+              </Paper>
+
+            </article>
+          </Grid>
+        </div>
+    )
+  }
 }
 
 export default SignUp
