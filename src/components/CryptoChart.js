@@ -9,12 +9,20 @@ function CryptoChart () {
   const { market, marketType, internalIndicators, timeInterval } = useSelector(
     state => state.chart
   )
-  console.log(market)
+  const { ma, sma, ema, wma, bbands } = internalIndicators
+
+  // console.log(market)
 
   // const [maSeries, setMaSeries] = useState(null);
   // const [smaSeries, setSmaSeries] = useState(null);
   // const [emaSeries, setEmaSeries] = useState(null);
   // const [wmaSeries, setWmaSeries] = useState(null);
+
+  // const [ma, setMa] = useState(false)
+  // const [sma, setSma] = useState(false)
+  // const [ema, setEma] = useState(false)
+  // const [wma, setWma] = useState(false)
+  // const [bbands, setBbands] = useState(false)
 
   useEffect(() => {
     const chart = createChart(ref.current, {
@@ -53,7 +61,8 @@ function CryptoChart () {
     })
     let tempStockUrl = 'http://127.0.0.1:5000/stock/historical/aapl/5m'
     let tempCryptoUrl = 'http://127.0.0.1:5000/binance/historical/BNBUSDT/1m'
-    let newCrypto = 'http://127.0.0.1:5000/binance/listen/BNBUSDT/5m'
+    let newCrypto = `http://127.0.0.1:5000/binance/historical/${market.toUpperCase()}/${timeInterval}`
+
     let binanceURL =
       'https://api.binance.com/api/v3/klines?symbol=BNBUSDT&interval=1m'
     fetch(newCrypto)
@@ -74,10 +83,10 @@ function CryptoChart () {
         console.log(tempCandlesticks)
         candleSeries.setData(tempCandlesticks)
       })
-      .catch(e)
+      .catch()
 
     let eventSource = new EventSource(
-      'http://localhost:5000/binance/listen/BNBUSDT/1m'
+      `http://localhost:5000/binance/listen/${market.toUpperCase()}/${timeInterval}`
     )
 
     eventSource.addEventListener(
@@ -128,13 +137,20 @@ function CryptoChart () {
         title: 'BBAND Lower',
         color: 'purple'
       })
-      getBBands(bbandUpper, bbandMiddle, bbandLower)
+      getBBands(
+        bbandUpper,
+        bbandMiddle,
+        bbandLower,
+        market,
+        marketType,
+        timeInterval
+      )
     }
 
     return () => {
       chart.remove()
     }
-  }, [])
+  }, [market, timeInterval, internalIndicators])
 
   return (
     <>

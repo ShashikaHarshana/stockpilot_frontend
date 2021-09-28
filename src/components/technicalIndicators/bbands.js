@@ -8,7 +8,9 @@ let getBBands = (
 ) => {
   const url =
     'http://127.0.0.1:5000/ta/bbands' +
-    `/${marketType}/${market}/${timeInterval}`
+    `/${marketType}/${
+      marketType === 'crypto' ? market.toUpperCase() : market
+    }/${timeInterval}`
 
   console.log(market, marketType, timeInterval)
 

@@ -9,7 +9,10 @@ function MACDChart ({ type }) {
   const { market, marketType, timeInterval } = useSelector(state => state.chart)
 
   const url =
-    'http://127.0.0.1:5000/ta/macd' + `/${marketType}/${market}/${timeInterval}`
+    'http://127.0.0.1:5000/ta/macd' +
+    `/${marketType}/${
+      marketType === 'crypto' ? market.toUpperCase() : market
+    }/${timeInterval}`
 
   useEffect(() => {
     const chart = createChart(ref.current, {

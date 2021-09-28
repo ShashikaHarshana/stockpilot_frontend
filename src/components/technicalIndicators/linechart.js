@@ -5,14 +5,14 @@ import { useSelector } from 'react-redux'
 
 function LineChart ({ type }) {
   const ref = React.useRef()
-  const { market, marketType,timeInterval } = useSelector(
-    state => state.chart
-  )
+  const { market, marketType, timeInterval } = useSelector(state => state.chart)
 
   const url =
     'http://127.0.0.1:5000/ta/' +
     type +
-    `/${marketType}/${market}/${timeInterval}`
+    `/${marketType}/${
+      marketType === 'crypto' ? market.toUpperCase() : market
+    }/${timeInterval}`
   console.log(url)
 
   useEffect(() => {

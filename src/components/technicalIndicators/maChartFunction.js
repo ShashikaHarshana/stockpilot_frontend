@@ -2,7 +2,9 @@ let getMAChart = (type, lineSeries, market, marketType, timeInterval) => {
   const url =
     'http://127.0.0.1:5000/ta/' +
     type +
-    `/${marketType}/${market}/${timeInterval}`
+    `/${marketType}/${
+      marketType === 'crypto' ? market.toUpperCase() : market
+    }/${timeInterval}`
 
   fetch(url)
     .then(res => res.json())

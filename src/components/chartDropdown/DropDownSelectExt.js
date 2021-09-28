@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Button from '@material-ui/core/Button'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -14,6 +14,7 @@ import { IconButton } from '@material-ui/core'
 import indicatorsIcon from '../../svgs/chart/indicators.svg'
 import { useDispatch } from 'react-redux'
 import { updateExternalIndicators } from '../../redux/ducks/chart'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -28,7 +29,8 @@ const useStyles = makeStyles(theme => ({
 const DropdownSelect = () => {
   const [anchorEl, setAnchorEl] = React.useState(null)
   const dispatch = useDispatch()
-  const [indicators, setState] = React.useState({
+  const { marketType } = useSelector(state => state.chart)
+  const [indicators, setIndicators] = React.useState({
     rsi: false,
     obv: false,
     roc: false,
@@ -36,10 +38,20 @@ const DropdownSelect = () => {
     stoch: false
   })
 
+  useEffect(() => {
+    setIndicators({
+      rsi: false,
+      obv: false,
+      roc: false,
+      macd: false,
+      stoch: false
+    })
+  }, [marketType])
+
   const classes = useStyles()
 
   const handleChange = event => {
-    setState({ ...indicators, [event.target.name]: event.target.checked })
+    setIndicators({ ...indicators, [event.target.name]: event.target.checked })
   }
 
   const { rsi, obv, roc, macd, stoch } = indicators

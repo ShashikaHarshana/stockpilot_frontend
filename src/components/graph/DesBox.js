@@ -54,6 +54,7 @@ const DesBox = ({ type }) => {
   const classes = useStyles()
   const { isLoggedIn } = useSelector(state => state.auth)
   const history = useHistory()
+  const { marketType } = useSelector(state => state.chart)
 
   const handleClick = () => {
     if (!isLoggedIn) {
@@ -77,10 +78,6 @@ const DesBox = ({ type }) => {
               <Typography className={classes.textLower}>$3316.16</Typography>
             </Grid>
             <Grid item>
-              <Typography className={classes.textUpper}>24h Change</Typography>
-              <Typography className={classes.textLower}>-0.331616</Typography>
-            </Grid>
-            <Grid item>
               <Typography className={classes.textUpper}>24h High</Typography>
               <Typography className={classes.textLower}>0.331616</Typography>
             </Grid>
@@ -88,26 +85,23 @@ const DesBox = ({ type }) => {
               <Typography className={classes.textUpper}>24h Low </Typography>
               <Typography className={classes.textLower}>-0.331616</Typography>
             </Grid>
-            {/* <Grid item>
-              <Typography className={classes.textUpper}>24h Volume</Typography>
-              <Typography className={classes.textLower}>lower</Typography>
-            </Grid> */}
-
-            {/* <Grid item>
-              <Typography className={classes.textUpper}>upper</Typography>
-              <Typography className={classes.textLower}>lower</Typography>
-            </Grid> */}
+            <Grid item>
+              <Typography className={classes.textUpper}>Volume</Typography>
+              <Typography className={classes.textLower}>-0.331616</Typography>
+            </Grid>
           </Grid>
 
           <Grid container item sm={4}>
-            <Button
-              onClick={handleClick}
-              className={classes.addBtn}
-              variant='contained'
-              // color='primary'
-            >
-              Add to Watch List
-            </Button>
+            {marketType === 'crypto' ? (
+              <Button
+                onClick={handleClick}
+                className={classes.addBtn}
+                variant='contained'
+                // color='primary'
+              >
+                Add to Watch List
+              </Button>
+            ) : null}
           </Grid>
         </Paper>
       </Box>

@@ -9,7 +9,10 @@ function StochChart ({ type }) {
 
   const url =
     'http://127.0.0.1:5000/ta/stoch' +
-    `/${marketType}/${market}/${timeInterval}`
+    `/${marketType}/${
+      marketType === 'crypto' ? market.toUpperCase() : market
+    }/${timeInterval}`
+
   console.log(market, marketType, timeInterval)
 
   useEffect(() => {

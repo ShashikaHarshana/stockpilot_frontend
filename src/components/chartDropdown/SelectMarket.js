@@ -6,7 +6,8 @@ import FormHelperText from '@material-ui/core/FormHelperText'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import { useDispatch } from 'react-redux'
-import { updateMarket } from '../../redux/ducks/chart'
+import { resetIndicators, updateMarket } from '../../redux/ducks/chart'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -24,16 +25,25 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const stockMarkets = ['AAPL', 'BNB', 'BDC', 'AAPL']
-const cryptoMarkets = ['BNBBTC', 'BNBUSDT', 'LTCBTC']
+const cryptoMarkets = ['BNBUSDT', 'BNBBTC', 'LTCBTC']
 
 const SelectMarket = ({ type }) => {
   const classes = useStyles()
   const dispatch = useDispatch()
-  const [market, setMarket] = React.useState(stockMarkets[0])
+  const { marketType } = useSelector(state => state.chart)
+  const [market, setMarket] = React.useState(
+    type === 'stock' ? stockMarkets[0] : cryptoMarkets[0]
+  )
+  console.log(type)
 
   const handleChange = event => {
     setMarket(event.target.value)
   }
+
+  useEffect(() => {
+    setMarket(type === 'stock' ? stockMarkets[0] : cryptoMarkets[0])
+    dispatch(resetIndicators())
+  }, [type])
 
   useEffect(() => {
     dispatch(updateMarket(market.toLowerCase()))

@@ -3,6 +3,7 @@ const UPDATE_INTERNAL_INDICATORS = 'UPDATE_INTERNAL_INDICATORS'
 const UPDATE_EXTERNAL_INDICATORS = 'UPDATE_EXTERNAL_INDICATORS'
 const UPDATE_MARKET = 'UPDATE_MARKET'
 const UPDATE_MARKET_TYPE = 'UPDATE_MARKET_TYPE'
+const RESET_INDICATORS = 'RESET_INDICATORS'
 
 export const updateMarket = payload => ({
   type: UPDATE_MARKET,
@@ -29,6 +30,10 @@ export const updateMarketType = payload => ({
   payload
 })
 
+export const resetIndicators = () => ({
+  type: RESET_INDICATORS
+})
+
 const initialState = {
   timeInterval: '',
   internalIndicators: {},
@@ -49,6 +54,8 @@ export const chartReducer = (state = initialState, { type, payload }) => {
       return { ...state, internalIndicators: payload }
     case UPDATE_EXTERNAL_INDICATORS:
       return { ...state, externalIndicators: payload }
+    case RESET_INDICATORS:
+      return { ...state, internalIndicators: {}, externalIndicators: {} }
     default:
       return state
   }

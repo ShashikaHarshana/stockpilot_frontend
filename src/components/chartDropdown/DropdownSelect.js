@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Button from '@material-ui/core/Button'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -13,6 +13,7 @@ import { IconButton } from '@material-ui/core'
 import candleStick from '../../svgs/chart/candleStick.svg'
 import { useDispatch } from 'react-redux'
 import { updateInternalIndicators } from '../../redux/ducks/chart'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -27,7 +28,7 @@ const useStyles = makeStyles(theme => ({
 const DropdownSelect = () => {
   const [anchorEl, setAnchorEl] = React.useState(null)
   const dispatch = useDispatch()
-  const [indicators, setState] = React.useState({
+  const [indicators, setIndicators] = React.useState({
     ma: false,
     sma: false,
     ema: false,
@@ -35,10 +36,12 @@ const DropdownSelect = () => {
     bbands: false
   })
 
+  const { marketType } = useSelector(state => state.chart)
+
   const classes = useStyles()
 
   const handleChange = event => {
-    setState({ ...indicators, [event.target.name]: event.target.checked })
+    setIndicators({ ...indicators, [event.target.name]: event.target.checked })
   }
 
   const { ma, sma, ema, wma, bbands } = indicators
@@ -51,6 +54,16 @@ const DropdownSelect = () => {
     setAnchorEl(null)
     dispatch(updateInternalIndicators(indicators))
   }
+
+  useEffect(() => {
+    setIndicators({
+      ma: false,
+      sma: false,
+      ema: false,
+      wma: false,
+      bbands: false
+    })
+  }, [marketType])
 
   return (
     <div>

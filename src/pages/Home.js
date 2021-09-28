@@ -60,7 +60,7 @@ const useStyles = makeStyles(theme => ({
   },
   section1: {
     minHeight: '86vh',
-    // background: '#222',
+
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -71,7 +71,6 @@ const useStyles = makeStyles(theme => ({
   },
   section: {
     minHeight: '80vh',
-    // background: '#222',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -141,6 +140,7 @@ const useStyles = makeStyles(theme => ({
     }
   },
   subTitle: {
+    fontWeight: 500,
     marginTop: 'calc(34px*0.8)',
     [theme.breakpoints.down('sm')]: { fontSize: '0.8rem' }
   },
@@ -154,6 +154,9 @@ const useStyles = makeStyles(theme => ({
     position: 'absolute',
     bottom: '1rem',
     border: '1px solid red'
+  },
+  typo: {
+    fontWeight: 300
   }
 }))
 
@@ -179,7 +182,7 @@ const Home = () => {
         <article className={classes.articleTypo}>
           <Typography
             variant={`${mobile ? 'h4' : 'h3'}`}
-            style={{ fontWeight: '300' }}
+            style={{ fontWeight: 300 }}
           >
             Smart Investing Platform
           </Typography>
@@ -191,7 +194,7 @@ const Home = () => {
           <Button
             className={classes.signupBtn}
             component={Link}
-            to={`${isLoggedIn ? '/stock' : '/sign_up'}`}
+            to={`${isLoggedIn ? '/analyze/stock' : '/sign_up'}`}
             variant='contained'
             color='secondary'
           >

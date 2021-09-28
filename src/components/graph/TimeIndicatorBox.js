@@ -6,7 +6,7 @@ import candleStick from '../../svgs/chart/candleStick.svg'
 import indicators from '../../svgs/chart/indicators.svg'
 import DropdownSelect from '../chartDropdown/DropdownSelect'
 import DropDownSelectExt from '../chartDropdown/DropDownSelectExt'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { updateTimeInterval } from '../../redux/ducks/chart'
 
 const useStyles = makeStyles(theme => ({
@@ -50,12 +50,21 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const TimeIndicatorBox = ({ type }) => {
-  const stockTimeIntervals = ['5m', '10m', '1H', '1D', '1W']
-  const cryptoTimeIntervals = ['1m', '10m', '1H', '1D', '1W']
+  const stockTimeIntervals = ['5m', '1h', '1d']
+  const cryptoTimeIntervals = ['1m', '15m', '30m', '1h', '1d']
 
   const dispatch = useDispatch()
   const classes = useStyles()
-  const [timeInterval, setTimeInterval] = useState(stockTimeIntervals[0])
+  const { marketType } = useSelector(state => state.chart)
+  const [timeInterval, setTimeInterval] = useState(
+    type === 'stock' ? stockTimeIntervals[0] : cryptoTimeIntervals[0]
+  )
+
+  useEffect(() => {
+    setTimeInterval(
+      type === 'stock' ? stockTimeIntervals[0] : cryptoTimeIntervals[0]
+    )
+  }, [type])
 
   useEffect(() => {
     dispatch(updateTimeInterval(timeInterval))

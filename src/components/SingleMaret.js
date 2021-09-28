@@ -36,7 +36,7 @@ const SingleMarket = () => {
 
   useEffect(() => {
     dispatch(updateMarketType(type))
-  }, [])
+  }, [type])
 
   return (
     <div>
