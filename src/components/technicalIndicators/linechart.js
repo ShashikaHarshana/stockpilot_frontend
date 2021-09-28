@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 
 function LineChart ({ type }) {
   const ref = React.useRef()
-  const { market, marketType, internalIndicators, timeInterval } = useSelector(
+  const { market, marketType,timeInterval } = useSelector(
     state => state.chart
   )
 
