@@ -52,7 +52,7 @@ function App () {
             <Route exact path='/profile'>
               <Profile />
             </Route>
-            <Route exact path='/watch_list'>
+            <Route exact path='/watchList'>
               <WatchList />
             </Route>
             <Route exact path='/analyze/:type'>
