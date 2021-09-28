@@ -1,12 +1,15 @@
 import createSagaMiddleware from '@redux-saga/core'
 import { createStore, combineReducers, compose, applyMiddleware } from 'redux'
 import { authReducer } from './ducks/auth'
+import { chartReducer } from './ducks/chart'
 import { watcherSaga } from './sagas/rootSaga'
 import {watchlistReducer} from "./ducks/watchlist";
 
 const reducer = combineReducers({
   auth: authReducer,
-  watchlist: watchlistReducer
+  watchlist: watchlistReducer,
+  chart: chartReducer
+
 })
 
 const sagaMiddleware = createSagaMiddleware()

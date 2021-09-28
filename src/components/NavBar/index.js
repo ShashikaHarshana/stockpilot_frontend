@@ -117,6 +117,7 @@ const NavBar = () => {
   // console.log(mobile)
   const dispatch = useDispatch()
   const { isLoggedIn } = useSelector(state => state.auth)
+
   const history = useHistory()
 
   const handleClick = event => {
@@ -156,7 +157,7 @@ const NavBar = () => {
               variant='text'
               label='Stock'
               component={Link}
-              to='/stock'
+              to={`/analyze/${'stock'}`}
               className={classes.tabBtn}
             >
               Stock
@@ -165,7 +166,7 @@ const NavBar = () => {
               variant='text'
               label='Cripto'
               component={Link}
-              to='/crypto'
+              to={`/analyze/${'crypto'}`}
               className={classes.tabBtn}
             >
               crypto

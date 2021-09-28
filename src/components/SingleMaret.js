@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { Grid, Button } from '@material-ui/core'
 import { useParams } from 'react-router'
 import DesBox from '../components/graph/DesBox'
 import TimeIndicatorBox from '../components/graph/TimeIndicatorBox'
@@ -8,20 +9,60 @@ import LineChart from './technicalIndicators/linechart'
 import MACDChart from './technicalIndicators/macd'
 import StochChart from './technicalIndicators/stochChart'
 
+import { makeStyles } from '@material-ui/core'
+import CryptoChart from './CryptoChart'
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { updateMarketType } from '../redux/ducks/chart'
+// import { Gif } from '@material-ui/icons'
+
+const useStyles = makeStyles({
+  mainChart: {
+    marginTop: 30
+  },
+  lineChart: {
+    marginTop: 20
+  }
+})
+
 const SingleMarket = () => {
-  const { title } = useParams()
+  const classes = useStyles()
+  const dispatch = useDispatch()
+  const { type } = useParams()
+
+  const { externalIndicators } = useSelector(state => state.chart)
+
+  const { macd, obv, roc, rsi, stoch } = externalIndicators
+
+  useEffect(() => {
+    dispatch(updateMarketType(type))
+  }, [type])
 
   return (
     <div>
       <NavBar />
-      <DesBox title={title} />
-      <TimeIndicatorBox />
-      <StockChart />
-      <LineChart type='obv' />
-      <LineChart type='rsi' />
-
-      <MACDChart />
-      <StochChart />
+      <DesBox type={type} />
+      <TimeIndicatorBox type={type} />
+      <Grid container>
+        <Grid className={classes.mainChart}>
+          {type === 'stock' ? <StockChart /> : <CryptoChart />}
+        </Grid>
+        <Grid item className={classes.lineChart}>
+          {obv && <LineChart type='obv' />}
+          {roc && <LineChart type='roc' />}
+          {rsi && <LineChart type='rsi' />}
+        </Grid>
+        {macd && (
+          <Grid item>
+            <MACDChart />
+          </Grid>
+        )}
+        {stoch && (
+          <Grid item>
+            <StochChart />
+          </Grid>
+        )}
+      </Grid>
     </div>
   )
 }

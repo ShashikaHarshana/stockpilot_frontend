@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { IconButton, makeStyles } from '@material-ui/core'
-import { Box, Grid, Paper, Typography } from '@material-ui/core'
-import Button from '../controls/Button'
+import { Box, Grid, Paper, Typography, Button } from '@material-ui/core'
+
 import candleStick from '../../svgs/chart/candleStick.svg'
 import indicators from '../../svgs/chart/indicators.svg'
+import DropdownSelect from '../chartDropdown/DropdownSelect'
+import DropDownSelectExt from '../chartDropdown/DropDownSelectExt'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateTimeInterval } from '../../redux/ducks/chart'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   box: {
     marginTop: '1rem'
   },
@@ -37,11 +41,35 @@ const useStyles = makeStyles({
     padding: '5px 25px',
     width: '210px',
     color: '#fff'
+  },
+  btn: {
+    '&:focus': {
+      color: theme.palette.secondary.main
+    }
   }
-})
+}))
 
-const TimeIndicatorBox = () => {
+const TimeIndicatorBox = ({ type }) => {
+  const stockTimeIntervals = ['5m', '1h', '1d']
+  const cryptoTimeIntervals = ['1m', '15m', '30m', '1h', '1d']
+
+  const dispatch = useDispatch()
   const classes = useStyles()
+  const { marketType } = useSelector(state => state.chart)
+  const [timeInterval, setTimeInterval] = useState(
+    type === 'stock' ? stockTimeIntervals[0] : cryptoTimeIntervals[0]
+  )
+
+  useEffect(() => {
+    setTimeInterval(
+      type === 'stock' ? stockTimeIntervals[0] : cryptoTimeIntervals[0]
+    )
+  }, [type])
+
+  useEffect(() => {
+    dispatch(updateTimeInterval(timeInterval))
+  }, [timeInterval])
+
   return (
     <div>
       <Box>
@@ -50,21 +78,35 @@ const TimeIndicatorBox = () => {
             <Typography>Time Interval</Typography>
           </Grid>
           <Grid container spacing={4} className={classes.textContainer}>
-            <Grid item>
-              <Typography>1m</Typography>
-            </Grid>
-            <Grid item>
-              <Typography>5m</Typography>
-            </Grid>
-            <Grid item>
-              <Typography>1H</Typography>
-            </Grid>
-            <Grid item>
-              <Typography>1D</Typography>
-            </Grid>
-            <Grid item>
-              <Typography>1W</Typography>
-            </Grid>
+            {type === 'stock'
+              ? stockTimeIntervals.map((time, index) => {
+                  return (
+                    <Grid item key={index}>
+                      <Button
+                        onClick={() => {
+                          setTimeInterval(time)
+                        }}
+                        className={classes.btn}
+                      >
+                        {time}
+                      </Button>
+                    </Grid>
+                  )
+                })
+              : cryptoTimeIntervals.map((time, index) => {
+                  return (
+                    <Grid item key={index}>
+                      <Button
+                        onClick={() => {
+                          setTimeInterval(time)
+                        }}
+                        className={classes.btn}
+                      >
+                        {time}
+                      </Button>
+                    </Grid>
+                  )
+                })}
           </Grid>
           <Grid
             item
@@ -75,14 +117,8 @@ const TimeIndicatorBox = () => {
             }}
             sm={5}
           >
-            {/* <Menu>Menu</Menu> */}
-            <IconButton style={{ marginRight: '1rem' }}>
-              <img src={candleStick} alt='candleStick' />
-            </IconButton>
-
-            <IconButton>
-              <img src={indicators} alt='indicators' />
-            </IconButton>
+            <DropdownSelect />
+            <DropDownSelectExt />
           </Grid>
         </Paper>
       </Box>
