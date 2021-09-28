@@ -21,7 +21,6 @@ function * login ({ payload }) {
     }
 
   } catch (error) {
-    console.log(error)
     yield put(authUserFail(error))
   }
 }
@@ -32,7 +31,6 @@ function * register ({ payload }) {
     let message = response.data.message
     yield put(userRegisterSuccess(message))
   } catch (error) {
-    console.log(error)
     yield put(userRegisterFail(error))
   }
 }

@@ -16,14 +16,13 @@ function * viewWatchlist ({ payload }) {
     try {
         const response = yield call(service.viewWatchlist, payload)
         let data = response.data
-        if (response.data.error === 'false'){
+        if (response.data.error === false){
             yield put(viewWatchlistSuccess(data))
         } else {
             yield put(viewWatchlistFail(data.message))
         }
 
     } catch (error) {
-        console.log(error)
         yield put(viewWatchlistFail(error))
     }
 }
@@ -34,7 +33,6 @@ function * addToWatchlist ({ payload }) {
         let message = response.data.message
         yield put(addToWatchlistSuccess(message))
     } catch (error) {
-        console.log(error)
         yield put(addToWatchlistFail(error))
     }
 }
@@ -50,7 +48,6 @@ function * removeFromWatchlist ({ payload }) {
         }
 
     } catch (error) {
-        console.log(error)
         yield put(removeFromWatchlistFail(error))
     }
 }
