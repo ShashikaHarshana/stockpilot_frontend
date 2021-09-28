@@ -1,5 +1,11 @@
 import axios from "axios";
-import {LOGIN_URL, REGISTER_URL} from "../../CONSTANTS";
+import {
+    ADD_TO_WATCHLIST_URL,
+    LOGIN_URL,
+    REGISTER_URL,
+    REMOVE_FROM_WATCHLIST_URL,
+    VIEW_WATCHLIST_URL
+} from "../../CONSTANTS";
 
 
 export function register (user) {
@@ -14,6 +20,34 @@ export function login (creds) {
         creds
     });
 }
+
+export function viewWatchlist (token) {
+    return axios.get(VIEW_WATCHLIST_URL, {
+        headers: {
+            'x-access-token': token
+        }
+    })
+}
+
+export function addToWatchlist (data) {
+    return axios.post(ADD_TO_WATCHLIST_URL, {
+        'brands' : data.brands
+    },{
+        headers: {
+            'x-access-token': data.token
+        }
+    });
+}
+
+export function removeFromWatchlist (data) {
+    return axios.delete(REMOVE_FROM_WATCHLIST_URL, {
+        data: { 'brands' : data.brands },
+        headers: { 'x-access-token': data.token }
+    });
+}
+
+
+
 //
 ///user/login
 //user/register

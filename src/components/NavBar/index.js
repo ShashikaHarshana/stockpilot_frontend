@@ -111,14 +111,12 @@ const NavBar = () => {
   const [open, setOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
   const [openDrawer, setOpenDrawer] = useState(false)
-  console.log(openDrawer)
   const theme = useTheme()
   const mobile = useMediaQuery(theme.breakpoints.down('sm'))
   const classes = useStyles({ open, mobile })
   // console.log(mobile)
   const dispatch = useDispatch()
   const { isLoggedIn } = useSelector(state => state.auth)
-  console.log(isLoggedIn)
   const history = useHistory()
 
   const handleClick = event => {

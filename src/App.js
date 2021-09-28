@@ -60,7 +60,7 @@ function App () {
             <Route exact path='/crypto/:title'>
               <SingleMarket />
             </Route>
-            <Route exact path='/watch_list'>
+            <Route exact path='/watchList'>
               <WatchList />
             </Route>
             <Route exact path='/test'>
