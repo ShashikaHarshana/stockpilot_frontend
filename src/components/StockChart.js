@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { setStockLoading } from '../redux/ducks/chart'
 
-function StockChart () {
+function StockChart ({ mobile }) {
   const ref = React.useRef()
   const dispatch = useDispatch()
   const { market, marketType, internalIndicators, timeInterval } = useSelector(
@@ -53,6 +53,9 @@ function StockChart () {
         secondsVisible: true
       }
     })
+    if (mobile) {
+      chart.resize(325, 150)
+    }
 
     // console.log(loading)
 
@@ -123,7 +126,7 @@ function StockChart () {
     return () => {
       chart.remove()
     }
-  }, [market, marketType, internalIndicators, timeInterval])
+  }, [market, marketType, internalIndicators, timeInterval, mobile])
 
   return (
     <>

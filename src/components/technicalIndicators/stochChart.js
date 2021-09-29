@@ -75,7 +75,7 @@ function StochChart ({ type, mobile }) {
     return () => {
       chart.remove()
     }
-  }, [market, marketType, timeInterval])
+  }, [market, marketType, timeInterval, mobile])
 
   return (
     <>

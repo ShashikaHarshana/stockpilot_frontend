@@ -4,7 +4,7 @@ import getMAChart from '../../../stockpilot_frontend/src/components/technicalInd
 import getBBands from './technicalIndicators/bbands'
 import { useSelector } from 'react-redux'
 
-function CryptoChart () {
+function CryptoChart ({ mobile }) {
   const ref = React.useRef()
   const { market, marketType, internalIndicators, timeInterval } = useSelector(
     state => state.chart
@@ -62,12 +62,13 @@ function CryptoChart () {
         secondsVisible: true
       }
     })
-    let tempStockUrl = 'http://127.0.0.1:5000/stock/historical/aapl/5m'
-    let tempCryptoUrl = 'http://127.0.0.1:5000/binance/historical/BNBUSDT/1m'
+
+    if (mobile) {
+      chart.resize(325, 150)
+    }
+
     let newCrypto = `http://127.0.0.1:5000/binance/historical/${market.toUpperCase()}/${timeInterval}`
 
-    let binanceURL =
-      'https://api.binance.com/api/v3/klines?symbol=BNBUSDT&interval=1m'
     fetch(newCrypto)
       .then(res => res.json())
       .then(data => {
@@ -153,7 +154,7 @@ function CryptoChart () {
     return () => {
       chart.remove()
     }
-  }, [market, timeInterval, internalIndicators])
+  }, [market, timeInterval, internalIndicators, mobile])
 
   return (
     <>

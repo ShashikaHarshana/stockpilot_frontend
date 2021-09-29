@@ -45,7 +45,11 @@ const SingleMarket = () => {
       <TimeIndicatorBox type={type} />
       <Grid container>
         <Grid className={classes.mainChart}>
-          {type === 'stock' ? <StockChart /> : <CryptoChart />}
+          {type === 'stock' ? (
+            <StockChart mobile={mobile} />
+          ) : (
+            <CryptoChart mobile={mobile} />
+          )}
         </Grid>
         <Grid item className={classes.lineChart}>
           {obv && <LineChart mobile={mobile} type='obv' />}

@@ -22,9 +22,6 @@ function MACDChart ({ type, mobile }) {
         mode: CrosshairMode.Normal
       }
     })
-    if (mobile) {
-      chart.resize(325, 150)
-    }
 
     chart.applyOptions({
       timeScale: {
@@ -41,6 +38,9 @@ function MACDChart ({ type, mobile }) {
     const macdHistSeries = chart.addHistogramSeries({
       base: 0
     })
+    if (mobile) {
+      chart.resize(325, 150)
+    }
 
     fetch(url)
       .then(res => res.json())
@@ -93,7 +93,7 @@ function MACDChart ({ type, mobile }) {
     return () => {
       chart.remove()
     }
-  }, [market, marketType, timeInterval])
+  }, [market, marketType, timeInterval, mobile])
 
   return (
     <>
