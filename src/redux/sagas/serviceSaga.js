@@ -1,6 +1,6 @@
 import axios from "axios";
 import {
-    ADD_TO_WATCHLIST_URL,
+    ADD_TO_WATCHLIST_URL, GET_ALL_CRYPTO_URL, GET_ALL_STOCK_URL,
     LOGIN_URL,
     REGISTER_URL,
     REMOVE_FROM_WATCHLIST_URL,
@@ -46,6 +46,13 @@ export function removeFromWatchlist (data) {
     });
 }
 
+export function getCryptoList() {
+    return axios.get(GET_ALL_CRYPTO_URL);
+}
+
+export function getStockList() {
+    return axios.get(GET_ALL_STOCK_URL);
+}
 
 
 //

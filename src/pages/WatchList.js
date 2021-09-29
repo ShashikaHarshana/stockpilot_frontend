@@ -17,7 +17,7 @@ const headCells = [
   { id: 'price', label: 'Price' },
   { id: 'high', label: 'High' },
   { id: 'low', label: 'Low' },
-  { id: 'volume', label: 'volume' },
+  { id: 'volume', label: 'Volume' },
   { id: 'actions', label: 'Actions', disableSorting: true }
 ]
 
@@ -37,9 +37,10 @@ const WatchList = () => {
   }
 
   useEffect(() => {
+    let eventSource = null;
     if (brands !== null) {
       for (let i in brands) {
-        let eventSource = new EventSource('http://localhost:5000/binance/listen/' + brands[i] + '/1d')
+        eventSource = new EventSource('http://localhost:5000/binance/listen/' + brands[i] + '/1d')
         eventSource.addEventListener(
             'message',
             function (e) {
@@ -61,11 +62,12 @@ const WatchList = () => {
         )
       }
     }
+    return function cleanup() {
+      if (eventSource !== null) {
+          eventSource.close()
+      }
+    }
   }, [brands])
-
-  console.log(brands)
-  console.log(records1)
-  console.log(records)
 
   useEffect(() => {
     if (brands !== null && records1.size >= brands.length){
