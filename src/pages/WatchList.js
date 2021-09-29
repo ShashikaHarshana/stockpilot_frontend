@@ -37,10 +37,10 @@ const WatchList = () => {
   }
 
   useEffect(() => {
+    let eventSource = null;
     if (brands !== null) {
       for (let i in brands) {
-
-        let eventSource = new EventSource('http://localhost:5000/binance/listen/' + brands[i] + '/1d')
+        eventSource = new EventSource('http://localhost:5000/binance/listen/' + brands[i] + '/1d')
         eventSource.addEventListener(
             'message',
             function (e) {
@@ -60,6 +60,11 @@ const WatchList = () => {
             },
             false
         )
+      }
+    }
+    return function cleanup() {
+      if (eventSource !== null) {
+          eventSource.close()
       }
     }
   }, [brands])

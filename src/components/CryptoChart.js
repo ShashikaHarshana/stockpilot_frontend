@@ -148,8 +148,10 @@ function CryptoChart () {
     }
 
     return () => {
-      chart.remove()
+      chart.remove();
+      eventSource.close();
     }
+
   }, [market, timeInterval, internalIndicators])
 
   return (
