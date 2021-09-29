@@ -70,7 +70,8 @@ const DesBox = ({ type }) => {
 
 
   useEffect(() => {
-    if (market !== null) {
+    if (marketType === 'crypto') {
+      if (market !== null) {
         let eventSource = new EventSource('http://localhost:5000/binance/listen/' + market.toUpperCase() + '/1d')
         eventSource.addEventListener(
             'message',
@@ -88,8 +89,9 @@ const DesBox = ({ type }) => {
             false
         )
 
-      return function cleanup() {
-        eventSource.close();
+        return function cleanup() {
+          eventSource.close();
+        }
       }
     }
   }, [market])
@@ -111,6 +113,7 @@ const DesBox = ({ type }) => {
               <SelectMarket type={type} />
             </Typography>
           </Grid>
+          {marketType === 'crypto' ? (
           <Grid item container spacing={4} className={classes.textContainer}>
             <Grid item>
               <Typography className={classes.textUpper}>Price</Typography>
@@ -129,6 +132,7 @@ const DesBox = ({ type }) => {
               <Typography className={classes.textLower}>{liveData.volume}</Typography>
             </Grid>
           </Grid>
+          ) : null}
 
           <Grid container item sm={4}>
             {marketType === 'crypto' ? (

@@ -88,7 +88,6 @@ function CryptoChart () {
     let eventSource = new EventSource(
       `http://localhost:5000/binance/listen/${market.toUpperCase()}/${timeInterval}`
     )
-
     eventSource.addEventListener(
       'message',
       function (e) {
@@ -146,9 +145,10 @@ function CryptoChart () {
         timeInterval
       )
     }
-
+    console.log("Opened Stream " + market.toUpperCase())
     return () => {
       chart.remove();
+      console.log("Closed Stream.")
       eventSource.close();
     }
 
