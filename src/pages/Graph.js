@@ -12,8 +12,7 @@ import TimeIndicatorBox from '../components/graph/TimeIndicatorBox'
 const useStyles = makeStyles({})
 
 const Graph = () => {
-  return <div>
-    
+  return <div> 
   </div>
 }
 
