@@ -23,6 +23,7 @@ import CryptoChart from './components/CryptoChart'
 import DropdownSelect from './components/chartDropdown/DropdownSelect'
 import DropDownSelectExt from './components/chartDropdown/DropDownSelectExt'
 import SelectMarket from './components/chartDropdown/SelectMarket'
+import Test from './components/Test'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -54,6 +55,9 @@ function App () {
             </Route>
             <Route exact path='/watchList'>
               <WatchList />
+            </Route>
+            <Route exact path='/test'>
+              <Test />
             </Route>
             <Route exact path='/analyze/:type'>
               <SingleMarket />

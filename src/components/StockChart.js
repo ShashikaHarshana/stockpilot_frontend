@@ -3,26 +3,17 @@ import { createChart, CrosshairMode } from 'lightweight-charts'
 import getMAChart from './technicalIndicators/maChartFunction'
 import getBBands from './technicalIndicators/bbands'
 import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { setStockLoading } from '../redux/ducks/chart'
 
 function StockChart () {
   const ref = React.useRef()
-  // const [ma, setMa] = useState(false)
-  // const [sma, setSma] = useState(false)
-  // const [ema, setEma] = useState(false)
-  // const [wma, setWma] = useState(false)
-  // const [bbands, setBbands] = useState(false)
-
+  const dispatch = useDispatch()
   const { market, marketType, internalIndicators, timeInterval } = useSelector(
     state => state.chart
   )
 
   const { ma, sma, ema, wma, bbands } = internalIndicators
-  console.log(internalIndicators)
-
-  // useEffect(() => {
-  //   const { ma, sma, ema, wma, bbands } = internalIndicators
-  // }, [internalIndicators])
-  // const { ma, sma, ema, wma, bbands } = internalIndicators
 
   useEffect(() => {
     const chart = createChart(ref.current, {
@@ -50,7 +41,10 @@ function StockChart () {
       //     borderColor: 'rgba(197, 203, 206, 0.8)',
       // },
     })
-    let candleSeries = chart.addCandlestickSeries()
+    let candleSeries = chart.addCandlestickSeries({
+      upColor: '#00733E',
+      downColor: '#BB2E2D'
+    })
 
     chart.applyOptions({
       timeScale: {
@@ -60,11 +54,15 @@ function StockChart () {
       }
     })
 
+    // console.log(loading)
+
     fetch(
       `http://127.0.0.1:5000/${marketType}/historical/${market}/${timeInterval}`
     )
       .then(res => res.json())
       .then(data => {
+        dispatch(setStockLoading())
+
         let tempCandlesticks = []
         data.forEach(row => {
           let object = {
@@ -79,7 +77,6 @@ function StockChart () {
         candleSeries.setData(tempCandlesticks)
       })
       .catch()
-    console.log(ma)
 
     if (ma) {
       const maSeries = chart.addLineSeries({ lineWidth: 1, title: 'MA' })
@@ -101,7 +98,7 @@ function StockChart () {
       const bbandUpper = chart.addLineSeries({
         lineWidth: 1,
         title: 'BBAND Upper',
-        color: 'purple'
+        color: '#0069CD'
       })
       const bbandMiddle = chart.addLineSeries({
         lineWidth: 1,
@@ -111,7 +108,7 @@ function StockChart () {
       const bbandLower = chart.addLineSeries({
         lineWidth: 1,
         title: 'BBAND Lower',
-        color: 'purple'
+        color: '#0069CD'
       })
       getBBands(
         bbandUpper,

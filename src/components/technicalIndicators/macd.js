@@ -3,7 +3,7 @@ import { createChart, CrosshairMode } from 'lightweight-charts'
 import { Typography } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 
-function MACDChart ({ type }) {
+function MACDChart ({ type, mobile }) {
   const ref = React.useRef()
 
   const { market, marketType, timeInterval } = useSelector(state => state.chart)
@@ -22,6 +22,9 @@ function MACDChart ({ type }) {
         mode: CrosshairMode.Normal
       }
     })
+    if (mobile) {
+      chart.resize(325, 150)
+    }
 
     chart.applyOptions({
       timeScale: {
@@ -30,10 +33,10 @@ function MACDChart ({ type }) {
         secondsVisible: true
       }
     })
-    const macdSeries = chart.addLineSeries({ lineWidth: 1 })
+    const macdSeries = chart.addLineSeries({ lineWidth: 1.5, color: '#22568E' })
     const macdSignalSeries = chart.addLineSeries({
-      lineWidth: 1,
-      color: 'purple'
+      lineWidth: 1.5,
+      color: '#973A80'
     })
     const macdHistSeries = chart.addHistogramSeries({
       base: 0
@@ -68,9 +71,9 @@ function MACDChart ({ type }) {
           if (dataMacdHist.hasOwnProperty(key)) {
             let color
             if (dataMacdHist[key] > 0) {
-              color = '#26a69a'
+              color = '#00733E'
             } else {
-              color = '#ef5350'
+              color = '#BB2E2D'
             }
 
             let object = {

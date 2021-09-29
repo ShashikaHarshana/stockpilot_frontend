@@ -3,7 +3,7 @@ import { createChart, CrosshairMode } from 'lightweight-charts'
 import { Typography } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 
-function StochChart ({ type }) {
+function StochChart ({ type, mobile }) {
   const ref = React.useRef()
   const { market, marketType, timeInterval } = useSelector(state => state.chart)
 
@@ -23,6 +23,9 @@ function StochChart ({ type }) {
         mode: CrosshairMode.Normal
       }
     })
+    if (mobile) {
+      chart.resize(325, 150)
+    }
 
     chart.applyOptions({
       timeScale: {
@@ -31,8 +34,14 @@ function StochChart ({ type }) {
         secondsVisible: true
       }
     })
-    const slowkSeries = chart.addLineSeries({ lineWidth: 1 })
-    const slowdSeries = chart.addLineSeries({ lineWidth: 1, color: 'orange' })
+    const slowkSeries = chart.addLineSeries({
+      lineWidth: 1.5,
+      color: '#8E0072'
+    })
+    const slowdSeries = chart.addLineSeries({
+      lineWidth: 1.5,
+      color: '#00733E'
+    })
 
     fetch(url)
       .then(res => res.json())

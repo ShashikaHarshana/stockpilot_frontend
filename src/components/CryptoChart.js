@@ -50,7 +50,10 @@ function CryptoChart () {
       //     borderColor: 'rgba(197, 203, 206, 0.8)',
       // },
     })
-    let candleSeries = chart.addCandlestickSeries()
+    let candleSeries = chart.addCandlestickSeries({
+      upColor: '#00733E',
+      downColor: '#BB2E2D'
+    })
 
     chart.applyOptions({
       timeScale: {
@@ -125,7 +128,7 @@ function CryptoChart () {
       const bbandUpper = chart.addLineSeries({
         lineWidth: 1,
         title: 'BBAND Upper',
-        color: 'purple'
+        color: '#0069CD'
       })
       const bbandMiddle = chart.addLineSeries({
         lineWidth: 1,
@@ -135,7 +138,7 @@ function CryptoChart () {
       const bbandLower = chart.addLineSeries({
         lineWidth: 1,
         title: 'BBAND Lower',
-        color: 'purple'
+        color: '#0069CD'
       })
       getBBands(
         bbandUpper,

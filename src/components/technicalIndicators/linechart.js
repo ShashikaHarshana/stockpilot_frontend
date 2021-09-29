@@ -1,10 +1,15 @@
 import React, { useEffect } from 'react'
 import { createChart, CrosshairMode } from 'lightweight-charts'
 import { Typography } from '@material-ui/core'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
-function LineChart ({ type }) {
+function LineChart ({ type, mobile }) {
   const ref = React.useRef()
+  const dispatch = useDispatch()
+
+  // const mobile = true
+  console.log(mobile)
+
   const { market, marketType, timeInterval } = useSelector(state => state.chart)
 
   const url =
@@ -13,16 +18,12 @@ function LineChart ({ type }) {
     `/${marketType}/${
       marketType === 'crypto' ? market.toUpperCase() : market
     }/${timeInterval}`
-  console.log(url)
 
   useEffect(() => {
     const chart = createChart(ref.current, {
       width: 1067,
       height: 200,
-      // layout: {
-      //     backgroundColor: '#f2f2f2',
-      //     textColor: 'rgba(255, 255, 255, 0.9)',
-      // },
+
       // grid: {
       //     vertLines: {
       //         color: 'rgba(197, 203, 206, 0.5)',
@@ -41,14 +42,26 @@ function LineChart ({ type }) {
       //     borderColor: 'rgba(197, 203, 206, 0.8)',
       // },
     })
-    const lineSeries = chart.addLineSeries()
+
+    const lineSeries = chart.addLineSeries({
+      color: '#001341',
+      lineWidth: 1.5
+
+      // lineType: 1
+    })
+    if (mobile) {
+      chart.resize(325, 150)
+    } else {
+      chart.resize(1067, 200)
+    }
 
     chart.applyOptions({
       timeScale: {
         visible: true,
         timeVisible: true,
         secondsVisible: true
-      }
+      },
+      layout: {}
     })
 
     fetch(url)
