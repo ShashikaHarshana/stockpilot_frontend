@@ -39,7 +39,7 @@ const stockMarkets = [
   'HD'
 ]
 
-const cryptoMarkets = ['BNBUSDT', 'BNBBTC', 'LTCBTC']
+const cryptoMarkets = ['BNBUSDT', 'BNBBTC', 'LTCBTC', 'ETHUSDT', 'BTCUSDT', 'SOLUSDT']
 
 const SelectMarket = ({ type }) => {
   const classes = useStyles()

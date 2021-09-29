@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {
   Box,
   Grid,
@@ -7,9 +7,10 @@ import {
   Typography,
   Button
 } from '@material-ui/core'
-import { useSelector } from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import { useHistory } from 'react-router'
 import SelectMarket from '../chartDropdown/SelectMarket'
+import {addToWatchlist} from "../../redux/ducks/watchlist";
 
 const useStyles = makeStyles(theme => ({
   box: {
@@ -49,18 +50,56 @@ const useStyles = makeStyles(theme => ({
     }
   }
 }))
+let initObject = {
+  symbol: null,
+  price: 0,
+  high: 0,
+  low: 0,
+  volume: 0
+}
 
 const DesBox = ({ type }) => {
   const classes = useStyles()
   const { isLoggedIn } = useSelector(state => state.auth)
   const history = useHistory()
   const { marketType } = useSelector(state => state.chart)
+  const token = useSelector(state => state.auth.token)
+  const dispatch = useDispatch()
+  const market = useSelector(state => state.chart.market)
+  const [liveData, setLiveData] = useState(initObject)
+
+
+  useEffect(() => {
+    if (market !== null) {
+        let eventSource = new EventSource('http://localhost:5000/binance/listen/' + market.toUpperCase() + '/1d')
+        eventSource.addEventListener(
+            'message',
+            function (e) {
+              let parsedData = JSON.parse(e.data)
+              let object = {
+                symbol: market,
+                price: parsedData.k.c,
+                high: parsedData.k.h,
+                low: parsedData.k.l,
+                volume: parsedData.k.v
+              }
+              setLiveData(object)
+            },
+            false
+        )
+
+      return function cleanup() {
+        eventSource.close();
+      }
+    }
+  }, [market])
+
 
   const handleClick = () => {
     if (!isLoggedIn) {
       return history.push('/sign_up')
     } else {
-      //add to watch list
+      dispatch(addToWatchlist({"brands":[market.toUpperCase()], "token": token}))
     }
   }
   return (
@@ -75,19 +114,19 @@ const DesBox = ({ type }) => {
           <Grid item container spacing={4} className={classes.textContainer}>
             <Grid item>
               <Typography className={classes.textUpper}>Price</Typography>
-              <Typography className={classes.textLower}>$3316.16</Typography>
+              <Typography className={classes.textLower}>{liveData.price}</Typography>
             </Grid>
             <Grid item>
               <Typography className={classes.textUpper}>24h High</Typography>
-              <Typography className={classes.textLower}>0.331616</Typography>
+              <Typography className={classes.textLower}>{liveData.high}</Typography>
             </Grid>
             <Grid item>
               <Typography className={classes.textUpper}>24h Low </Typography>
-              <Typography className={classes.textLower}>-0.331616</Typography>
+              <Typography className={classes.textLower}>{liveData.low}</Typography>
             </Grid>
             <Grid item>
               <Typography className={classes.textUpper}>Volume</Typography>
-              <Typography className={classes.textLower}>-0.331616</Typography>
+              <Typography className={classes.textLower}>{liveData.volume}</Typography>
             </Grid>
           </Grid>
 
