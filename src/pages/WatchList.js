@@ -5,10 +5,8 @@ import NavBar from '../components/NavBar'
 import Controls from '../components/controls/Controls'
 import CloseIcon from '@material-ui/icons/Close'
 import { makeStyles } from '@material-ui/core'
-import {authUser} from "../redux/ducks/auth";
 import {useDispatch, useSelector} from "react-redux";
 import {removeFromWatchlist, viewWatchlist} from "../redux/ducks/watchlist";
-import {login} from "../redux/sagas/serviceSaga";
 
 
 const headCells = [

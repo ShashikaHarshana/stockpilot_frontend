@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Paper from '@material-ui/core/Paper'
 import {
+  CircularProgress,
   Grid,
   IconButton,
   Typography,
@@ -131,6 +132,8 @@ const SignIn = () => {
   const dispatch = useDispatch()
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
   const message = useSelector(state => state.auth.message);
+  const isLoading = useSelector(state => state.auth.isLoading)
+
 
   const handleChange = e => {
     const { name, value } = e.target
@@ -249,7 +252,11 @@ const SignIn = () => {
                       type='submit'
                       fullWidth
                   >
-                    Log In
+                    {isLoading ? <CircularProgress color="success" size="1.6rem"/> :  <Typography >
+                      Login
+                    </Typography> }
+
+
                   </Button>
                 </form>
                 <Typography>
