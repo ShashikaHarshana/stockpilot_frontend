@@ -1,14 +1,14 @@
-import { Paper, TableBody, TableCell, TableRow } from '@material-ui/core'
+import {CircularProgress, Paper, TableBody, TableCell, TableRow} from '@material-ui/core'
 import React, {useEffect, useState} from 'react'
 import useTable from '../components/hooks/useTable'
 import NavBar from '../components/NavBar'
 import Controls from '../components/controls/Controls'
 import CloseIcon from '@material-ui/icons/Close'
 import { makeStyles } from '@material-ui/core'
-import {authUser} from "../redux/ducks/auth";
 import {useDispatch, useSelector} from "react-redux";
 import {removeFromWatchlist, viewWatchlist} from "../redux/ducks/watchlist";
-import {login} from "../redux/sagas/serviceSaga";
+import Loading1 from "../components/Loading/Loading1";
+import FullPageLoader from "../components/Loading/FullPageLoader";
 
 
 const headCells = [
@@ -17,7 +17,7 @@ const headCells = [
   { id: 'price', label: 'Price' },
   { id: 'high', label: 'High' },
   { id: 'low', label: 'Low' },
-  { id: 'volume', label: 'volume' },
+  { id: 'volume', label: 'Volume' },
   { id: 'actions', label: 'Actions', disableSorting: true }
 ]
 
@@ -31,15 +31,18 @@ const WatchList = () => {
   const [highVal, setHighVal] = useState(0)
   const token = useSelector(state => state.auth.token)
   let brands = useSelector(state => state.watchlist.brands)
+  const isLoading = useSelector(state => state.watchlist.isLoading)
+  const isLoadingDelete = useSelector(state => state.watchlist.isLoadingDelete)
 
   if (brands === null){
     dispatch(viewWatchlist(token))
   }
 
   useEffect(() => {
+    let eventSource = null;
     if (brands !== null) {
       for (let i in brands) {
-        let eventSource = new EventSource('http://localhost:5000/binance/listen/' + brands[i] + '/1d')
+        eventSource = new EventSource('http://localhost:5000/binance/listen/' + brands[i] + '/1d')
         eventSource.addEventListener(
             'message',
             function (e) {
@@ -61,11 +64,12 @@ const WatchList = () => {
         )
       }
     }
+    return function cleanup() {
+      if (eventSource !== null) {
+          eventSource.close()
+      }
+    }
   }, [brands])
-
-  console.log(brands)
-  console.log(records1)
-  console.log(records)
 
   useEffect(() => {
     if (brands !== null && records1.size >= brands.length){
@@ -102,42 +106,45 @@ const WatchList = () => {
   return (
     <div>
       <NavBar />
-      <Paper>
-        <TblContainer>
-          <TblHead />
-          <TableBody>
-            {recordsAfterPagingAndSorting().map(item => (
+      {isLoading || records.length === 0 ? <FullPageLoader /> :
+          <Paper>
+            <TblContainer>
+              <TblHead/>
+              <TableBody>
+                {recordsAfterPagingAndSorting().map(item => (
 
-              <TableRow key={item.id}>
-                {/* <TableCell>{item.id}</TableCell> */}
-                <TableCell>{item.symbol}</TableCell>
-                <TableCell>{item.price}</TableCell>
-                <TableCell>{item.high}</TableCell>
-                <TableCell>{item.low}</TableCell>
-                <TableCell>{item.volume}</TableCell>
-                <TableCell>
-                  <Controls.ActionButton
-                    color='secondary'
-                    onClick={() => handleDelete(item.symbol)}
-                    // onClick={() => {
-                    //   setConfirmDialog({
-                    //     isOpen: true,
-                    //     title: 'Are you sure to delete this record?',
-                    //     subTitle: "You can't undo this operation",
-                    //     onConfirm: () => {
-                    //       onDelete(item.id)
-                    //     }
-                    //   })
-                    // }}
-                  >
-                    <CloseIcon fontSize='small' />
-                  </Controls.ActionButton>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </TblContainer>
-      </Paper>
+                    <TableRow key={item.id}>
+                      {/* <TableCell>{item.id}</TableCell> */}
+                      <TableCell>{item.symbol}</TableCell>
+                      <TableCell>{item.price}</TableCell>
+                      <TableCell>{item.high}</TableCell>
+                      <TableCell>{item.low}</TableCell>
+                      <TableCell>{item.volume}</TableCell>
+                      <TableCell>
+                        <Controls.ActionButton
+                            color='secondary'
+                            onClick={() => handleDelete(item.symbol)}
+                            // onClick={() => {
+                            //   setConfirmDialog({
+                            //     isOpen: true,
+                            //     title: 'Are you sure to delete this record?',
+                            //     subTitle: "You can't undo this operation",
+                            //     onConfirm: () => {
+                            //       onDelete(item.id)
+                            //     }
+                            //   })
+                            // }}
+                        >
+                        <CloseIcon fontSize='small'/>
+
+                        </Controls.ActionButton>
+                      </TableCell>
+                    </TableRow>
+                ))}
+              </TableBody>
+            </TblContainer>
+          </Paper>
+      }
     </div>
   )
 }

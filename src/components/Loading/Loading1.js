@@ -15,14 +15,12 @@ const defaultOptions = {
 
 const Loading1 = () => {
   return (
-    <div style={{ border: '1px solid red' }}>
       <Lottie
-        style={{ border: '1px solid red', margin: 0, padding: 0 }}
+        style={{margin: 0, padding: 0 }}
         options={defaultOptions}
         height={300}
         width={300}
       />
-    </div>
   )
 }
 

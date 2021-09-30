@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Paper from '@material-ui/core/Paper'
 import {
+  CircularProgress,
   Grid,
   IconButton,
   Typography,
@@ -158,6 +159,7 @@ const SignUp = () => {
   const mobile = useMediaQuery(theme.breakpoints.down('sm'))
   const dispatch = useDispatch()
   const isRegistered = useSelector(state => state.auth.isRegistered)
+  const isLoading = useSelector(state => state.auth.isLoading)
 
   const validate = (fieldValues = values) => {
     let temp = { ...errors }
@@ -198,7 +200,6 @@ const SignUp = () => {
     e.preventDefault()
     if (validate()) {
       dispatch(userRegister(values))
-      resetForm()
     }
   }
 
@@ -344,7 +345,9 @@ const SignUp = () => {
                       type='submit'
                       fullWidth
                   >
-                    Sign up
+                    {isLoading ? <CircularProgress color="inherit" size="1.6rem"/> :  <Typography >
+                      Sign Up
+                    </Typography> }
                   </Button>
                 </form>
                 <Typography className={classes.bottom}>

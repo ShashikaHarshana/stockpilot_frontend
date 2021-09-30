@@ -27,40 +27,42 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const stockMarkets = [
-  'AAPL',
-  'MSFT',
-  'GOOG',
-  'AMZN',
-  'FB',
-  'TSLA',
-  'NVDA',
-  'V',
-  'JPM',
-  'JNJ',
-  'BABA',
-  'WMT',
-  'UNH',
-  'HD'
-]
+// const stockMarkets = [
+//   'AAPL',
+//   'MSFT',
+//   'GOOG',
+//   'AMZN',
+//   'FB',
+//   'TSLA',
+//   'NVDA',
+//   'V',
+//   'JPM',
+//   'JNJ',
+//   'BABA',
+//   'WMT',
+//   'UNH',
+//   'HD'
+// ]
 
-const cryptoMarkets = ['BNBUSDT', 'BNBBTC', 'LTCBTC']
+const cryptoMarkets = ['BNBUSDT', 'BNBBTC', 'LTCBTC', 'ETHUSDT', 'BTCUSDT', 'SOLUSDT']
 
 const SelectMarket = ({ type }) => {
   const classes = useStyles()
   const dispatch = useDispatch()
+  const cryptoMarkets = useSelector(state => state.chart.cryptoList)
+  const stockMarkets = useSelector(state => state.chart.stockList)
   const { marketType } = useSelector(state => state.chart)
   const [market, setMarket] = React.useState(
-    type === 'stock' ? stockMarkets[0] : cryptoMarkets[0]
+    type === 'stock' ? stockMarkets[0].toUpperCase(): cryptoMarkets[0]
   )
-  console.log(type)
+
 
   const handleChange = event => {
     setMarket(event.target.value)
   }
 
   useEffect(() => {
-    setMarket(type === 'stock' ? stockMarkets[0] : cryptoMarkets[0])
+    setMarket(type === 'stock' ? stockMarkets[0].toUpperCase() : cryptoMarkets[0])
     dispatch(resetIndicators())
   }, [type])
 
@@ -87,8 +89,8 @@ const SelectMarket = ({ type }) => {
           <MenuItem value={'AAPL'}>AAPL</MenuItem> */}
           {type === 'stock'
             ? stockMarkets.map((market, index) => (
-                <MenuItem key={index} value={market}>
-                  {market}
+                <MenuItem key={index} value={market.toUpperCase()}>
+                  {market.toUpperCase()}
                 </MenuItem>
               ))
             : cryptoMarkets.map((market, index) => (

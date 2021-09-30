@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react'
+import React, {useEffect, useState} from 'react'
 import { createChart, CrosshairMode } from 'lightweight-charts'
 import { Typography } from '@material-ui/core'
 import { useSelector, useDispatch } from 'react-redux'
+import ChartLoader from "../Loading/ChartLoader";
 
 function LineChart ({ type, mobile }) {
   const ref = React.useRef()
@@ -11,6 +12,7 @@ function LineChart ({ type, mobile }) {
   console.log(mobile)
 
   const { market, marketType, timeInterval } = useSelector(state => state.chart)
+  const [loading, setLoading] = useState(true)
 
   const url =
     'http://127.0.0.1:5000/ta/' +
@@ -21,9 +23,13 @@ function LineChart ({ type, mobile }) {
 
   useEffect(() => {
     const chart = createChart(ref.current, {
-      width: 1067,
-      height: 200,
 
+      width: 0,
+      height: 0,
+      // layout: {
+      //     backgroundColor: '#f2f2f2',
+      //     textColor: 'rgba(255, 255, 255, 0.9)',
+      // },
       // grid: {
       //     vertLines: {
       //         color: 'rgba(197, 203, 206, 0.5)',
@@ -79,6 +85,8 @@ function LineChart ({ type, mobile }) {
           }
         }
         lineSeries.setData(tempLines)
+        chart.resize(1067,200)
+        setLoading(false)
       })
       .catch()
 
@@ -90,6 +98,7 @@ function LineChart ({ type, mobile }) {
   return (
     <>
       <Typography variant='h6'>{type.toUpperCase()}</Typography>
+      {loading ?  <ChartLoader /> : null}
       <div ref={ref} />
     </>
   )

@@ -5,6 +5,9 @@ const UPDATE_MARKET = 'UPDATE_MARKET'
 const UPDATE_MARKET_TYPE = 'UPDATE_MARKET_TYPE'
 const RESET_INDICATORS = 'RESET_INDICATORS'
 const SET_STOCK_LOADING = 'SET_STOCK_LOADING'
+export const INITIALIZE_DATA_REQUEST = 'INITIALIZE_DATA_REQUEST'
+const INITIALIZE_DATA_SUCCESS = 'INITIALIZE_DATA_SUCCESS'
+
 
 export const updateMarket = payload => ({
   type: UPDATE_MARKET,
@@ -35,22 +38,37 @@ export const resetIndicators = () => ({
   type: RESET_INDICATORS
 })
 
+
 export const setStockLoading = payload => ({
   type: SET_STOCK_LOADING,
+)}
+export const initializeDataRequest = () => ({
+  type: INITIALIZE_DATA_REQUEST,
+})
+
+export const initializeDataSuccess = payload => ({
+  type: INITIALIZE_DATA_SUCCESS,
   payload
 })
 
 const initialState = {
+  cryptoList : [],
+  stockList : [],
   timeInterval: '',
   stockLoading: true,
   internalIndicators: {},
   externalIndicators: {},
   marketType: '',
-  market: ''
+  market: '',
+  isLoading: false
 }
 
 export const chartReducer = (state = initialState, { type, payload }) => {
   switch (type) {
+    case INITIALIZE_DATA_REQUEST:
+      return { ...state, isLoading: true }
+    case INITIALIZE_DATA_SUCCESS:
+      return { ...state, isLoading: false, cryptoList: payload.cryptoList, stockList: payload.stockList }
     case UPDATE_TIME_INTERVAL:
       return { ...state, timeInterval: payload, stockLoading: true }
     case UPDATE_MARKET:

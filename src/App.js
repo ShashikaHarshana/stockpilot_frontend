@@ -25,6 +25,12 @@ import DropDownSelectExt from './components/chartDropdown/DropDownSelectExt'
 import SelectMarket from './components/chartDropdown/SelectMarket'
 import Test from './components/Test'
 import Loading1 from './components/Loading/Loading1'
+import {useDispatch, useSelector} from "react-redux";
+import {initializeDataRequest} from "./redux/ducks/chart";
+import {useEffect} from "react";
+import Loading1 from "./components/Loading/Loading1";
+import FullPageLoader from "./components/Loading/FullPageLoader";
+
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -37,40 +43,43 @@ const useStyles = makeStyles(theme => ({
 
 function App () {
   const classes = useStyles()
-  return (
-    <Router>
-      <ThemeProvider theme={theme}>
-        <Container className={classes.container}>
-          <Switch>
-            <Route exact path='/'>
-              <Home />
-            </Route>
-            <Route exact path='/sign_up'>
-              <SignUp />
-            </Route>
-            <Route exact path='/sign_in'>
-              <SignIn />
-            </Route>
-            <Route exact path='/profile'>
-              <Profile />
-            </Route>
-            <Route exact path='/watchList'>
-              <WatchList />
-            </Route>
-            <Route exact path='/test'>
-              <Test />
-            </Route>
-            <Route exact path='/analyze/:type'>
-              <SingleMarket />
-            </Route>
-            <Route exact path='*'>
-              <ErrorPage />
-            </Route>
-          </Switch>
-        </Container>
-      </ThemeProvider>
-    </Router>
-  )
+  const dispatch = useDispatch()
+  const isLoading = useSelector(state => state.chart.isLoading)
+  useEffect(() => {
+    dispatch(initializeDataRequest())
+  }, [])
+
+    return (
+        <Router>
+          <ThemeProvider theme={theme}>
+            <Container className={classes.container}>
+              <Switch>
+                <Route exact path='/'>
+                  <Home/>
+                </Route>
+                <Route exact path='/sign_up'>
+                  <SignUp/>
+                </Route>
+                <Route exact path='/sign_in'>
+                  <SignIn/>
+                </Route>
+                <Route exact path='/profile'>
+                  <Profile/>
+                </Route>
+                <Route exact path='/watchList'>
+                  <WatchList/>
+                </Route>
+                <Route exact path='/analyze/:type'>
+                  {isLoading ? <FullPageLoader /> : <SingleMarket/> }
+                </Route>
+                <Route exact path='*'>
+                  <ErrorPage/>
+                </Route>
+              </Switch>
+            </Container>
+          </ThemeProvider>
+        </Router>
+    )
 }
 
 export default App
