@@ -14,6 +14,7 @@ import CryptoChart from './CryptoChart'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { updateMarketType } from '../redux/ducks/chart'
+import Fade from 'react-reveal/Fade'
 
 const useStyles = makeStyles({
   mainChart: {
@@ -40,33 +41,41 @@ const SingleMarket = () => {
 
   return (
     <div>
-      <NavBar />
-      <DesBox type={type} />
-      <TimeIndicatorBox type={type} />
-      <Grid container>
-        <Grid className={classes.mainChart}>
-          {type === 'stock' ? (
-            <StockChart mobile={mobile} />
-          ) : (
-            <CryptoChart mobile={mobile} />
+      <Fade top>
+        <NavBar />
+      </Fade>
+      <Fade left>
+        <DesBox type={type} />
+      </Fade>
+      <Fade left delay={500}>
+        <TimeIndicatorBox type={type} />
+      </Fade>
+      <Fade delay={1500}>
+        <Grid container>
+          <Grid className={classes.mainChart}>
+            {type === 'stock' ? (
+              <StockChart mobile={mobile} />
+            ) : (
+              <CryptoChart mobile={mobile} />
+            )}
+          </Grid>
+          <Grid item className={classes.lineChart}>
+            {obv && <LineChart mobile={mobile} type='obv' />}
+            {roc && <LineChart mobile={mobile} type='roc' />}
+            {rsi && <LineChart mobile={mobile} type='rsi' />}
+          </Grid>
+          {macd && (
+            <Grid item>
+              <MACDChart mobile={mobile} />
+            </Grid>
+          )}
+          {stoch && (
+            <Grid item>
+              <StochChart mobile={mobile} />
+            </Grid>
           )}
         </Grid>
-        <Grid item className={classes.lineChart}>
-          {obv && <LineChart mobile={mobile} type='obv' />}
-          {roc && <LineChart mobile={mobile} type='roc' />}
-          {rsi && <LineChart mobile={mobile} type='rsi' />}
-        </Grid>
-        {macd && (
-          <Grid item>
-            <MACDChart mobile={mobile} />
-          </Grid>
-        )}
-        {stoch && (
-          <Grid item>
-            <StochChart mobile={mobile} />
-          </Grid>
-        )}
-      </Grid>
+      </Fade>
     </div>
   )
 }

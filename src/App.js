@@ -69,9 +69,7 @@ function App () {
               <WatchList />
             </Route>
             <Route exact path='/analyze/:type'>
-              <Fade duration={1500}>
-                {isLoading ? <FullPageLoader /> : <SingleMarket />}
-              </Fade>
+              {isLoading ? <FullPageLoader /> : <SingleMarket />}
             </Route>
             <Route exact path='*'>
               <ErrorPage />
