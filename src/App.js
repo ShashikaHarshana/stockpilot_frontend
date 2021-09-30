@@ -58,7 +58,7 @@ function App () {
               <WatchList />
             </Route>
             <Route exact path='/test'>
-              <Loading1 />
+              <Test />
             </Route>
             <Route exact path='/analyze/:type'>
               <SingleMarket />
