@@ -5,7 +5,7 @@ import {
   makeStyles,
   Paper,
   Typography,
-  Button
+  Button, CircularProgress
 } from '@material-ui/core'
 import {useDispatch, useSelector} from 'react-redux'
 import { useHistory } from 'react-router'
@@ -67,6 +67,8 @@ const DesBox = ({ type }) => {
   const dispatch = useDispatch()
   const market = useSelector(state => state.chart.market)
   const [liveData, setLiveData] = useState(initObject)
+  const isWatchlistLoading = useSelector(state => state.watchlist.isLoading)
+  const added = useSelector(state => state.watchlist.added)
 
 
   useEffect(() => {
@@ -142,7 +144,9 @@ const DesBox = ({ type }) => {
                 variant='contained'
                 // color='primary'
               >
-                Add to Watch List
+                {isWatchlistLoading ? <CircularProgress color="success" size="1.6rem"/> :
+                    added.includes(market.toUpperCase()) ? 'Added' : 'Add to Watch List'
+                }
               </Button>
             ) : null}
           </Grid>

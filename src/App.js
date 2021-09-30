@@ -26,6 +26,8 @@ import SelectMarket from './components/chartDropdown/SelectMarket'
 import {useDispatch, useSelector} from "react-redux";
 import {initializeDataRequest} from "./redux/ducks/chart";
 import {useEffect} from "react";
+import Loading1 from "./components/Loading/Loading1";
+import FullPageLoader from "./components/Loading/FullPageLoader";
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -43,10 +45,6 @@ function App () {
   useEffect(() => {
     dispatch(initializeDataRequest())
   }, [])
-
-  if (isLoading){
-    return "loading"
-  } else {
 
     return (
         <Router>
@@ -69,7 +67,7 @@ function App () {
                   <WatchList/>
                 </Route>
                 <Route exact path='/analyze/:type'>
-                  <SingleMarket/>
+                  {isLoading ? <FullPageLoader /> : <SingleMarket/> }
                 </Route>
                 <Route exact path='*'>
                   <ErrorPage/>
@@ -79,7 +77,6 @@ function App () {
           </ThemeProvider>
         </Router>
     )
-  }
 }
 
 export default App

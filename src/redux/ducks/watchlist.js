@@ -59,16 +59,25 @@ export const removeFromWatchlistFail = data => ({
 const initialState = {
     brands: null,
     message: null,
-    isLoading: true
+    isLoading: false,
+    added: [],
 }
 
 export const watchlistReducer = (state = initialState, { type, payload }) => {
     switch (type) {
         case VIEW_WATCHLIST_REQUEST:
-        case ADD_TO_WATCHLIST_REQUEST:
         case REMOVE_FROM_WATCHLIST_REQUEST:
             return {
                 ...state,
+                isLoading: true
+            }
+
+        case ADD_TO_WATCHLIST_REQUEST:
+            let added = state.added;
+            added.push(payload.brands[0])
+            return {
+                ...state,
+                added : added,
                 isLoading: true
             }
 
