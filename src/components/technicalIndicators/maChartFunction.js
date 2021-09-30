@@ -1,5 +1,5 @@
-let getMAChart = (type, lineSeries, market, marketType, timeInterval) => {
-  const url =
+let getMAChart = (type, lineSeries, market, marketType, timeInterval , setLoading ) => {
+    const url =
     'http://127.0.0.1:5000/ta/' +
     type +
     `/${marketType}/${
@@ -19,7 +19,7 @@ let getMAChart = (type, lineSeries, market, marketType, timeInterval) => {
           tempLines.push(object)
         }
       }
-      lineSeries.setData(tempLines)
+      lineSeries.setData(tempLines);
     })
     .catch()
 }

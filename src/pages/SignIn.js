@@ -252,7 +252,7 @@ const SignIn = () => {
                       type='submit'
                       fullWidth
                   >
-                    {isLoading ? <CircularProgress color="success" size="1.6rem"/> :  <Typography >
+                    {isLoading ? <CircularProgress color="inherit" size="1.6rem"/> :  <Typography >
                       Login
                     </Typography> }
 

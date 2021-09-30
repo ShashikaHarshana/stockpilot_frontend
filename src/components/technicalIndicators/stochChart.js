@@ -1,11 +1,14 @@
-import React, { useEffect } from 'react'
+import React, {useEffect, useState} from 'react'
 import { createChart, CrosshairMode } from 'lightweight-charts'
 import { Typography } from '@material-ui/core'
 import { useSelector } from 'react-redux'
+import ChartLoader from "../Loading/ChartLoader";
 
 function StochChart ({ type }) {
   const ref = React.useRef()
   const { market, marketType, timeInterval } = useSelector(state => state.chart)
+  const [loading, setLoading] = useState(true)
+
 
   const url =
     'http://127.0.0.1:5000/ta/stoch' +
@@ -17,8 +20,8 @@ function StochChart ({ type }) {
 
   useEffect(() => {
     const chart = createChart(ref.current, {
-      width: 1067,
-      height: 250,
+      width: 0,
+      height: 0,
       crosshair: {
         mode: CrosshairMode.Normal
       }
@@ -60,6 +63,8 @@ function StochChart ({ type }) {
         }
         slowkSeries.setData(tempSlowk)
         slowdSeries.setData(tempSlowd)
+        chart.resize(1067,200)
+        setLoading(false)
       })
       .catch()
 
@@ -71,6 +76,7 @@ function StochChart ({ type }) {
   return (
     <>
       <Typography variant='h6'>STOCH</Typography>
+      {loading ?  <ChartLoader /> : null}
       <div ref={ref} />
     </>
   )

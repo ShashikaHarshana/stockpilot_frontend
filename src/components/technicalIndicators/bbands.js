@@ -4,7 +4,8 @@ let getBBands = (
   bbandLower,
   market,
   marketType,
-  timeInterval
+  timeInterval,
+  setLoading
 ) => {
   const url =
     'http://127.0.0.1:5000/ta/bbands' +

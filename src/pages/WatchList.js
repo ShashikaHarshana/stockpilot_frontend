@@ -1,4 +1,4 @@
-import { Paper, TableBody, TableCell, TableRow } from '@material-ui/core'
+import {CircularProgress, Paper, TableBody, TableCell, TableRow} from '@material-ui/core'
 import React, {useEffect, useState} from 'react'
 import useTable from '../components/hooks/useTable'
 import NavBar from '../components/NavBar'
@@ -7,6 +7,8 @@ import CloseIcon from '@material-ui/icons/Close'
 import { makeStyles } from '@material-ui/core'
 import {useDispatch, useSelector} from "react-redux";
 import {removeFromWatchlist, viewWatchlist} from "../redux/ducks/watchlist";
+import Loading1 from "../components/Loading/Loading1";
+import FullPageLoader from "../components/Loading/FullPageLoader";
 
 
 const headCells = [
@@ -29,6 +31,8 @@ const WatchList = () => {
   const [highVal, setHighVal] = useState(0)
   const token = useSelector(state => state.auth.token)
   let brands = useSelector(state => state.watchlist.brands)
+  const isLoading = useSelector(state => state.watchlist.isLoading)
+  const isLoadingDelete = useSelector(state => state.watchlist.isLoadingDelete)
 
   if (brands === null){
     dispatch(viewWatchlist(token))
@@ -102,42 +106,45 @@ const WatchList = () => {
   return (
     <div>
       <NavBar />
-      <Paper>
-        <TblContainer>
-          <TblHead />
-          <TableBody>
-            {recordsAfterPagingAndSorting().map(item => (
+      {isLoading || records.length === 0 ? <FullPageLoader /> :
+          <Paper>
+            <TblContainer>
+              <TblHead/>
+              <TableBody>
+                {recordsAfterPagingAndSorting().map(item => (
 
-              <TableRow key={item.id}>
-                {/* <TableCell>{item.id}</TableCell> */}
-                <TableCell>{item.symbol}</TableCell>
-                <TableCell>{item.price}</TableCell>
-                <TableCell>{item.high}</TableCell>
-                <TableCell>{item.low}</TableCell>
-                <TableCell>{item.volume}</TableCell>
-                <TableCell>
-                  <Controls.ActionButton
-                    color='secondary'
-                    onClick={() => handleDelete(item.symbol)}
-                    // onClick={() => {
-                    //   setConfirmDialog({
-                    //     isOpen: true,
-                    //     title: 'Are you sure to delete this record?',
-                    //     subTitle: "You can't undo this operation",
-                    //     onConfirm: () => {
-                    //       onDelete(item.id)
-                    //     }
-                    //   })
-                    // }}
-                  >
-                    <CloseIcon fontSize='small' />
-                  </Controls.ActionButton>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </TblContainer>
-      </Paper>
+                    <TableRow key={item.id}>
+                      {/* <TableCell>{item.id}</TableCell> */}
+                      <TableCell>{item.symbol}</TableCell>
+                      <TableCell>{item.price}</TableCell>
+                      <TableCell>{item.high}</TableCell>
+                      <TableCell>{item.low}</TableCell>
+                      <TableCell>{item.volume}</TableCell>
+                      <TableCell>
+                        <Controls.ActionButton
+                            color='secondary'
+                            onClick={() => handleDelete(item.symbol)}
+                            // onClick={() => {
+                            //   setConfirmDialog({
+                            //     isOpen: true,
+                            //     title: 'Are you sure to delete this record?',
+                            //     subTitle: "You can't undo this operation",
+                            //     onConfirm: () => {
+                            //       onDelete(item.id)
+                            //     }
+                            //   })
+                            // }}
+                        >
+                        <CloseIcon fontSize='small'/>
+
+                        </Controls.ActionButton>
+                      </TableCell>
+                    </TableRow>
+                ))}
+              </TableBody>
+            </TblContainer>
+          </Paper>
+      }
     </div>
   )
 }
