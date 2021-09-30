@@ -1,12 +1,14 @@
-import React, { useEffect } from 'react'
+import React, {useEffect, useState} from 'react'
 import { createChart, CrosshairMode } from 'lightweight-charts'
 import { Typography } from '@material-ui/core'
 import { useSelector } from 'react-redux'
+import ChartLoader from "../Loading/ChartLoader";
 
 function MACDChart ({ type, mobile }) {
   const ref = React.useRef()
 
   const { market, marketType, timeInterval } = useSelector(state => state.chart)
+  const [loading, setLoading] = useState(true)
 
   const url =
     'http://127.0.0.1:5000/ta/macd' +
@@ -16,8 +18,8 @@ function MACDChart ({ type, mobile }) {
 
   useEffect(() => {
     const chart = createChart(ref.current, {
-      width: 1067,
-      height: 300,
+      width: 0,
+      height: 0,
       crosshair: {
         mode: CrosshairMode.Normal
       }
@@ -38,9 +40,7 @@ function MACDChart ({ type, mobile }) {
     const macdHistSeries = chart.addHistogramSeries({
       base: 0
     })
-    if (mobile) {
-      chart.resize(325, 150)
-    }
+
 
     fetch(url)
       .then(res => res.json())
@@ -87,6 +87,12 @@ function MACDChart ({ type, mobile }) {
         macdSeries.setData(tempMacd)
         macdSignalSeries.setData(tempMacdSignal)
         macdHistSeries.setData(tempMacdHist)
+        if (mobile) {
+          chart.resize(325, 150)
+        } else {
+          chart.resize(1067, 200)
+        }
+        setLoading(false)
       })
       .catch()
 
@@ -98,6 +104,7 @@ function MACDChart ({ type, mobile }) {
   return (
     <>
       <Typography variant='h6'>MACD</Typography>
+      {loading ?  <ChartLoader /> : null}
       <div ref={ref} />
     </>
   )

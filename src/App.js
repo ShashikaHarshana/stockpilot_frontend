@@ -28,7 +28,6 @@ import Loading1 from './components/Loading/Loading1'
 import {useDispatch, useSelector} from "react-redux";
 import {initializeDataRequest} from "./redux/ducks/chart";
 import {useEffect} from "react";
-import Loading1 from "./components/Loading/Loading1";
 import FullPageLoader from "./components/Loading/FullPageLoader";
 
 

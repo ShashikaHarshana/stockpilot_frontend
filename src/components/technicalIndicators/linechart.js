@@ -55,11 +55,6 @@ function LineChart ({ type, mobile }) {
 
       // lineType: 1
     })
-    if (mobile) {
-      chart.resize(325, 150)
-    } else {
-      chart.resize(1067, 200)
-    }
 
     chart.applyOptions({
       timeScale: {
@@ -85,7 +80,11 @@ function LineChart ({ type, mobile }) {
           }
         }
         lineSeries.setData(tempLines)
-        chart.resize(1067,200)
+        if (mobile) {
+          chart.resize(325, 150)
+        } else {
+          chart.resize(1067, 200)
+        }
         setLoading(false)
       })
       .catch()

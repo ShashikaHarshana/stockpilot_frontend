@@ -26,9 +26,7 @@ function StochChart ({ type, mobile }) {
         mode: CrosshairMode.Normal
       }
     })
-    if (mobile) {
-      chart.resize(325, 150)
-    }
+
 
     chart.applyOptions({
       timeScale: {
@@ -72,7 +70,11 @@ function StochChart ({ type, mobile }) {
         }
         slowkSeries.setData(tempSlowk)
         slowdSeries.setData(tempSlowd)
-        chart.resize(1067,200)
+        if (mobile) {
+          chart.resize(325, 150)
+        } else {
+          chart.resize(1067, 200)
+        }
         setLoading(false)
       })
       .catch()

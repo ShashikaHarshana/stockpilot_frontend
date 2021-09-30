@@ -141,6 +141,7 @@ const DesBox = ({ type }) => {
             >
               <SelectMarket type={type} />
             </Grid>
+            {marketType === 'crypto' ? (
             <Grid
               item
               container
@@ -166,6 +167,7 @@ const DesBox = ({ type }) => {
                 <Typography className={classes.textLower}>{liveData.volume}</Typography>
               </Grid>
             </Grid>
+            ) : null}
 
             <Grid className={classes.btnContainer} item md={2} sm={12}>
               {marketType === 'crypto' ? (
@@ -175,7 +177,9 @@ const DesBox = ({ type }) => {
                   variant='contained'
                   // color='primary'
                 >
-                  {mobile ? 'add' : 'add to watch list'}
+                  {isWatchlistLoading ? <CircularProgress color="primary" size="1.6rem"/> :
+                      added.includes(market.toUpperCase()) ? 'Added' : 'Add to Watch List'
+                  }
                 </Button>
               ) : null}
             </Grid>

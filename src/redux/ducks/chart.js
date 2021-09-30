@@ -41,7 +41,8 @@ export const resetIndicators = () => ({
 
 export const setStockLoading = payload => ({
   type: SET_STOCK_LOADING,
-)}
+  payload
+})
 export const initializeDataRequest = () => ({
   type: INITIALIZE_DATA_REQUEST,
 })
