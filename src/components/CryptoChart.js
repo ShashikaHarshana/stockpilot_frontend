@@ -3,6 +3,7 @@ import { createChart, CrosshairMode } from 'lightweight-charts'
 import getMAChart from '../../../stockpilot_frontend/src/components/technicalIndicators/maChartFunction'
 import getBBands from './technicalIndicators/bbands'
 import { useSelector } from 'react-redux'
+import ChartLoader from "./Loading/ChartLoader";
 
 function CryptoChart () {
   const ref = React.useRef()
@@ -10,6 +11,8 @@ function CryptoChart () {
     state => state.chart
   )
   const { ma, sma, ema, wma, bbands } = internalIndicators
+  const [loading, setLoading] = useState(true)
+  const [initiated, setInitiated] = useState(false)
 
   // console.log(market)
 
@@ -26,9 +29,10 @@ function CryptoChart () {
 
   useEffect(() => {
     if (cryptoList.includes(market.toUpperCase())) {
+      setLoading(true)
       const chart = createChart(ref.current, {
-        width: 1067,
-        height: 450,
+        width: 0,
+        height: 0,
         // layout: {
         //     backgroundColor: '#f2f2f2',
         //     textColor: 'rgba(255, 255, 255, 0.9)',
@@ -81,8 +85,9 @@ function CryptoChart () {
               }
               tempCandlesticks.push(object)
             })
-            console.log(tempCandlesticks)
             candleSeries.setData(tempCandlesticks)
+            chart.resize(1067,450)
+            setLoading(false)
           })
           .catch()
 
@@ -157,6 +162,7 @@ function CryptoChart () {
 
   return (
     <>
+      {loading ?  <ChartLoader /> : null}
       <div ref={ref} />
     </>
   )
