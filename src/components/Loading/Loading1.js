@@ -15,7 +15,6 @@ const defaultOptions = {
 
 const Loading1 = () => {
   return (
-
       <Lottie
         style={{margin: 0, padding: 0 }}
         options={defaultOptions}

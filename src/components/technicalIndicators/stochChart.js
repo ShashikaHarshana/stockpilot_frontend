@@ -4,7 +4,7 @@ import { Typography } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 import ChartLoader from "../Loading/ChartLoader";
 
-function StochChart ({ type }) {
+function StochChart ({ type, mobile }) {
   const ref = React.useRef()
   const { market, marketType, timeInterval } = useSelector(state => state.chart)
   const [loading, setLoading] = useState(true)
@@ -27,6 +27,7 @@ function StochChart ({ type }) {
       }
     })
 
+
     chart.applyOptions({
       timeScale: {
         visible: true,
@@ -34,8 +35,14 @@ function StochChart ({ type }) {
         secondsVisible: true
       }
     })
-    const slowkSeries = chart.addLineSeries({ lineWidth: 1 })
-    const slowdSeries = chart.addLineSeries({ lineWidth: 1, color: 'orange' })
+    const slowkSeries = chart.addLineSeries({
+      lineWidth: 1.5,
+      color: '#8E0072'
+    })
+    const slowdSeries = chart.addLineSeries({
+      lineWidth: 1.5,
+      color: '#00733E'
+    })
 
     fetch(url)
       .then(res => res.json())
@@ -63,7 +70,11 @@ function StochChart ({ type }) {
         }
         slowkSeries.setData(tempSlowk)
         slowdSeries.setData(tempSlowd)
-        chart.resize(1067,200)
+        if (mobile) {
+          chart.resize(325, 150)
+        } else {
+          chart.resize(1067, 200)
+        }
         setLoading(false)
       })
       .catch()
@@ -71,7 +82,7 @@ function StochChart ({ type }) {
     return () => {
       chart.remove()
     }
-  }, [market, marketType, timeInterval])
+  }, [market, marketType, timeInterval, mobile])
 
   return (
     <>

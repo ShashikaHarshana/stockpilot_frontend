@@ -23,11 +23,13 @@ import CryptoChart from './components/CryptoChart'
 import DropdownSelect from './components/chartDropdown/DropdownSelect'
 import DropDownSelectExt from './components/chartDropdown/DropDownSelectExt'
 import SelectMarket from './components/chartDropdown/SelectMarket'
+import Test from './components/Test'
+import Loading1 from './components/Loading/Loading1'
 import {useDispatch, useSelector} from "react-redux";
 import {initializeDataRequest} from "./redux/ducks/chart";
 import {useEffect} from "react";
-import Loading1 from "./components/Loading/Loading1";
 import FullPageLoader from "./components/Loading/FullPageLoader";
+
 
 const useStyles = makeStyles(theme => ({
   container: {

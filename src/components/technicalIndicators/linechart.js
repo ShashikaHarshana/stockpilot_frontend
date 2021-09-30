@@ -1,11 +1,16 @@
 import React, {useEffect, useState} from 'react'
 import { createChart, CrosshairMode } from 'lightweight-charts'
 import { Typography } from '@material-ui/core'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import ChartLoader from "../Loading/ChartLoader";
 
-function LineChart ({ type }) {
+function LineChart ({ type, mobile }) {
   const ref = React.useRef()
+  const dispatch = useDispatch()
+
+  // const mobile = true
+  console.log(mobile)
+
   const { market, marketType, timeInterval } = useSelector(state => state.chart)
   const [loading, setLoading] = useState(true)
 
@@ -18,6 +23,7 @@ function LineChart ({ type }) {
 
   useEffect(() => {
     const chart = createChart(ref.current, {
+
       width: 0,
       height: 0,
       // layout: {
@@ -42,14 +48,21 @@ function LineChart ({ type }) {
       //     borderColor: 'rgba(197, 203, 206, 0.8)',
       // },
     })
-    const lineSeries = chart.addLineSeries()
+
+    const lineSeries = chart.addLineSeries({
+      color: '#001341',
+      lineWidth: 1.5
+
+      // lineType: 1
+    })
 
     chart.applyOptions({
       timeScale: {
         visible: true,
         timeVisible: true,
         secondsVisible: true
-      }
+      },
+      layout: {}
     })
 
     fetch(url)
@@ -67,7 +80,11 @@ function LineChart ({ type }) {
           }
         }
         lineSeries.setData(tempLines)
-        chart.resize(1067,200)
+        if (mobile) {
+          chart.resize(325, 150)
+        } else {
+          chart.resize(1067, 200)
+        }
         setLoading(false)
       })
       .catch()
@@ -75,7 +92,7 @@ function LineChart ({ type }) {
     return () => {
       chart.remove()
     }
-  }, [market, marketType, timeInterval])
+  }, [market, marketType, timeInterval, mobile])
 
   return (
     <>

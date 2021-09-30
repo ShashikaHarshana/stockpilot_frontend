@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { IconButton, makeStyles } from '@material-ui/core'
 import { Box, Grid, Paper, Typography, Button } from '@material-ui/core'
 
-import candleStick from '../../svgs/chart/candleStick.svg'
-import indicators from '../../svgs/chart/indicators.svg'
 import DropdownSelect from '../chartDropdown/DropdownSelect'
 import DropDownSelectExt from '../chartDropdown/DropDownSelectExt'
 import { useDispatch, useSelector } from 'react-redux'
@@ -13,15 +11,6 @@ const useStyles = makeStyles(theme => ({
   box: {
     marginTop: '1rem'
   },
-  detailPaper: {
-    maxWidth: 'calc(1322px*0.8)',
-    height: 'calc(90px*0.8)',
-    borderRadius: 8,
-    display: 'flex',
-    alignItems: 'center',
-    padding: '0 1rem',
-    justifyContent: 'space-between'
-  },
   timeIndicatorPaper: {
     height: 'calc(50px*0.8)',
     borderRadius: 8,
@@ -29,7 +18,10 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     padding: '0 1rem',
     justifyContent: 'space-between',
-    marginTop: '2rem'
+    marginTop: '2rem',
+    [theme.breakpoints.down('sm')]: {
+      height: 150
+    }
   },
   textUpper: {
     fontSize: '1rem'
@@ -74,51 +66,68 @@ const TimeIndicatorBox = ({ type }) => {
     <div>
       <Box>
         <Paper elevation={2} className={classes.timeIndicatorPaper}>
-          <Grid item sm={3}>
-            <Typography>Time Interval</Typography>
-          </Grid>
-          <Grid container spacing={4} className={classes.textContainer}>
-            {type === 'stock'
-              ? stockTimeIntervals.map((time, index) => {
-                  return (
-                    <Grid item key={index}>
-                      <Button
-                        onClick={() => {
-                          setTimeInterval(time)
-                        }}
-                        className={classes.btn}
-                      >
-                        {time}
-                      </Button>
-                    </Grid>
-                  )
-                })
-              : cryptoTimeIntervals.map((time, index) => {
-                  return (
-                    <Grid item key={index}>
-                      <Button
-                        onClick={() => {
-                          setTimeInterval(time)
-                        }}
-                        className={classes.btn}
-                      >
-                        {time}
-                      </Button>
-                    </Grid>
-                  )
-                })}
-          </Grid>
           <Grid
-            item
+            container
+            spacing={2}
             style={{
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center '
+              justifyContent: 'center'
             }}
-            sm={5}
           >
-            <DropdownSelect />
-            <DropDownSelectExt />
+            <Grid item sm={12} md={2}>
+              <Typography>Time Interval</Typography>
+            </Grid>
+            <Grid
+              item
+              md={5}
+              sm={12}
+              // spacing={{ sm: 2, md: 4 }}
+              className={classes.textContainer}
+            >
+              {type === 'stock'
+                ? stockTimeIntervals.map((time, index) => {
+                    return (
+                      <Grid item key={index}>
+                        <Button
+                          onClick={() => {
+                            setTimeInterval(time)
+                          }}
+                          className={classes.btn}
+                        >
+                          {time}
+                        </Button>
+                      </Grid>
+                    )
+                  })
+                : cryptoTimeIntervals.map((time, index) => {
+                    return (
+                      <Grid item key={index}>
+                        <Button
+                          onClick={() => {
+                            setTimeInterval(time)
+                          }}
+                          className={classes.btn}
+                        >
+                          {time}
+                        </Button>
+                      </Grid>
+                    )
+                  })}
+            </Grid>
+            <Grid
+              item
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center '
+              }}
+              sm={12}
+              md={5}
+            >
+              <DropdownSelect />
+              <DropDownSelectExt />
+            </Grid>
           </Grid>
         </Paper>
       </Box>

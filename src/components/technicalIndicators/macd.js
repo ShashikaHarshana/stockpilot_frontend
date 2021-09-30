@@ -1,12 +1,14 @@
-import React, { useEffect } from 'react'
+import React, {useEffect, useState} from 'react'
 import { createChart, CrosshairMode } from 'lightweight-charts'
 import { Typography } from '@material-ui/core'
 import { useSelector } from 'react-redux'
+import ChartLoader from "../Loading/ChartLoader";
 
-function MACDChart ({ type }) {
+function MACDChart ({ type, mobile }) {
   const ref = React.useRef()
 
   const { market, marketType, timeInterval } = useSelector(state => state.chart)
+  const [loading, setLoading] = useState(true)
 
   const url =
     'http://127.0.0.1:5000/ta/macd' +
@@ -16,8 +18,8 @@ function MACDChart ({ type }) {
 
   useEffect(() => {
     const chart = createChart(ref.current, {
-      width: 1067,
-      height: 300,
+      width: 0,
+      height: 0,
       crosshair: {
         mode: CrosshairMode.Normal
       }
@@ -30,14 +32,15 @@ function MACDChart ({ type }) {
         secondsVisible: true
       }
     })
-    const macdSeries = chart.addLineSeries({ lineWidth: 1 })
+    const macdSeries = chart.addLineSeries({ lineWidth: 1.5, color: '#22568E' })
     const macdSignalSeries = chart.addLineSeries({
-      lineWidth: 1,
-      color: 'purple'
+      lineWidth: 1.5,
+      color: '#973A80'
     })
     const macdHistSeries = chart.addHistogramSeries({
       base: 0
     })
+
 
     fetch(url)
       .then(res => res.json())
@@ -68,9 +71,9 @@ function MACDChart ({ type }) {
           if (dataMacdHist.hasOwnProperty(key)) {
             let color
             if (dataMacdHist[key] > 0) {
-              color = '#26a69a'
+              color = '#00733E'
             } else {
-              color = '#ef5350'
+              color = '#BB2E2D'
             }
 
             let object = {
@@ -84,17 +87,24 @@ function MACDChart ({ type }) {
         macdSeries.setData(tempMacd)
         macdSignalSeries.setData(tempMacdSignal)
         macdHistSeries.setData(tempMacdHist)
+        if (mobile) {
+          chart.resize(325, 150)
+        } else {
+          chart.resize(1067, 200)
+        }
+        setLoading(false)
       })
       .catch()
 
     return () => {
       chart.remove()
     }
-  }, [market, marketType, timeInterval])
+  }, [market, marketType, timeInterval, mobile])
 
   return (
     <>
       <Typography variant='h6'>MACD</Typography>
+      {loading ?  <ChartLoader /> : null}
       <div ref={ref} />
     </>
   )

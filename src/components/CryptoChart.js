@@ -5,7 +5,7 @@ import getBBands from './technicalIndicators/bbands'
 import { useSelector } from 'react-redux'
 import ChartLoader from "./Loading/ChartLoader";
 
-function CryptoChart () {
+function CryptoChart ({ mobile }) {
   const ref = React.useRef()
   const { market, marketType, internalIndicators, timeInterval, cryptoList } = useSelector(
     state => state.chart
@@ -55,7 +55,10 @@ function CryptoChart () {
         //     borderColor: 'rgba(197, 203, 206, 0.8)',
         // },
       })
-      let candleSeries = chart.addCandlestickSeries()
+      let candleSeries = chart.addCandlestickSeries({
+      upColor: '#00733E',
+      downColor: '#BB2E2D'
+    })
 
       chart.applyOptions({
         timeScale: {
@@ -63,6 +66,7 @@ function CryptoChart () {
           timeVisible: true,
           secondsVisible: true
         }
+
       })
       let tempStockUrl = 'http://127.0.0.1:5000/stock/historical/aapl/5m'
       let tempCryptoUrl = 'http://127.0.0.1:5000/binance/historical/BNBUSDT/1m'
@@ -86,8 +90,12 @@ function CryptoChart () {
               tempCandlesticks.push(object)
             })
             candleSeries.setData(tempCandlesticks)
+           if (mobile) {
+              chart.resize(325, 150)
+            } else {
             chart.resize(1067,450)
             setLoading(false)
+            }
           })
           .catch()
 
@@ -130,7 +138,7 @@ function CryptoChart () {
         const bbandUpper = chart.addLineSeries({
           lineWidth: 1,
           title: 'BBAND Upper',
-          color: 'purple'
+          color: '#0069CD'
         })
         const bbandMiddle = chart.addLineSeries({
           lineWidth: 1,
@@ -140,7 +148,7 @@ function CryptoChart () {
         const bbandLower = chart.addLineSeries({
           lineWidth: 1,
           title: 'BBAND Lower',
-          color: 'purple'
+          color: '#0069CD'
         })
         getBBands(
             bbandUpper,
@@ -158,7 +166,7 @@ function CryptoChart () {
         eventSource.close();
       }
     }
-  }, [market, timeInterval, internalIndicators])
+  }, [market, timeInterval, internalIndicators, mobile])
 
   return (
     <>

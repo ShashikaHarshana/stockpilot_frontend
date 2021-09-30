@@ -247,7 +247,7 @@ const Home = () => {
           <Button
             className={classes.signupBtnB}
             component={Link}
-            to={`${isLoggedIn ? '/crypto' : '/sign_up'}`}
+            to={`${isLoggedIn ? '/analyze/crypto' : '/sign_up'}`}
             variant='contained'
             color='secondary'
           >

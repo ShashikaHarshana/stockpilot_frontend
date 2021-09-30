@@ -93,13 +93,13 @@ const MobDrawer = ({ openDrawer, setOpenDrawer }) => {
             </ListItemIcon>
             <ListItemText>Home</ListItemText>
           </ListItem>
-          <ListItem button component={Link} to='/stock'>
+          <ListItem button component={Link} to={`/analyze/${'stock'}`}>
             <ListItemIcon className={classes.listIcon}>
               <img src={stock} className={classes.bitcoin} />
             </ListItemIcon>
             <ListItemText>Stock</ListItemText>
           </ListItem>
-          <ListItem button component={Link} to='/crypto'>
+          <ListItem button component={Link} to={`/analyze/${'crypto'}`}>
             <ListItemIcon className={classes.listIcon}>
               <img className={classes.bitcoin} src={Bitcoin} />
             </ListItemIcon>

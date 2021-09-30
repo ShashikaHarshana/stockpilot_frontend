@@ -18,6 +18,11 @@ const useStyles = makeStyles(theme => ({
       fontSize: '1.5rem',
       display: 'flex',
       alignItems: 'center'
+    },
+    [theme.breakpoints.down('sm')]: {
+      '& .MuiSelect-select.MuiSelect-select': {
+        fontSize: '1rem'
+      }
     }
   }
 }))
