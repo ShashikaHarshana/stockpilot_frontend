@@ -20,10 +20,11 @@ import bottom from '../svgs/signUp/bottomLeft.svg'
 import top from '../svgs/signUp/topRight.svg'
 import facebook from '../svgs/signUp/facebook.svg'
 import google from '../svgs/signUp/google.svg'
-import {useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { authUser } from '../redux/ducks/auth'
 import logo from '../svgs/signUp/logo.svg'
-import {Alert} from "@material-ui/lab";
+import { Alert } from '@material-ui/lab'
+import Fade from 'react-reveal/Fade'
 
 const initialFValues = {
   email: '',
@@ -131,15 +132,13 @@ const SignIn = () => {
   const mobile = useMediaQuery(theme.breakpoints.down('sm'))
   const dispatch = useDispatch()
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
-  const message = useSelector(state => state.auth.message);
+  const message = useSelector(state => state.auth.message)
   const isLoading = useSelector(state => state.auth.isLoading)
-
 
   const handleChange = e => {
     const { name, value } = e.target
     setCreds({ ...creds, [name]: value })
   }
-
 
   const handleSubmit = e => {
     e.preventDefault()
@@ -151,140 +150,153 @@ const SignIn = () => {
   const showAlert = () => {
     console.log(message)
     if (message != null) {
-      if (message === 'Login Successful!' || message === 'Successfully Registered'){
-        return <Alert severity="success"> {message} </Alert>
+      if (
+        message === 'Login Successful!' ||
+        message === 'Successfully Registered'
+      ) {
+        return <Alert severity='success'> {message} </Alert>
       } else {
-        return <Alert severity="error"> {message} </Alert>
+        return <Alert severity='error'> {message} </Alert>
       }
     }
-  };
-
-
-  if (isLoggedIn){
-    return <Redirect to="/" />
   }
-  else {
+
+  if (isLoggedIn) {
+    return <Redirect to='/' />
+  } else {
     return (
-        <div style={{maxHeight: '100vh', maxWidth: '100vw', overflow: 'hidden'}}>
-          <img src={top} alt='top' className={classes.topImg}/>
-          <Grid className={classes.logoContainer} item component={Link} to='/'>
-            <img src={logo} alt='top' className={classes.logo}/>
-          </Grid>
-          <img src={bottom} className={classes.bottomImg} alt='bottom'/>
-          <Grid container className={classes.container}>
-            <article>
-              <img src={signUpImg} className={classes.img} alt=''/>
-            </article>
-            <article>
+      <div
+        style={{ maxHeight: '100vh', maxWidth: '100vw', overflow: 'hidden' }}
+      >
+        <Fade top>
+          <img src={top} alt='top' className={classes.topImg} />
+        </Fade>
+        <Grid className={classes.logoContainer} item component={Link} to='/'>
+          <Fade top>
+            <img src={logo} alt='top' className={classes.logo} />
+          </Fade>
+        </Grid>
+        <Fade bottom>
+          <img src={bottom} className={classes.bottomImg} alt='bottom' />
+        </Fade>
+        <Grid container className={classes.container}>
+          <article>
+            <Fade left delay={1500}>
+              <img src={signUpImg} className={classes.img} alt='' />
+            </Fade>
+          </article>
+          <article>
+            <Fade right delay={1500}>
               <Paper className={classes.paper} elevation={8}>
                 <Typography
-                    variant={`${mobile ? 'h5' : 'h4'}`}
-                    style={{
-                      margin: '0 auto',
-                      display: 'flex',
-                      justifyContent: 'center'
-                    }}
+                  variant={`${mobile ? 'h5' : 'h4'}`}
+                  style={{
+                    margin: '0 auto',
+                    display: 'flex',
+                    justifyContent: 'center'
+                  }}
                 >
                   Welcome to{' '}
                   <span
-                      className={classes.primary}
-                      style={{
-                        marginLeft: '1rem'
-                      }}
+                    className={classes.primary}
+                    style={{
+                      marginLeft: '1rem'
+                    }}
                   >
-                STOCKPILOT
-              </span>
+                    STOCKPILOT
+                  </span>
                 </Typography>
                 <Grid container className={classes.linksContainer}>
                   <Grid
-                      item
-                      sm={12}
-                      md={6}
-                      style={{display: 'flex', justifyContent: 'center'}}
+                    item
+                    sm={12}
+                    md={6}
+                    style={{ display: 'flex', justifyContent: 'center' }}
                   >
                     <IconButton disableRipple>
-                      <img className={classes.google} src={google} alt=''/>
+                      <img className={classes.google} src={google} alt='' />
 
-                      <Typography style={{marginLeft: '1rem', color: '#222'}}>
+                      <Typography style={{ marginLeft: '1rem', color: '#222' }}>
                         Sign in with Google
                       </Typography>
                     </IconButton>
                   </Grid>
                   <Grid
-                      item
-                      sm={12}
-                      md={6}
-                      style={{display: 'flex', justifyContent: 'center'}}
+                    item
+                    sm={12}
+                    md={6}
+                    style={{ display: 'flex', justifyContent: 'center' }}
                   >
                     <IconButton disableRipple>
-                      <img className={classes.facebook} src={facebook} alt=''/>
+                      <img className={classes.facebook} src={facebook} alt='' />
 
-                      <Typography style={{marginLeft: '1rem', color: '#222'}}>
+                      <Typography style={{ marginLeft: '1rem', color: '#222' }}>
                         Sign in with facebook
                       </Typography>
                     </IconButton>
                   </Grid>
                 </Grid>
                 <form onSubmit={handleSubmit}>
-                  <Grid style={{marginTop: '1rem'}}>
+                  <Grid style={{ marginTop: '1rem' }}>
                     <Controls.Input
-                        fullWidth
-                        label='Email'
-                        name='email'
-                        value={creds.email}
-                        onChange={handleChange}
+                      fullWidth
+                      label='Email'
+                      name='email'
+                      value={creds.email}
+                      onChange={handleChange}
                     />
                   </Grid>
-                  <Grid style={{marginTop: '1rem'}}>
+                  <Grid style={{ marginTop: '1rem' }}>
                     <Controls.Input
-                        fullWidth
-                        label='Password'
-                        name='password'
-                        type='password'
-                        value={creds.password}
-                        onChange={handleChange}
+                      fullWidth
+                      label='Password'
+                      name='password'
+                      type='password'
+                      value={creds.password}
+                      onChange={handleChange}
                     />
                   </Grid>
                   <Button
-                      className={classes.btn}
-                      variant='contained'
-                      color='secondary'
-                      type='submit'
-                      fullWidth
+                    className={classes.btn}
+                    variant='contained'
+                    color='secondary'
+                    type='submit'
+                    fullWidth
                   >
-                    {isLoading ? <CircularProgress color="inherit" size="1.6rem"/> :  <Typography >
-                      Login
-                    </Typography> }
-
-
+                    {isLoading ? (
+                      <CircularProgress color='inherit' size='1.6rem' />
+                    ) : (
+                      <Typography>Login</Typography>
+                    )}
                   </Button>
                 </form>
                 <Typography>
                   Don't have an account?{' '}
                   <Button
-                      component={Link}
-                      to='/sign_up'
-                      variant='text'
-                      className={classes.primary}
+                    component={Link}
+                    to='/sign_up'
+                    variant='text'
+                    className={classes.primary}
                   >
                     Sign Up
                   </Button>
                 </Typography>
                 <Typography>
                   <Button
-                      component={Link}
-                      to='/'
-                      variant='text'
-                      className={classes.primary}
+                    component={Link}
+                    to='/'
+                    variant='text'
+                    className={classes.primary}
                   >
                     Forgot Password?
                   </Button>
                 </Typography>
                 {showAlert()}
               </Paper>
-            </article>
-          </Grid>
-        </div>
+            </Fade>
+          </article>
+        </Grid>
+      </div>
     )
   }
 }

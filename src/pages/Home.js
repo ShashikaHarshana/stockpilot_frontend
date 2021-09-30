@@ -16,6 +16,19 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import NavBar from '../components/NavBar'
 import { useSelector } from 'react-redux'
 import Footer from '../components/Footer'
+import Zoom from 'react-reveal/Zoom'
+import Fade from 'react-reveal/Fade'
+import Bounce from 'react-reveal/Bounce'
+import Flip from 'react-reveal/Flip'
+import Roll from 'react-reveal/Roll'
+import Tada from 'react-reveal/Tada'
+import Pulse from 'react-reveal/Pulse'
+import Rotate from 'react-reveal/Rotate'
+import Slide from 'react-reveal/Slide'
+import Jump from 'react-reveal/Jump'
+import HeadShake from 'react-reveal/HeadShake'
+import LightSpeed from 'react-reveal/LightSpeed'
+import RubberBand from 'react-reveal/RubberBand'
 
 const useStyles = makeStyles(theme => ({
   topcornerImg: {
@@ -70,7 +83,7 @@ const useStyles = makeStyles(theme => ({
     }
   },
   section: {
-    minHeight: '80vh',
+    minHeight: '100vh',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -81,8 +94,8 @@ const useStyles = makeStyles(theme => ({
   },
 
   topImg: {
-    height: 'calc(362px*0.8)',
-    width: 'calc(524px*0.8)',
+    height: 'calc(350px*0.8)',
+    width: 'calc(510px*0.8)',
     [theme.breakpoints.down('sm')]: {
       width: '290px',
       height: '200px',
@@ -120,28 +133,31 @@ const useStyles = makeStyles(theme => ({
   },
   bottom: {
     position: 'absolute',
-    left: '55rem',
-    top: '140rem',
+    left: '50rem',
+    top: '153rem',
     [theme.breakpoints.down('sm')]: {
       left: '5rem',
-      top: '140rem'
+      top: '150rem'
     }
   },
   bottomLeft: {
     position: 'absolute',
-    top: '100rem',
-    left: '-0.5rem',
-    height: 'calc(1274.73px*0.8)',
-    width: 'calc(915.51px*0.8)',
+    top: '120rem',
+    left: '-1rem',
+    height: 'calc(1200.73px*0.8)',
+    width: 'calc(875.51px*0.8)',
     [theme.breakpoints.down('sm')]: {
       height: 388,
       width: 290,
       top: '115rem'
     }
   },
+  title: { fontWeight: 300, [theme.breakpoints.down('sm')]: { width: '80%' } },
   subTitle: {
-    fontWeight: 500,
+    fontWeight: 400,
     marginTop: 'calc(34px*0.8)',
+    width: '82%',
+    lineHeight: 1.2,
     [theme.breakpoints.down('sm')]: { fontSize: '0.8rem' }
   },
   signupBtnB: {
@@ -168,47 +184,61 @@ const Home = () => {
 
   return (
     <main>
-      <NavBar />
-      <img
-        src={topRightImg}
-        alt='leftCornerImg'
-        className={classes.topcornerImg}
-      />
-      <img src={cardsLeft} className={classes.cardsLeft} alt='' style={{}} />
-      <img src={elipse} className={classes.elipseLeft} alt='' />
-      <img src={cardsRight} alt='' className={classes.cardsRight} />
-      <img src={botmLeft} className={classes.bottomLeft} alt='' />
+      <Fade top>
+        <NavBar />
+        <img
+          src={topRightImg}
+          alt='leftCornerImg'
+          className={classes.topcornerImg}
+        />
+      </Fade>
+
+      <Fade bottom>
+        <img src={cardsLeft} className={classes.cardsLeft} alt='' style={{}} />
+        <img src={elipse} className={classes.elipseLeft} alt='' />
+      </Fade>
+      <Fade right fraction={0.5}>
+        <img src={cardsRight} alt='' className={classes.cardsRight} />
+      </Fade>
+      <Fade fraction={0.6} left duration={2000}>
+        <img src={botmLeft} className={classes.bottomLeft} alt='' />
+      </Fade>
       <section className={classes.section1}>
         <article className={classes.articleTypo}>
-          {/* <Typography
-            variant={`${mobile ? 'h4' : 'h3'}`}
-            style={{ fontWeight: 300 }}
-          >
-            Smart Investing Platform
-          </Typography> */}
-
           <Typography
-            variant={`${mobile ? 'h4' : 'h3'}`}
-            style={{ fontWeight: 300 }}
+            variant={`${mobile ? 'h4' : 'h2'}`}
+            className={classes.title}
           >
-            Smart Investing Platform
+            <Zoom right big cascade delay={500} duration={2000}>
+              Smart Investing Platform
+            </Zoom>
           </Typography>
           <Typography variant='subtitle1' className={classes.subTitle}>
-            The one stop website for all your stock and crypto analysis needs
-            without any commission or deposits.
+            <Fade top cascade delay={3000}>
+              The one stop website for all your stock and crypto analysis needs
+              without any commission or deposits.
+            </Fade>
           </Typography>
-          <Button
-            className={classes.signupBtn}
-            component={Link}
-            to={`${isLoggedIn ? '/analyze/stock' : '/sign_up'}`}
-            variant='contained'
-            color='secondary'
-          >
-            Get Started
-          </Button>
+          <Fade left delay={4000}>
+            <Jump delay={4500}>
+              <Button
+                className={classes.signupBtn}
+                component={Link}
+                to={`${isLoggedIn ? '/analyze/stock' : '/sign_up'}`}
+                variant='contained'
+                color='secondary'
+              >
+                Get Started
+              </Button>
+            </Jump>
+          </Fade>
         </article>
         <article className={classes.article}>
-          <img src={topImg} className={classes.topImg} alt='img' />
+          <Fade right delay={4000}>
+            <Pulse delay={5000} duration={2000}>
+              <img src={topImg} className={classes.topImg} alt='img' />
+            </Pulse>
+          </Fade>
         </article>
       </section>
       <section className={classes.section}>
@@ -217,43 +247,59 @@ const Home = () => {
       </section>
       <section className={classes.section}>
         <article>
-          <Typography variant={`${mobile ? 'h5' : 'h4'}`}>
-            Manage your own{' '}
-            <span className={classes.secondary}>Watchlist </span> of favourite{' '}
-            <span className={classes.primary}>Crypto </span>
-            and <span className={classes.primary}>Stock</span>{' '}
-          </Typography>{' '}
+          <Zoom cascade top duration={1500}>
+            <Typography variant={`${mobile ? 'h5' : 'h4'}`}>
+              Manage your own{' '}
+              <span className={classes.secondary}>Watchlist </span> of favourite{' '}
+              <span className={classes.primary}>Crypto </span>
+              and <span className={classes.primary}>Stock</span>{' '}
+            </Typography>{' '}
+          </Zoom>
           <Typography
             variant='subtitle1'
             style={{ width: '80%', lineHeight: '20px', marginTop: '10px' }}
           >
-            The one stop website for all your stock and crypto analysis needs
-            without any commission or deposits.
+            <Fade bottom cascade delay={1000} fraction={0.7}>
+              The one stop website for all your stock and crypto analysis needs
+              without any commission or deposits.
+            </Fade>
           </Typography>
         </article>
         <article>
-          <img src={middleImg} className={classes.middleImg} alt='middleImg' />
+          <Fade fraction={0.7} right delay={2000} duration={2000}>
+            <HeadShake fraction={0.7} delay={4000}>
+              <img
+                src={middleImg}
+                className={classes.middleImg}
+                alt='middleImg'
+              />
+            </HeadShake>
+          </Fade>
         </article>
       </section>
       <section>
-        <article className={classes.bottom}>
-          <Typography variant={`${mobile ? 'h5' : 'h4'}`}>
-            Get Notified <span className={classes.secondary}>24/7 </span>{' '}
-          </Typography>{' '}
-          <Typography variant='subtitle2' style={{ width: '70%' }}>
-            The one stop website for all your stock and crypto analysis needs
-            without any commission or deposits.
-          </Typography>
-          <Button
-            className={classes.signupBtnB}
-            component={Link}
-            to={`${isLoggedIn ? '/analyze/crypto' : '/sign_up'}`}
-            variant='contained'
-            color='secondary'
-          >
-            get started
-          </Button>
-        </article>
+        <LightSpeed right fraction={0.5} delay={1500} duration={2000}>
+          <article className={classes.bottom}>
+            <Typography variant={`${mobile ? 'h5' : 'h4'}`}>
+              Get Notified <span className={classes.secondary}>24/7 </span>{' '}
+            </Typography>{' '}
+            <Typography variant='subtitle2' style={{ width: '70%' }}>
+              The one stop website for all your stock and crypto analysis needs
+              without any commission or deposits.
+            </Typography>
+            <Jump delay={1500}>
+              <Button
+                className={classes.signupBtnB}
+                component={Link}
+                to={`${isLoggedIn ? '/analyze/crypto' : '/sign_up'}`}
+                variant='contained'
+                color='secondary'
+              >
+                get started
+              </Button>
+            </Jump>
+          </article>
+        </LightSpeed>
       </section>
 
       <Grid
@@ -264,7 +310,9 @@ const Home = () => {
           margin: '0 auto'
         }}
       >
-        <Footer />
+        <Fade bottom>
+          <Footer />
+        </Fade>
       </Grid>
     </main>
   )

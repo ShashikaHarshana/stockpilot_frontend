@@ -13,7 +13,7 @@ import signUpImg from '../svgs/signUp/signUpImg.svg'
 import Controls from '../components/controls/Controls'
 import FacebookIcon from '@material-ui/icons/Facebook'
 import { Button } from '@material-ui/core'
-import {Link, Redirect} from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import Form from '../components/Form'
 import { makeStyles } from '@material-ui/core'
 import { useSelector } from 'react-redux'
@@ -25,9 +25,9 @@ import facebook from '../svgs/signUp/facebook.svg'
 import google from '../svgs/signUp/google.svg'
 import { useDispatch } from 'react-redux'
 import { userRegister } from '../redux/ducks/auth'
-import * as PropTypes from "prop-types";
-import { Alert } from '@material-ui/lab';
-
+import * as PropTypes from 'prop-types'
+import { Alert } from '@material-ui/lab'
+import Fade from 'react-reveal/Fade'
 
 const initialFValues = {
   id: 0,
@@ -203,170 +203,183 @@ const SignUp = () => {
     }
   }
 
-  const message = useSelector(state => state.auth.message);
+  const message = useSelector(state => state.auth.message)
 
   const showAlert = () => {
     console.log(message)
     if (message != null) {
-      if (message === 'Successfully Registered'){
-        return <Alert severity="success"> {message} </Alert>
+      if (message === 'Successfully Registered') {
+        return <Alert severity='success'> {message} </Alert>
       } else {
-        return <Alert severity="error"> {message} </Alert>
+        return <Alert severity='error'> {message} </Alert>
       }
     }
-  };
+  }
   console.log(isRegistered)
-  if (isRegistered){
-    return <Redirect to="/sign_in" />
+  if (isRegistered) {
+    return <Redirect to='/sign_in' />
   } else {
     return (
-        <div style={{maxHeight: '100vh', maxWidth: '100vw', overflow: 'hidden'}}>
-          <img src={top} alt='top' className={classes.topImg}/>
-          <Grid className={classes.logoContainer} item component={Link} to='/'>
-            <img src={logo} alt='top' className={classes.logo}/>
-          </Grid>
-          <img src={bottom} className={classes.bottomImg} alt='bottom'/>
-          <Grid container className={classes.container}>
-            <article>
-              <img src={signUpImg} className={classes.img} alt=''/>
-            </article>
-            <article>
+      <div
+        style={{ maxHeight: '100vh', maxWidth: '100vw', overflow: 'hidden' }}
+      >
+        <Fade top>
+          <img src={top} alt='top' className={classes.topImg} />
+        </Fade>
+        <Grid className={classes.logoContainer} item component={Link} to='/'>
+          <Fade top>
+            <img src={logo} alt='top' className={classes.logo} />
+          </Fade>
+        </Grid>
+        <Fade bottom>
+          <img src={bottom} className={classes.bottomImg} alt='bottom' />
+        </Fade>
+        <Grid container className={classes.container}>
+          <article>
+            <Fade left delay={1500}>
+              <img src={signUpImg} className={classes.img} alt='' />
+            </Fade>
+          </article>
+          <article>
+            <Fade right delay={1500}>
               <Paper className={classes.paper} elevation={8}>
                 <Grid>
                   <Typography
-                      variant={`${mobile ? 'h5' : 'h4'}`}
-                      style={{
-                        margin: '0 auto',
-                        display: 'flex',
-                        justifyContent: 'center'
-                      }}
+                    variant={`${mobile ? 'h5' : 'h4'}`}
+                    style={{
+                      margin: '0 auto',
+                      display: 'flex',
+                      justifyContent: 'center'
+                    }}
                   >
                     Welcome to{' '}
                     {!mobile && (
-                        <span
-                            className={classes.primary}
-                            style={{
-                              marginLeft: '1rem'
-                            }}
-                        >
-                    STOCKPILOT
-                  </span>
+                      <span
+                        className={classes.primary}
+                        style={{
+                          marginLeft: '1rem'
+                        }}
+                      >
+                        STOCKPILOT
+                      </span>
                     )}
                   </Typography>
                   {mobile && (
-                      <Grid component={Link} to='/'>
-                        <img
-                            src={logo}
-                            component={Link}
-                            to='/'
-                            alt='top'
-                            className={classes.logoCard}
-                        />
-                      </Grid>
+                    <Grid component={Link} to='/'>
+                      <img
+                        src={logo}
+                        component={Link}
+                        to='/'
+                        alt='top'
+                        className={classes.logoCard}
+                      />
+                    </Grid>
                   )}
                 </Grid>
                 <Grid container className={classes.linksContainer}>
                   <Grid
-                      item
-                      sm={12}
-                      md={6}
-                      style={{display: 'flex', justifyContent: 'center'}}
+                    item
+                    sm={12}
+                    md={6}
+                    style={{ display: 'flex', justifyContent: 'center' }}
                   >
                     <IconButton disableRipple>
-                      <img className={classes.google} src={google} alt=''/>
+                      <img className={classes.google} src={google} alt='' />
 
-                      <Typography style={{marginLeft: '1rem', color: '#222'}}>
+                      <Typography style={{ marginLeft: '1rem', color: '#222' }}>
                         Sign in with Google
                       </Typography>
                     </IconButton>
                   </Grid>
                   <Grid
-                      item
-                      sm={12}
-                      md={6}
-                      style={{display: 'flex', justifyContent: 'center'}}
+                    item
+                    sm={12}
+                    md={6}
+                    style={{ display: 'flex', justifyContent: 'center' }}
                   >
                     <IconButton disableRipple>
-                      <img className={classes.facebook} src={facebook} alt=''/>
+                      <img className={classes.facebook} src={facebook} alt='' />
 
-                      <Typography style={{marginLeft: '1rem', color: '#222'}}>
+                      <Typography style={{ marginLeft: '1rem', color: '#222' }}>
                         Sign in with facebook
                       </Typography>
                     </IconButton>
                   </Grid>
                 </Grid>
                 <form onSubmit={handleSubmit}>
-                  <Grid style={{marginTop: '1rem'}}>
+                  <Grid style={{ marginTop: '1rem' }}>
                     <Controls.Input
-                        fullWidth
-                        label='First Name'
-                        name='firstName'
-                        value={values.firstName}
-                        onChange={handleInputChange}
-                        error={errors.firstName}
+                      fullWidth
+                      label='First Name'
+                      name='firstName'
+                      value={values.firstName}
+                      onChange={handleInputChange}
+                      error={errors.firstName}
                     />
                   </Grid>
-                  <Grid style={{marginTop: '1rem'}}>
+                  <Grid style={{ marginTop: '1rem' }}>
                     <Controls.Input
-                        fullWidth
-                        label='Last Name'
-                        name='lastName'
-                        value={values.lastName}
-                        onChange={handleInputChange}
-                        error={errors.lastName}
+                      fullWidth
+                      label='Last Name'
+                      name='lastName'
+                      value={values.lastName}
+                      onChange={handleInputChange}
+                      error={errors.lastName}
                     />
                   </Grid>
-                  <Grid style={{marginTop: '1rem'}}>
+                  <Grid style={{ marginTop: '1rem' }}>
                     <Controls.Input
-                        fullWidth
-                        label='Email'
-                        name='email'
-                        value={values.email}
-                        onChange={handleInputChange}
-                        error={errors.email}
+                      fullWidth
+                      label='Email'
+                      name='email'
+                      value={values.email}
+                      onChange={handleInputChange}
+                      error={errors.email}
                     />
                   </Grid>
-                  <Grid style={{marginTop: '1rem'}}>
+                  <Grid style={{ marginTop: '1rem' }}>
                     <Controls.Input
-                        fullWidth
-                        placeholder='Password should be min.8 characters and numbers '
-                        label='Password'
-                        name='password'
-                        type='password'
-                        value={values.password}
-                        onChange={handleInputChange}
-                        error={errors.password}
+                      fullWidth
+                      placeholder='Password should be min.8 characters and numbers '
+                      label='Password'
+                      name='password'
+                      type='password'
+                      value={values.password}
+                      onChange={handleInputChange}
+                      error={errors.password}
                     />
                   </Grid>
                   <Button
-                      className={classes.btn}
-                      variant='contained'
-                      color='secondary'
-                      type='submit'
-                      fullWidth
+                    className={classes.btn}
+                    variant='contained'
+                    color='secondary'
+                    type='submit'
+                    fullWidth
                   >
-                    {isLoading ? <CircularProgress color="inherit" size="1.6rem"/> :  <Typography >
-                      Sign Up
-                    </Typography> }
+                    {isLoading ? (
+                      <CircularProgress color='inherit' size='1.6rem' />
+                    ) : (
+                      <Typography>Sign Up</Typography>
+                    )}
                   </Button>
                 </form>
                 <Typography className={classes.bottom}>
                   Already have an account?{' '}
                   <Button
-                      component={Link}
-                      to='/sign_in'
-                      variant='text'
-                      className={classes.primary}
+                    component={Link}
+                    to='/sign_in'
+                    variant='text'
+                    className={classes.primary}
                   >
                     Log in
                   </Button>
                 </Typography>
                 {showAlert()}
               </Paper>
-
-            </article>
-          </Grid>
-        </div>
+            </Fade>
+          </article>
+        </Grid>
+      </div>
     )
   }
 }
