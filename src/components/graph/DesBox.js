@@ -144,7 +144,7 @@ const DesBox = ({ type }) => {
                 variant='contained'
                 // color='primary'
               >
-                {isWatchlistLoading ? <CircularProgress color="success" size="1.6rem"/> :
+                {isWatchlistLoading ? <CircularProgress color="inherit" size="1.6rem"/> :
                     added.includes(market.toUpperCase()) ? 'Added' : 'Add to Watch List'
                 }
               </Button>
