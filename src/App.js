@@ -24,6 +24,7 @@ import DropdownSelect from './components/chartDropdown/DropdownSelect'
 import DropDownSelectExt from './components/chartDropdown/DropDownSelectExt'
 import SelectMarket from './components/chartDropdown/SelectMarket'
 import Test from './components/Test'
+import Loading1 from './components/Loading/Loading1'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -57,7 +58,7 @@ function App () {
               <WatchList />
             </Route>
             <Route exact path='/test'>
-              <Test />
+              <Loading1 />
             </Route>
             <Route exact path='/analyze/:type'>
               <SingleMarket />
