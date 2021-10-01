@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   AppBar,
   Button,
@@ -10,7 +10,11 @@ import {
   Menu,
   MenuItem,
   IconButton,
-  useMediaQuery
+  useMediaQuery,
+  Paper,
+  TableBody,
+  TableRow,
+  TableCell
 } from '@material-ui/core'
 import { Redirect, useHistory, withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
@@ -27,6 +31,11 @@ import { useTheme } from '@material-ui/styles'
 import MobDrawer from './MobDrawer'
 import { useDispatch } from 'react-redux'
 import { logOut } from '../../redux/ducks/auth'
+import Popup from '../Popup'
+import useTable from '../hooks/useTable'
+import notifications from './../../utils/data'
+import Controls from '../controls/Controls'
+import CloseIcon from '@material-ui/icons/Close'
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -107,6 +116,16 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
+const records = notifications
+const headCells = [
+  //   { id: 'no', label: 'No', disableSorting: true },
+  { id: 'symbol', label: 'Symbol' },
+  { id: 'type', label: 'Message', disableSorting: true },
+  { id: 'open', label: 'Open Price' },
+  { id: 'peak', label: 'Current Peak' },
+  { id: 'actions', label: 'Actions', disableSorting: true }
+]
+
 const NavBar = () => {
   const [open, setOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
@@ -117,8 +136,20 @@ const NavBar = () => {
   // console.log(mobile)
   const dispatch = useDispatch()
   const { isLoggedIn } = useSelector(state => state.auth)
+  const [openPopup, setOpenPopup] = useState(false)
+
+  const [filterFn, setFilterFn] = useState({
+    fn: items => {
+      return items
+    }
+  })
+  const { TblContainer, TblHead } = useTable(records, headCells, filterFn)
 
   const history = useHistory()
+
+  const handleDelete = () => {
+    console.log('deleled')
+  }
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget)
@@ -133,6 +164,8 @@ const NavBar = () => {
     dispatch(logOut())
     history.push('/')
   }
+
+  const { brands } = useSelector(state => state.watchlist)
 
   return (
     <div>
@@ -199,7 +232,10 @@ const NavBar = () => {
                 >
                   Watch List
                 </Button>
-                <IconButton style={{ marginRight: '10px' }}>
+                <IconButton
+                  onClick={() => setOpenPopup(true)}
+                  style={{ marginRight: '10px' }}
+                >
                   <Badge badgeContent={4} color='secondary'>
                     <MailIcon />
                   </Badge>
@@ -256,6 +292,41 @@ const NavBar = () => {
           </Grid>
         </Toolbar>
       </AppBar>
+      <Popup
+        title='Notifications'
+        openPopup={openPopup}
+        setOpenPopup={setOpenPopup}
+      >
+        <Paper>
+          <TblContainer>
+            <TblHead />
+            {/* <TableRow>
+              <TableCell>Crypto</TableCell>
+              <TableCell>Crypto</TableCell>
+              <TableCell>Crypto</TableCell>
+              <TableCell>Crypto</TableCell>
+            </TableRow> */}
+            <TableBody>
+              {records.map((item, index) => (
+                <TableRow key={index}>
+                  <TableCell>{item.symbol}</TableCell>
+                  <TableCell>{item.type}</TableCell>
+                  <TableCell>{item.openPrice}</TableCell>
+                  <TableCell>{item.currentPeakPrice}</TableCell>
+                  <TableCell>
+                    <Controls.ActionButton
+                      color='secondary'
+                      onClick={() => handleDelete(item.symbol)}
+                    >
+                      <CloseIcon fontSize='small' />
+                    </Controls.ActionButton>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </TblContainer>
+        </Paper>
+      </Popup>
     </div>
   )
 }

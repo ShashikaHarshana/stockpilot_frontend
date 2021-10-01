@@ -7,6 +7,8 @@ import {
   Typography,
   Paper
 } from '@material-ui/core'
+import { Collapse } from '@material-ui/core'
+
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt'
 import zIndex from '@material-ui/core/styles/zIndex'
 import img from '../svgs/home/card1.svg'
@@ -62,7 +64,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const ImageCard = ({ mobile }) => {
+const ImageCard = ({ mobile, checked }) => {
   const { isLoggedIn } = useSelector(state => state.auth)
 
   const classes = useStyles()

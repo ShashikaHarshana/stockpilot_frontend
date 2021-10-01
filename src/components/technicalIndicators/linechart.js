@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { createChart, CrosshairMode } from 'lightweight-charts'
 import { Typography } from '@material-ui/core'
 import { useSelector, useDispatch } from 'react-redux'
-import ChartLoader from "../Loading/ChartLoader";
+import ChartLoader from '../Loading/ChartLoader'
 
 function LineChart ({ type, mobile }) {
   const ref = React.useRef()
@@ -23,7 +23,6 @@ function LineChart ({ type, mobile }) {
 
   useEffect(() => {
     const chart = createChart(ref.current, {
-
       width: 0,
       height: 0,
       // layout: {
@@ -96,8 +95,10 @@ function LineChart ({ type, mobile }) {
 
   return (
     <>
-      <Typography variant='h6'>{type.toUpperCase()}</Typography>
-      {loading ?  <ChartLoader /> : null}
+      <Typography style={{ margin: '0 auto' }} variant='h6'>
+        {type.toUpperCase()}
+      </Typography>
+      {loading ? <ChartLoader /> : null}
       <div ref={ref} />
     </>
   )
