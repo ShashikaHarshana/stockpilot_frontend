@@ -1,21 +1,16 @@
-import {
-  CircularProgress,
-  Paper,
-  TableBody,
-  TableCell,
-  TableRow
-} from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
+import { Paper, TableBody, TableCell, TableRow } from '@material-ui/core'
 import useTable from '../components/hooks/useTable'
 import NavBar from '../components/NavBar'
 import Controls from '../components/controls/Controls'
-import CloseIcon from '@material-ui/icons/Close'
+
 import { makeStyles } from '@material-ui/core'
 import { useDispatch, useSelector } from 'react-redux'
 import { removeFromWatchlist, viewWatchlist } from '../redux/ducks/watchlist'
 import Loading1 from '../components/Loading/Loading1'
 import FullPageLoader from '../components/Loading/FullPageLoader'
 import Fade from 'react-reveal/Fade'
+import CloseIcon from '@material-ui/icons/Close'
 
 const headCells = [
   //   { id: 'no', label: 'No', disableSorting: true },
@@ -134,16 +129,6 @@ const WatchList = () => {
                     <Controls.ActionButton
                       color='secondary'
                       onClick={() => handleDelete(item.symbol)}
-                      // onClick={() => {
-                      //   setConfirmDialog({
-                      //     isOpen: true,
-                      //     title: 'Are you sure to delete this record?',
-                      //     subTitle: "You can't undo this operation",
-                      //     onConfirm: () => {
-                      //       onDelete(item.id)
-                      //     }
-                      //   })
-                      // }}
                     >
                       <CloseIcon fontSize='small' />
                     </Controls.ActionButton>

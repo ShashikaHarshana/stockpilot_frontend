@@ -25,7 +25,6 @@ import { authUser } from '../redux/ducks/auth'
 import logo from '../svgs/signUp/logo.svg'
 import { Alert } from '@material-ui/lab'
 import Fade from 'react-reveal/Fade'
-import { viewWatchlist } from '../redux/ducks/watchlist'
 
 const initialFValues = {
   email: '',
@@ -135,8 +134,6 @@ const SignIn = () => {
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
   const message = useSelector(state => state.auth.message)
   const isLoading = useSelector(state => state.auth.isLoading)
-  const { brands } = useSelector(state => state.watchlist)
-  const { token } = useSelector(state => state.auth)
 
   const handleChange = e => {
     const { name, value } = e.target
@@ -165,10 +162,6 @@ const SignIn = () => {
   }
 
   if (isLoggedIn) {
-    // if (brands === null) {
-    //   dispatch(viewWatchlist(token))
-    // }
-
     return <Redirect to='/' />
   } else {
     return (

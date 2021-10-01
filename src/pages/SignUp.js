@@ -8,13 +8,11 @@ import {
   useMediaQuery,
   useTheme
 } from '@material-ui/core'
-import GitHubIcon from '@material-ui/icons/GitHub'
+
 import signUpImg from '../svgs/signUp/signUpImg.svg'
 import Controls from '../components/controls/Controls'
-import FacebookIcon from '@material-ui/icons/Facebook'
 import { Button } from '@material-ui/core'
 import { Link, Redirect } from 'react-router-dom'
-import Form from '../components/Form'
 import { makeStyles } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 import { useForm } from '../components/hooks/useForm.js'
@@ -25,7 +23,6 @@ import facebook from '../svgs/signUp/facebook.svg'
 import google from '../svgs/signUp/google.svg'
 import { useDispatch } from 'react-redux'
 import { userRegister } from '../redux/ducks/auth'
-import * as PropTypes from 'prop-types'
 import { Alert } from '@material-ui/lab'
 import Fade from 'react-reveal/Fade'
 
@@ -47,7 +44,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-between',
     [theme.breakpoints.down('sm')]: {
       flexDirection: 'column',
-      // minHeight: '1vh',
+
       justifyContent: 'center'
     }
   },
@@ -55,8 +52,6 @@ const useStyles = makeStyles(theme => ({
     height: 'calc(442px*0.8)',
     width: 'calc(480px*0.8)',
     [theme.breakpoints.down('sm')]: {
-      // width: 260,
-      // height: 239
       display: 'none'
     }
   },
@@ -149,8 +144,6 @@ const useStyles = makeStyles(theme => ({
     }
   }
 }))
-
-// const url = '#'
 
 const SignUp = () => {
   const [user, setUser] = useState(initialFValues)

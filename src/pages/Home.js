@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import topRightImg from '../svgs/home/topRight.svg'
 import topImg from '../svgs/home/topImg.svg'
 import { Button, Grid, Typography } from '@material-ui/core'
@@ -18,18 +18,12 @@ import { useSelector } from 'react-redux'
 import Footer from '../components/Footer'
 import Zoom from 'react-reveal/Zoom'
 import Fade from 'react-reveal/Fade'
-import Bounce from 'react-reveal/Bounce'
-import Flip from 'react-reveal/Flip'
-import Roll from 'react-reveal/Roll'
-import Tada from 'react-reveal/Tada'
 import Pulse from 'react-reveal/Pulse'
-import Rotate from 'react-reveal/Rotate'
-import Slide from 'react-reveal/Slide'
 import Jump from 'react-reveal/Jump'
 import HeadShake from 'react-reveal/HeadShake'
 import LightSpeed from 'react-reveal/LightSpeed'
-import RubberBand from 'react-reveal/RubberBand'
 
+//classes for css
 const useStyles = makeStyles(theme => ({
   topcornerImg: {
     position: 'absolute',
@@ -203,7 +197,7 @@ const Home = () => {
       <Fade fraction={0.6} left duration={2000}>
         <img src={botmLeft} className={classes.bottomLeft} alt='' />
       </Fade>
-      <section className={classes.section1}>
+      <section className={classes.section1} id='topSection'>
         <article className={classes.articleTypo}>
           <Typography
             variant={`${mobile ? 'h4' : 'h2'}`}
@@ -241,10 +235,12 @@ const Home = () => {
           </Fade>
         </article>
       </section>
-      <section className={classes.section}>
-        <ImageCard0 mobile={mobile} />
-        <ImageCard1 mobile={mobile} />
-      </section>
+      <Fade left delay={6000} fraction={1}>
+        <section className={classes.section}>
+          <ImageCard0 mobile={mobile} />
+          <ImageCard1 mobile={mobile} />
+        </section>
+      </Fade>
       <section className={classes.section}>
         <article>
           <Zoom cascade top duration={1500}>
