@@ -152,7 +152,6 @@ const WatchList = () => {
               ))}
             </TableBody>
           </TblContainer>
-          <TblPagination />
         </Paper>
       )}
     </div>

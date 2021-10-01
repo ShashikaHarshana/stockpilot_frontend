@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { createChart, CrosshairMode } from 'lightweight-charts'
 import { Typography } from '@material-ui/core'
 import { useSelector } from 'react-redux'
-import ChartLoader from "../Loading/ChartLoader";
+import ChartLoader from '../Loading/ChartLoader'
 
 function MACDChart ({ type, mobile }) {
   const ref = React.useRef()
@@ -40,7 +40,6 @@ function MACDChart ({ type, mobile }) {
     const macdHistSeries = chart.addHistogramSeries({
       base: 0
     })
-
 
     fetch(url)
       .then(res => res.json())
@@ -103,8 +102,10 @@ function MACDChart ({ type, mobile }) {
 
   return (
     <>
-      <Typography variant='h6'>MACD</Typography>
-      {loading ?  <ChartLoader /> : null}
+      <Typography style={{ margin: '0 auto' }} variant='h6'>
+        MACD
+      </Typography>
+      {loading ? <ChartLoader /> : null}
       <div ref={ref} />
     </>
   )

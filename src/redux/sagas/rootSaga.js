@@ -1,8 +1,9 @@
 import { watchAuth } from './authSaga'
 import { watchWatchlist } from './watchlistSaga'
 import { all } from 'redux-saga/effects'
-import {watchInit} from "./chartSaga";
+import { watchInit } from './chartSaga'
+import { watchNotifications } from './notificationSaga'
 
 export function * watcherSaga () {
-  yield all([watchAuth(), watchWatchlist(), watchInit()])
+  yield all([watchAuth(), watchWatchlist(), watchInit(), watchNotifications()])
 }

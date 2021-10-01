@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   AppBar,
   Button,
@@ -27,6 +27,7 @@ import { useTheme } from '@material-ui/styles'
 import MobDrawer from './MobDrawer'
 import { useDispatch } from 'react-redux'
 import { logOut } from '../../redux/ducks/auth'
+import Popup from '../Popup'
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -117,6 +118,7 @@ const NavBar = () => {
   // console.log(mobile)
   const dispatch = useDispatch()
   const { isLoggedIn } = useSelector(state => state.auth)
+  const [openPopup, setOpenPopup] = useState(false)
 
   const history = useHistory()
 
@@ -133,6 +135,8 @@ const NavBar = () => {
     dispatch(logOut())
     history.push('/')
   }
+
+  const { brands } = useSelector(state => state.watchlist)
 
   return (
     <div>
@@ -199,7 +203,10 @@ const NavBar = () => {
                 >
                   Watch List
                 </Button>
-                <IconButton style={{ marginRight: '10px' }}>
+                <IconButton
+                  onClick={() => setOpenPopup(true)}
+                  style={{ marginRight: '10px' }}
+                >
                   <Badge badgeContent={4} color='secondary'>
                     <MailIcon />
                   </Badge>
@@ -256,6 +263,13 @@ const NavBar = () => {
           </Grid>
         </Toolbar>
       </AppBar>
+      <Popup
+        title='Notifications'
+        openPopup={openPopup}
+        setOpenPopup={setOpenPopup}
+      >
+        <h1>no new Notifications</h1>
+      </Popup>
     </div>
   )
 }
