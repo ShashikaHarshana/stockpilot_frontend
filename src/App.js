@@ -47,6 +47,7 @@ function App () {
   useEffect(() => {
     dispatch(initializeDataRequest())
   }, [])
+  //routing
 
   return (
     <Router>
