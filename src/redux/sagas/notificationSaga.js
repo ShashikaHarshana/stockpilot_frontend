@@ -5,14 +5,14 @@ import {
   getNotificationsSuccess,
   GET_NOTIFICATION_REQUEST
 } from '../ducks/notifications'
-
+import * as service from './serviceSaga'
 // saga workers
 
 function * getNotifications ({ payload }) {
   try {
     const response = yield call(service.notifications, payload)
     let data = response.data
-    if (response.data.erro === false) {
+    if (response.data.error === false) {
       yield put(getNotificationsSuccess(data))
     } else {
       yield put(getNotificationsFail(data.message))
