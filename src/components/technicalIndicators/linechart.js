@@ -95,9 +95,19 @@ function LineChart ({ type, mobile }) {
 
   return (
     <>
-      <Typography style={{ margin: '0 auto' }} variant='h6'>
-        {type.toUpperCase()}
-      </Typography>
+      <div>
+        <Typography
+          style={{
+            margin: '0 auto',
+
+            width: 'fit-content'
+          }}
+          variant='h6'
+        >
+          {type.toUpperCase()}
+        </Typography>
+      </div>
+
       {loading ? <ChartLoader /> : null}
       <div ref={ref} />
     </>
