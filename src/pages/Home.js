@@ -214,17 +214,15 @@ const Home = () => {
             </Fade>
           </Typography>
           <Fade left delay={4000}>
-            <Jump delay={4500}>
-              <Button
-                className={classes.signupBtn}
-                component={Link}
-                to={`${isLoggedIn ? '/analyze/stock' : '/sign_up'}`}
-                variant='contained'
-                color='secondary'
-              >
-                Get Started
-              </Button>
-            </Jump>
+            <Button
+              className={classes.signupBtn}
+              component={Link}
+              to={`${isLoggedIn ? '/analyze/stock' : '/sign_up'}`}
+              variant='contained'
+              color='secondary'
+            >
+              Get Started
+            </Button>
           </Fade>
         </article>
         <article className={classes.article}>
@@ -274,7 +272,7 @@ const Home = () => {
         </article>
       </section>
       <section>
-        <LightSpeed right fraction={0.5} delay={1500} duration={2000}>
+        <Fade right fraction={0.5} delay={1500} duration={2000}>
           <article className={classes.bottom}>
             <Typography variant={`${mobile ? 'h5' : 'h4'}`}>
               Get Notified <span className={classes.secondary}>24/7 </span>{' '}
@@ -283,19 +281,17 @@ const Home = () => {
               The one stop website for all your stock and crypto analysis needs
               without any commission or deposits.
             </Typography>
-            <Jump delay={1500}>
-              <Button
-                className={classes.signupBtnB}
-                component={Link}
-                to={`${isLoggedIn ? '/analyze/crypto' : '/sign_up'}`}
-                variant='contained'
-                color='secondary'
-              >
-                get started
-              </Button>
-            </Jump>
+            <Button
+              className={classes.signupBtnB}
+              component={Link}
+              to={`${isLoggedIn ? '/analyze/crypto' : '/sign_up'}`}
+              variant='contained'
+              color='secondary'
+            >
+              get started
+            </Button>
           </article>
-        </LightSpeed>
+        </Fade>
       </section>
 
       <Grid
