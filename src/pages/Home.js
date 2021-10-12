@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react'
 import topRightImg from '../svgs/home/topRight.svg'
 import topImg from '../svgs/home/topImg.svg'
 import { Button, Grid, Typography } from '@material-ui/core'
-import ImageCard0 from '../components/ImageCard0'
-import ImageCard1 from '../components/ImageCard1'
+import ImageCard from '../components/ImageCard/ImageCard'
 import cardsLeft from '../svgs/home/cardsLeft.svg'
 import cardsRight from '../svgs/home/cardsRight.svg'
 import middleImg from '../svgs/home/middleImg.svg'
+import img1 from '../svgs/home/card1.svg'
+import img2 from '../svgs/home/card2.svg'
+
 import botmLeft from '../svgs/home/botmLeft.svg'
 import elipse from '../svgs/home/elipse.svg'
 import { Link } from 'react-router-dom'
@@ -15,11 +17,10 @@ import { useTheme } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import NavBar from '../components/NavBar'
 import { useSelector } from 'react-redux'
-import Footer from '../components/Footer'
+import Footer from '../components/Footer/Footer'
 import Zoom from 'react-reveal/Zoom'
 import Fade from 'react-reveal/Fade'
 import Pulse from 'react-reveal/Pulse'
-
 import HeadShake from 'react-reveal/HeadShake'
 
 //classes for css
@@ -145,12 +146,19 @@ const useStyles = makeStyles(theme => ({
       top: '115rem'
     }
   },
-  title: { fontWeight: 300, [theme.breakpoints.down('sm')]: { width: '80%' } },
+  title: {
+    fontWeight: 300,
+    fontSize: '3rem',
+    letterSpacing: '1.75px',
+    [theme.breakpoints.down('sm')]: { width: '80%' }
+  },
   subTitle: {
+    lineHeight: '1.5rem',
+    letterSpacing: '1px',
+    color: '',
     fontWeight: 400,
-    marginTop: 'calc(34px*0.8)',
+    marginTop: 'calc(25px*0.8)',
     width: '82%',
-    lineHeight: 1.2,
     [theme.breakpoints.down('sm')]: { fontSize: '0.8rem' }
   },
   signupBtnB: {
@@ -199,7 +207,7 @@ const Home = () => {
       <section className={classes.section1} id='topSection'>
         <article className={classes.articleTypo}>
           <Typography
-            variant={`${mobile ? 'h4' : 'h2'}`}
+            variant={`${mobile ? 'h5' : 'h2'}`}
             className={classes.title}
           >
             <Zoom right big cascade delay={500} duration={2000}>
@@ -234,8 +242,26 @@ const Home = () => {
       </section>
       <Fade left delay={6000} fraction={1}>
         <section className={classes.section}>
-          <ImageCard0 mobile={mobile} />
-          <ImageCard1 mobile={mobile} />
+          <ImageCard
+            mobile={mobile}
+            img={img1}
+            width={492}
+            height={324}
+            mWidth={250}
+            mHeight={164}
+            marginTop={74}
+            type={'Crypto'}
+          />
+          <ImageCard
+            mobile={mobile}
+            img={img2}
+            width={405}
+            height={355}
+            mWidth={217}
+            mHeight={190}
+            marginTop={44}
+            type={'Stock'}
+          />
         </section>
       </Fade>
       <section className={classes.section}>

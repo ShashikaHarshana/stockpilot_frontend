@@ -1,28 +1,19 @@
 import * as React from 'react'
-import {
-  Card,
-  CardContent,
-  CardMedia,
-  Button,
-  Typography,
-  Paper
-} from '@material-ui/core'
-import { Collapse } from '@material-ui/core'
-
+import { Button, Typography, Paper } from '@material-ui/core'
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt'
-import zIndex from '@material-ui/core/styles/zIndex'
-import img from '../svgs/home/card1.svg'
+
 import { makeStyles } from '@material-ui/core'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 const subTitle =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi augue nunc, tempor at congue a, efficitur at sapien. Sed efficitur molestie ex, nec sagittis ipsum.'
+
 const useStyles = makeStyles(theme => ({
   card: {
     width: 480,
     height: 560,
-    marginRight: 'calc(1rem*0.8)',
+    marginRight: 'calc(4rem*0.8)',
     zIndex: '1',
     borderRadius: '10px',
     paddingLeft: 'calc(48px*0.8)',
@@ -35,24 +26,23 @@ const useStyles = makeStyles(theme => ({
     }
   },
   cardMedia: {
-    width: 'calc(493px*0.8)',
-    height: 'calc(324px*0.8)',
-    marginTop: 'calc(74px*0.8)',
+    width: props => `calc(${props.width}px*0.8)`,
+    height: props => `calc(${props.height}px*0.8)`,
+    marginTop: props => `calc(${props.marginTop}px*0.8)`,
     marginBottom: 'calc(31px*0.8)',
     [theme.breakpoints.down('sm')]: {
-      width: '250px',
-      height: '164px',
+      width: props => `calc(${props.mWidth}px*0.8)`,
+      height: props => `calc(${props.mHeight}px*0.8)`,
       marginTop: '35px'
     }
   },
   img: {
     objectFit: 'cover',
-
-    width: 'calc(492px*0.8)',
-    height: 'calc(324px*0.8)',
+    width: props => `calc(${props.width}px*0.8)`,
+    height: props => `calc(${props.height}px*0.8)`,
     [theme.breakpoints.down('sm')]: {
-      width: '250px',
-      height: '164px'
+      width: props => `calc(${props.mWidth}px*0.8)`,
+      height: props => `calc(${props.mHeight}px*0.8)`
     }
   },
   btn: {
@@ -64,10 +54,21 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const ImageCard = ({ mobile, checked }) => {
+const ImageCard = ({
+  mobile,
+  checked,
+  img,
+  height,
+  width,
+  mWidth,
+  mHeight,
+  marginTop,
+  type
+}) => {
   const { isLoggedIn } = useSelector(state => state.auth)
 
-  const classes = useStyles()
+  const classes = useStyles({ height, width, mWidth, mHeight, marginTop })
+  console.log(width)
 
   return (
     <Paper elevation={13} className={classes.card}>
@@ -78,9 +79,10 @@ const ImageCard = ({ mobile, checked }) => {
         <Typography
           gutterBottom
           variant={`${mobile ? 'h5' : 'h4'}`}
-          component='div'
+          // component='div'
         >
-          Crypto Currency
+          <span>{type}</span>{' '}
+          <span>{type === 'Crypto' ? 'Currency' : 'Market'}</span>
         </Typography>
         <Typography variant='body2' color='textSecondary'>
           {mobile ? ' ' : subTitle}
@@ -93,7 +95,7 @@ const ImageCard = ({ mobile, checked }) => {
           component={Link}
           to={`${isLoggedIn ? '/analyze/crypto' : '/sign_up'}`}
         >
-          {`Analyze Crypto`}
+          {`Analyze ${type}`}
           <span style={{ marginTop: 'calc(0.75rem*0.8)' }}>
             <ArrowRightAltIcon fontSize='small' />
           </span>

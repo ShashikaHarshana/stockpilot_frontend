@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { createChart, CrosshairMode } from 'lightweight-charts'
-import getMAChart from '../../../stockpilot_frontend/src/components/technicalIndicators/maChartFunction'
-import getBBands from './technicalIndicators/bbands'
+import getMAChart from '../technicalIndicators/maChartFunction'
+import getBBands from '../technicalIndicators/bbands'
 import { useSelector } from 'react-redux'
-import ChartLoader from './Loading/ChartLoader'
+import ChartLoader from '../Loading/ChartLoader'
 
 function CryptoChart ({ mobile }) {
   const ref = React.useRef()

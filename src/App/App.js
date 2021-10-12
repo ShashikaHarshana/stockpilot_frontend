@@ -1,34 +1,18 @@
-import Home from './pages/Home'
-import { CssBaseline } from '@material-ui/core'
-
+import { useEffect } from 'react'
+import Home from '../pages/Home'
 import { ThemeProvider } from '@material-ui/core/styles'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import Profile from './pages/Profile'
-import SignIn from './pages/SignIn'
-import SignUp from './pages/SignUp'
-
-import ErrorPage from './pages/ErrorPage'
-import theme from './utils/theme'
-
-import { Button, Container } from '@material-ui/core'
-
-import { makeStyles } from '@material-ui/core'
-
-import MobDrawer from './components/NavBar/MobDrawer'
-import WatchList from './pages/WatchList'
-import SingleMarket from './components/SingleMaret'
-import Footer from './components/Footer'
-import CryptoChart from './components/CryptoChart'
-import DropdownSelect from './components/chartDropdown/DropdownSelect'
-import DropDownSelectExt from './components/chartDropdown/DropDownSelectExt'
-import SelectMarket from './components/chartDropdown/SelectMarket'
-import Test from './components/Test'
-import Loading1 from './components/Loading/Loading1'
+import Profile from '../pages/Profile'
+import SignIn from '../pages/SignIn'
+import SignUp from '../pages/SignUp'
+import ErrorPage from '../pages/ErrorPage'
+import theme from '../utils/theme'
+import { makeStyles, Container } from '@material-ui/core'
+import WatchList from '../pages/WatchList'
+import SingleMarket from '../components/SingleMarket/SingleMaret'
 import { useDispatch, useSelector } from 'react-redux'
-import { initializeDataRequest } from './redux/ducks/chart'
-import { useEffect } from 'react'
-import FullPageLoader from './components/Loading/FullPageLoader'
-import Fade from 'react-reveal/Fade'
+import { initializeDataRequest } from '../redux/ducks/chart'
+import FullPageLoader from '../components/Loading/FullPageLoader'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -69,7 +53,7 @@ function App () {
               <WatchList />
             </Route>
             <Route exact path='/analyze/:type'>
-              {isLoading ? <FullPageLoader /> : <SingleMarket />}
+              {isLoading ? <FullPageLoader /> : <ket />}
             </Route>
             <Route exact path='*'>
               <ErrorPage />
