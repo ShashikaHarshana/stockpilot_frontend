@@ -19,9 +19,8 @@ import Footer from '../components/Footer'
 import Zoom from 'react-reveal/Zoom'
 import Fade from 'react-reveal/Fade'
 import Pulse from 'react-reveal/Pulse'
-import Jump from 'react-reveal/Jump'
+
 import HeadShake from 'react-reveal/HeadShake'
-import LightSpeed from 'react-reveal/LightSpeed'
 
 //classes for css
 const useStyles = makeStyles(theme => ({
