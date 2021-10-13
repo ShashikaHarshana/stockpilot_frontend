@@ -53,7 +53,7 @@ function App () {
               <WatchList />
             </Route>
             <Route exact path='/analyze/:type'>
-              {isLoading ? <FullPageLoader /> : <ket />}
+              {isLoading ? <FullPageLoader /> : <SingleMarket />}
             </Route>
             <Route exact path='*'>
               <ErrorPage />
