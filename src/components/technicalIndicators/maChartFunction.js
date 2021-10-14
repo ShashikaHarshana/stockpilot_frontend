@@ -1,6 +1,8 @@
-let getMAChart = (type, lineSeries, market, marketType, timeInterval , setLoading ) => {
+import {TA_BASE_URL} from "../../utils/CONSTANTS";
+
+let getMAChart = (type, lineSeries, market, marketType, timeInterval) => {
     const url =
-    'http://127.0.0.1:5000/ta/' +
+        TA_BASE_URL +
     type +
     `/${marketType}/${
       marketType === 'crypto' ? market.toUpperCase() : market

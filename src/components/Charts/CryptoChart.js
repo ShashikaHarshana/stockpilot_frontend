@@ -4,6 +4,7 @@ import getMAChart from '../technicalIndicators/maChartFunction'
 import getBBands from '../technicalIndicators/bbands'
 import { useSelector } from 'react-redux'
 import ChartLoader from '../Loading/ChartLoader'
+import {HISTORICAL_URL, LISTEN_URL} from "../../utils/CONSTANTS";
 
 function CryptoChart ({ mobile }) {
   const ref = React.useRef()
@@ -16,7 +17,6 @@ function CryptoChart ({ mobile }) {
   } = useSelector(state => state.chart)
   const { ma, sma, ema, wma, bbands } = internalIndicators
   const [loading, setLoading] = useState(true)
-  const [initiated, setInitiated] = useState(false)
 
   useEffect(() => {
     if (cryptoList.includes(market.toUpperCase())) {
@@ -59,7 +59,7 @@ function CryptoChart ({ mobile }) {
         }
       })
 
-      let newCrypto = `http://127.0.0.1:5000/binance/historical/${market.toUpperCase()}/${timeInterval}`
+      let newCrypto = HISTORICAL_URL + `${market.toUpperCase()}/${timeInterval}`
 
       fetch(newCrypto)
         .then(res => res.json())
@@ -87,7 +87,7 @@ function CryptoChart ({ mobile }) {
         .catch()
 
       let eventSource = new EventSource(
-        `http://localhost:5000/binance/listen/${market.toUpperCase()}/${timeInterval}`
+          LISTEN_URL + `${market.toUpperCase()}/${timeInterval}`
       )
       eventSource.addEventListener(
         'message',

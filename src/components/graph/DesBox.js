@@ -6,14 +6,15 @@ import {
   Paper,
   Typography,
   Button,
-  useMediaQuery,
-  useTheme,
+  // useMediaQuery,
+  // useTheme,
   CircularProgress
 } from '@material-ui/core'
 import {useDispatch, useSelector} from 'react-redux'
 import { useHistory } from 'react-router'
 import SelectMarket from '../chartDropdown/SelectMarket'
 import {addToWatchlist} from "../../redux/ducks/watchlist";
+import {LISTEN_URL} from "../../utils/CONSTANTS";
 
 const useStyles = makeStyles(theme => ({
   box: {
@@ -81,8 +82,8 @@ const DesBox = ({ type }) => {
   const { isLoggedIn } = useSelector(state => state.auth)
   const history = useHistory()
   const { marketType } = useSelector(state => state.chart)
-  const theme = useTheme()
-  const mobile = useMediaQuery(theme.breakpoints.down('sm'))
+  // const theme = useTheme()
+  // const mobile = useMediaQuery(theme.breakpoints.down('sm'))
   const token = useSelector(state => state.auth.token)
   const dispatch = useDispatch()
   const market = useSelector(state => state.chart.market)
@@ -94,7 +95,7 @@ const DesBox = ({ type }) => {
   useEffect(() => {
     if (marketType === 'crypto') {
       if (market !== null) {
-        let eventSource = new EventSource('http://localhost:5000/binance/listen/' + market.toUpperCase() + '/1d')
+        let eventSource = new EventSource(LISTEN_URL + market.toUpperCase() + '/1d')
         eventSource.addEventListener(
             'message',
             function (e) {
