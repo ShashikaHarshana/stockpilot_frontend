@@ -1,8 +1,8 @@
 import React from 'react'
 import Lottie from 'react-lottie'
-import * as cryptoLoading from '../../loading files/crypto.json'
-import * as growthLoading from '../../loading files/growth.json'
-import * as loaderLoading from '../../loading files/loader.json'
+import * as cryptoLoading from '../../components/loading files/crypto.json'
+import * as growthLoading from '../../components/loading files/growth.json'
+import * as loaderLoading from '../../components/loading files/loader.json'
 
 const defaultOptions = {
   loop: true,
@@ -15,12 +15,12 @@ const defaultOptions = {
 
 const Loading1 = () => {
   return (
-      <Lottie
-        style={{margin: 0, padding: 0 }}
-        options={defaultOptions}
-        height={300}
-        width={300}
-      />
+    <Lottie
+      style={{ margin: 0, padding: 0 }}
+      options={defaultOptions}
+      height={300}
+      width={300}
+    />
   )
 }
 

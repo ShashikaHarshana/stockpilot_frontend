@@ -102,9 +102,18 @@ function MACDChart ({ type, mobile }) {
 
   return (
     <>
-      <Typography style={{ margin: '0 auto' }} variant='h6'>
-        MACD
-      </Typography>
+      <div>
+        <Typography
+          style={{
+            margin: '0 auto',
+
+            width: 'fit-content'
+          }}
+          variant='h6'
+        >
+          MACD
+        </Typography>
+      </div>
       {loading ? <ChartLoader /> : null}
       <div ref={ref} />
     </>

@@ -1,15 +1,14 @@
 import { Box, Grid, IconButton, Typography } from '@material-ui/core'
 import React from 'react'
 import { makeStyles } from '@material-ui/core'
-import logo from '../svgs/signUp/logo.svg'
+import logo from '../../svgs/signUp/logo.svg'
 import { Link } from 'react-router-dom'
-import pin from '../svgs/footer/pin.svg'
+import pin from '../../svgs/footer/pin.png'
 import FacebookIcon from '@material-ui/icons/Facebook'
 import TwitterIcon from '@material-ui/icons/Twitter'
 import LinkedInIcon from '@material-ui/icons/LinkedIn'
 import LocationOnIcon from '@material-ui/icons/LocationOn'
 import MailIcon from '@material-ui/icons/Mail'
-import Button from '@material-ui/core/Button'
 
 const useStyles = makeStyles(theme => ({
   gridItem: {

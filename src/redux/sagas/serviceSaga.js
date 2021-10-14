@@ -7,7 +7,7 @@ import {
   REGISTER_URL,
   REMOVE_FROM_WATCHLIST_URL,
   VIEW_WATCHLIST_URL
-} from '../../CONSTANTS'
+} from '../../utils/CONSTANTS'
 
 export function register (user) {
   return axios.post(REGISTER_URL, {
