@@ -1,9 +1,6 @@
-import { Button, Card, Grid, Typography } from '@material-ui/core'
+import { Grid, Typography } from '@material-ui/core'
 import React from 'react'
-import { Link } from 'react-router-dom'
-import DesBox from '../components/graph/DesBox'
 import DesCard from '../components/graph/DesCard'
-import TimeIndicatorBox from '../components/graph/TimeIndicatorBox'
 import NavBar from '../components/NavBar'
 import { makeStyles } from '@material-ui/core'
 

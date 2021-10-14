@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Grid, Button, useTheme, useMediaQuery } from '@material-ui/core'
+import React, { useEffect} from 'react'
+import { Grid, useTheme, useMediaQuery } from '@material-ui/core'
 import { useParams } from 'react-router'
 import DesBox from '../graph/DesBox'
 import TimeIndicatorBox from '../graph/TimeIndicatorBox'
@@ -32,7 +32,7 @@ const SingleMarket = () => {
   const theme = useTheme()
   const mobile = useMediaQuery(theme.breakpoints.down('sm'))
 
-  const { externalIndicators, stockLoading } = useSelector(state => state.chart)
+  const { externalIndicators} = useSelector(state => state.chart)
   const { macd, obv, roc, rsi, stoch } = externalIndicators
 
   useEffect(() => {

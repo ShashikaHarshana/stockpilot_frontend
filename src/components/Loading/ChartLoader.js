@@ -1,4 +1,3 @@
-import Lottie from "react-lottie";
 import React from "react";
 import Loading1 from "./Loading1";
 

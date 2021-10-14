@@ -146,7 +146,6 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const SignUp = () => {
-  const [user, setUser] = useState(initialFValues)
   const classes = useStyles()
   const theme = useTheme()
   const mobile = useMediaQuery(theme.breakpoints.down('sm'))
@@ -175,8 +174,8 @@ const SignUp = () => {
 
     setErrors({ ...temp })
 
-    if (fieldValues == values) {
-      return Object.values(temp).every(item => item == '')
+    if (fieldValues === values) {
+      return Object.values(temp).every(item => item === '')
     }
   }
 

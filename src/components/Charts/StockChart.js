@@ -1,3 +1,5 @@
+// noinspection DuplicatedCode
+
 import React, { useEffect, useState } from 'react'
 import { createChart, CrosshairMode } from 'lightweight-charts'
 import getMAChart from '../technicalIndicators/maChartFunction'
