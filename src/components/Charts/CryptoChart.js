@@ -83,8 +83,8 @@ function CryptoChart ({ mobile }) {
             chart.resize(325, 150)
           } else {
             chart.resize(1067, 450)
-            setLoading(false)
           }
+          setLoading(false)
         })
         .catch()
 
