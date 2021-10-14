@@ -25,6 +25,7 @@ const headCells = [
 
 const WatchList = () => {
   const dispatch = useDispatch()
+  const [eventSources, setEventSources] = useState([])
   const [records, setRecords] = useState([])
   const [records1, setRecords1] = useState(new Map())
   const [highVal, setHighVal] = useState(0)
@@ -63,12 +64,20 @@ const WatchList = () => {
               },
               false
           )
+
+          let tempEventSources = eventSources
+          tempEventSources.push(eventSource)
+          setEventSources(tempEventSources)
         }
       }
     }
-    return function cleanup () {
-      if (eventSource !== null) {
-        eventSource.close()
+    return () => {
+      if (eventSources.length !== 0) {
+        console.log(eventSources)
+        for (let e in eventSources) {
+          eventSources[e].close()
+        }
+        setEventSources([])
       }
     }
   }, [brands])
