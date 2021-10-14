@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
 //   'HD'
 // ]
 
-const cryptoMarkets = ['BNBUSDT', 'BNBBTC', 'LTCBTC', 'ETHUSDT', 'BTCUSDT', 'SOLUSDT']
+// const cryptoMarkets = ['BNBUSDT', 'BNBBTC', 'LTCBTC', 'ETHUSDT', 'BTCUSDT', 'SOLUSDT']
 
 const SelectMarket = ({ type }) => {
   const classes = useStyles()

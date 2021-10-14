@@ -1,15 +1,15 @@
+// noinspection DuplicatedCode
+
 import React, { useEffect, useState } from 'react'
 import { createChart, CrosshairMode } from 'lightweight-charts'
 import getMAChart from '../technicalIndicators/maChartFunction'
 import getBBands from '../technicalIndicators/bbands'
 import { useSelector } from 'react-redux'
-import { useDispatch } from 'react-redux'
-import { setStockLoading } from '../../redux/ducks/chart'
 import ChartLoader from '../Loading/ChartLoader'
+import {BASE_URL} from "../../utils/CONSTANTS";
 
 function StockChart ({ mobile }) {
   const ref = React.useRef()
-  const dispatch = useDispatch()
   const [loading, setLoading] = useState(true)
   const {
     market,
@@ -67,7 +67,7 @@ function StockChart ({ mobile }) {
       })
 
       fetch(
-        `http://127.0.0.1:5000/${marketType}/historical/${market}/${timeInterval}`
+        BASE_URL+ `${marketType}/historical/${market}/${timeInterval}`
       )
         .then(res => res.json())
         .then(data => {

@@ -3,9 +3,7 @@ import {
   AppBar,
   Button,
   Grid,
-  Tabs,
   Toolbar,
-  Tab,
   Avatar,
   Menu,
   MenuItem,
@@ -190,7 +188,7 @@ const NavBar = () => {
               variant='text'
               label='Stock'
               component={Link}
-              to={`/analyze/${'stock'}`}
+              to={`/analyze/stock`}
               className={classes.tabBtn}
             >
               Stock
@@ -199,7 +197,7 @@ const NavBar = () => {
               variant='text'
               label='Cripto'
               component={Link}
-              to={`/analyze/${'crypto'}`}
+              to={`/analyze/crypto`}
               className={classes.tabBtn}
             >
               crypto

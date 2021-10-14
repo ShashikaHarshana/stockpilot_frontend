@@ -9,7 +9,6 @@ import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 
 import Checkbox from '@material-ui/core/Checkbox'
-import { IconButton } from '@material-ui/core'
 
 import indicatorsIcon from '../../svgs/chart/indicators.svg'
 import { useDispatch } from 'react-redux'

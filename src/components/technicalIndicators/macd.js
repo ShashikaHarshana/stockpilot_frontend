@@ -3,15 +3,16 @@ import { createChart, CrosshairMode } from 'lightweight-charts'
 import { Typography } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 import ChartLoader from '../Loading/ChartLoader'
+import {TA_BASE_URL} from "../../utils/CONSTANTS";
 
-function MACDChart ({ type, mobile }) {
+function MACDChart ({mobile }) {
   const ref = React.useRef()
 
   const { market, marketType, timeInterval } = useSelector(state => state.chart)
   const [loading, setLoading] = useState(true)
 
   const url =
-    'http://127.0.0.1:5000/ta/macd' +
+      TA_BASE_URL + 'macd' +
     `/${marketType}/${
       marketType === 'crypto' ? market.toUpperCase() : market
     }/${timeInterval}`
@@ -53,45 +54,47 @@ function MACDChart ({ type, mobile }) {
         let dataMacdHist = data['macdhist']
 
         for (let key in dataMacd) {
-          if (dataMacd.hasOwnProperty(key)) {
-            let object = {
-              time: key / 1000,
-              value: dataMacd[key]
-            }
-            tempMacd.push(object)
-          }
-          if (dataMacdSignal.hasOwnProperty(key)) {
-            let object = {
-              time: key / 1000,
-              value: dataMacdSignal[key]
-            }
-            tempMacdSignal.push(object)
-          }
-          if (dataMacdHist.hasOwnProperty(key)) {
-            let color
-            if (dataMacdHist[key] > 0) {
-              color = '#00733E'
-            } else {
-              color = '#BB2E2D'
-            }
+            if (dataMacd.hasOwnProperty(key)) {
+                if (dataMacd.hasOwnProperty(key)) {
+                    let object = {
+                        time: key / 1000,
+                        value: dataMacd[key]
+                    }
+                    tempMacd.push(object)
+                }
+                if (dataMacdSignal.hasOwnProperty(key)) {
+                    let object = {
+                        time: key / 1000,
+                        value: dataMacdSignal[key]
+                    }
+                    tempMacdSignal.push(object)
+                }
+                if (dataMacdHist.hasOwnProperty(key)) {
+                    let color
+                    if (dataMacdHist[key] > 0) {
+                        color = '#00733E'
+                    } else {
+                        color = '#BB2E2D'
+                    }
 
-            let object = {
-              time: key / 1000,
-              value: dataMacdHist[key],
-              color
+                    let object = {
+                        time: key / 1000,
+                        value: dataMacdHist[key],
+                        color
+                    }
+                    tempMacdHist.push(object)
+                }
             }
-            tempMacdHist.push(object)
-          }
+            macdSeries.setData(tempMacd)
+            macdSignalSeries.setData(tempMacdSignal)
+            macdHistSeries.setData(tempMacdHist)
+            if (mobile) {
+                chart.resize(325, 150)
+            } else {
+                chart.resize(1067, 200)
+            }
+            setLoading(false)
         }
-        macdSeries.setData(tempMacd)
-        macdSignalSeries.setData(tempMacdSignal)
-        macdHistSeries.setData(tempMacdHist)
-        if (mobile) {
-          chart.resize(325, 150)
-        } else {
-          chart.resize(1067, 200)
-        }
-        setLoading(false)
       })
       .catch()
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import topRightImg from '../svgs/home/topRight.svg'
 import topImg from '../svgs/home/topImg.svg'
 import { Button, Grid, Typography } from '@material-ui/core'
