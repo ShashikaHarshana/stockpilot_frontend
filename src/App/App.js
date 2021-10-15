@@ -13,6 +13,8 @@ import SingleMarket from '../components/SingleMarket/SingleMaret'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeDataRequest } from '../redux/ducks/chart'
 import FullPageLoader from '../components/Loading/FullPageLoader'
+import ProtectedRoute from '../components/ProtectedRotes/ProtectedRotes'
+import Test from '../components/Test'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -46,16 +48,15 @@ function App () {
             <Route exact path='/sign_in'>
               <SignIn />
             </Route>
-            <Route exact path='/profile'>
-              <Profile />
-            </Route>
-            <Route exact path='/watchList'>
-              <WatchList />
-            </Route>
+            <ProtectedRoute path='/profile' component={Profile} />
+            <ProtectedRoute path='/watchList' component={WatchList} />
             <Route exact path='/analyze/:type'>
               {isLoading ? <FullPageLoader /> : <SingleMarket />}
             </Route>
-            <Route exact path='*'>
+            <Route path='/'>
+              <Test />
+            </Route>
+            <Route path='*'>
               <ErrorPage />
             </Route>
           </Switch>

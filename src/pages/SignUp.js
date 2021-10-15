@@ -199,7 +199,6 @@ const SignUp = () => {
   const message = useSelector(state => state.auth.message)
 
   const showAlert = () => {
-    console.log(message)
     if (message != null) {
       if (message === 'Successfully Registered') {
         return <Alert severity='success'> {message} </Alert>
@@ -208,7 +207,7 @@ const SignUp = () => {
       }
     }
   }
-  console.log(isRegistered)
+
   if (isRegistered) {
     return <Redirect to='/sign_in' />
   } else {

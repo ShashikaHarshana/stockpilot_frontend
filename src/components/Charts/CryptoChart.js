@@ -64,7 +64,6 @@ function CryptoChart ({ mobile }) {
       fetch(newCrypto)
         .then(res => res.json())
         .then(data => {
-          // console.log(data)
           let tempCandlesticks = []
           data.forEach(row => {
             let object = {
@@ -146,10 +145,10 @@ function CryptoChart ({ mobile }) {
           timeInterval
         )
       }
-      console.log('Opened Stream ' + market.toUpperCase())
+      // console.log('Opened Stream ' + market.toUpperCase())
       return () => {
         chart.remove()
-        console.log('Closed Stream.')
+        // console.log('Closed Stream.')
         eventSource.close()
       }
     }

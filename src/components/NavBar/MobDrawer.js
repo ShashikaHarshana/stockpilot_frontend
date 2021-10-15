@@ -10,12 +10,9 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Bitcoin from '../../svgs/drawer/bitcoin.svg'
 import stock from '../../svgs/drawer/stock.svg'
 import home from '../../svgs/drawer/home.svg'
-
 import logout from '../../svgs/drawer/logout.svg'
-
 import { Link, useHistory } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-
 import profilePic from '../../svgs/profilePic.png'
 import { Avatar } from '@material-ui/core'
 import { useDispatch } from 'react-redux'
@@ -51,7 +48,7 @@ const MobDrawer = ({ openDrawer, setOpenDrawer }) => {
   }
   const handleClick = () => {
     dispatch(logOut())
-    history.push('/')
+    history.push('/sign_in')
   }
 
   return (

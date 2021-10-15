@@ -9,7 +9,6 @@ function LineChart ({ type, mobile }) {
   const dispatch = useDispatch()
 
   // const mobile = true
-  console.log(mobile)
 
   const { market, marketType, timeInterval } = useSelector(state => state.chart)
   const [loading, setLoading] = useState(true)

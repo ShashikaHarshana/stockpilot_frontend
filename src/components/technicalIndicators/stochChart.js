@@ -15,8 +15,6 @@ function StochChart ({ type, mobile }) {
       marketType === 'crypto' ? market.toUpperCase() : market
     }/${timeInterval}`
 
-  console.log(market, marketType, timeInterval)
-
   useEffect(() => {
     const chart = createChart(ref.current, {
       width: 0,

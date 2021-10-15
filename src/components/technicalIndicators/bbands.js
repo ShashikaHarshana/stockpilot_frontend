@@ -13,8 +13,6 @@ let getBBands = (
       marketType === 'crypto' ? market.toUpperCase() : market
     }/${timeInterval}`
 
-  console.log(market, marketType, timeInterval)
-
   fetch(url)
     .then(res => res.json())
     .then(data => {

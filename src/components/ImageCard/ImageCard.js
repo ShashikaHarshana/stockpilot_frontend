@@ -68,7 +68,6 @@ const ImageCard = ({
   const { isLoggedIn } = useSelector(state => state.auth)
 
   const classes = useStyles({ height, width, mWidth, mHeight, marginTop })
-  console.log(width)
 
   return (
     <Paper elevation={13} className={classes.card}>

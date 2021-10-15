@@ -148,7 +148,7 @@ const NavBar = () => {
   const history = useHistory()
 
   const handleDelete = () => {
-    console.log('deleled')
+    // console.log('deleled')
   }
 
   const handleClick = event => {
@@ -162,7 +162,7 @@ const NavBar = () => {
   const handleLogOut = () => {
     handleClose()
     dispatch(logOut())
-    history.push('/')
+    history.push('/sign_in')
   }
 
   const { brands } = useSelector(state => state.watchlist)
