@@ -11,6 +11,7 @@ import { removeFromWatchlist, viewWatchlist } from '../redux/ducks/watchlist'
 import FullPageLoader from '../components/Loading/FullPageLoader'
 import Fade from 'react-reveal/Fade'
 import CloseIcon from '@material-ui/icons/Close'
+import ConfirmDialog from '../components/controls/ConfirmDialog'
 
 const headCells = [
   //   { id: 'no', label: 'No', disableSorting: true },
@@ -34,6 +35,11 @@ const WatchList = () => {
   let brands = useSelector(state => state.watchlist.brands)
   const isLoading = useSelector(state => state.watchlist.isLoading)
   const isLoadingDelete = useSelector(state => state.watchlist.isLoadingDelete)
+  const [confirmDialog, setConfirmDialog] = useState({
+    isOpen: false,
+    title: '',
+    subTitle: ''
+  })
 
   if (brands === null) {
     dispatch(viewWatchlist(token))
@@ -128,7 +134,13 @@ const WatchList = () => {
                   <TableCell>
                     <Controls.ActionButton
                       color='secondary'
-                      onClick={() => handleDelete(item.symbol)}
+                      // onClick={() => handleDelete(item.symbol)}
+                      onClick={() =>
+                        setConfirmDialog({
+                          isOpen: true,
+                          title: 'Are you sure you want to delete'
+                        })
+                      }
                     >
                       <CloseIcon fontSize='small' />
                     </Controls.ActionButton>
@@ -139,6 +151,10 @@ const WatchList = () => {
           </TblContainer>
         </Paper>
       )}
+      <ConfirmDialog
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
     </div>
   )
 }

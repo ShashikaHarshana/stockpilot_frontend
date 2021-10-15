@@ -6,9 +6,12 @@ import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { setStockLoading } from '../../redux/ducks/chart'
 import ChartLoader from '../Loading/ChartLoader'
+import { CropOriginal } from '@material-ui/icons'
 
 function StockChart ({ mobile }) {
-  const ref = React.useRef()
+  const chartRef = React.useRef()
+  const [coordinate, setCoordinate] = useState(null)
+  const [staticCoordinate, setStaticCoordinate] = useState(coordinate)
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(true)
   const {
@@ -20,15 +23,10 @@ function StockChart ({ mobile }) {
   } = useSelector(state => state.chart)
   const { ma, sma, ema, wma, bbands } = internalIndicators
 
-  // useEffect(() => {
-  //   const { ma, sma, ema, wma, bbands } = internalIndicators
-  // }, [internalIndicators])
-  // const { ma, sma, ema, wma, bbands } = internalIndicators
-
   useEffect(() => {
     if (stockList.includes(market)) {
       setLoading(true)
-      const chart = createChart(ref.current, {
+      const chart = createChart(chartRef.current, {
         width: 0,
         height: 0,
         // layout: {
@@ -63,6 +61,23 @@ function StockChart ({ mobile }) {
           visible: true,
           timeVisible: true,
           secondsVisible: true
+        },
+        crosshair: {
+          vertLine: {
+            color: '#222',
+            width: 1,
+
+            visible: true,
+            labelVisible: true
+          },
+          horzLine: {
+            color: '#222',
+            width: 1,
+
+            visible: true,
+            labelVisible: true
+          },
+          mode: 0
         }
       })
 
@@ -71,6 +86,7 @@ function StockChart ({ mobile }) {
       )
         .then(res => res.json())
         .then(data => {
+          // console.log(data)
           let tempCandlesticks = []
           data.forEach(row => {
             let object = {
@@ -82,6 +98,7 @@ function StockChart ({ mobile }) {
             }
             tempCandlesticks.push(object)
           })
+
           candleSeries.setData(tempCandlesticks)
           if (mobile) {
             chart.resize(325, 150)
@@ -89,6 +106,31 @@ function StockChart ({ mobile }) {
             chart.resize(1067, 450)
           }
           setLoading(false)
+          // console.log(chart.timeScale().getVisibleRange())
+
+          chart
+            .timeScale()
+            .subscribeVisibleTimeRangeChange(e => setCoordinate(e))
+
+          // const barsInfo = candleSeries.barsInLogicalRange(
+          //   chart.timeScale().getVisibleLogicalRange()
+          // )
+          // console.log(barsInfo)
+
+          // function onVisibleLogicalRangeChanged (newVisibleLogicalRange) {
+          //   const barsInfo = candleSeries.barsInLogicalRange(
+          //     newVisibleLogicalRange
+          //   )
+          //   console.log(newVisibleLogicalRange)
+          //   // if there less than 50 bars to the left of the visible area
+          //   if (barsInfo !== null && barsInfo.barsBefore < 50) {
+          //     // try to load additional historical data and prepend it to the series data
+          //   }
+          // }
+
+          // chart
+          //   .timeScale()
+          //   .subscribeVisibleLogicalRangeChange(onVisibleLogicalRangeChanged)
         })
         .catch()
 
@@ -140,10 +182,22 @@ function StockChart ({ mobile }) {
     }
   }, [market, marketType, internalIndicators, timeInterval, mobile])
 
+  // useEffect(() => {
+  //   chartRef.current.addEventListener('onclick', () => {
+  //     console.log('hello')
+  //   })
+  // })
+
   return (
     <>
       {loading ? <ChartLoader /> : null}
-      <div ref={ref} />
+      <div
+        ref={chartRef}
+        onMouseUpCapture={() => {
+          setStaticCoordinate(coordinate)
+          console.log(staticCoordinate)
+        }}
+      />
     </>
   )
 }

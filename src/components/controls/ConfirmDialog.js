@@ -8,7 +8,7 @@ import {
   makeStyles,
   IconButton
 } from '@material-ui/core'
-import Controls from './controls/Controls'
+import Controls from './Controls'
 import NotListedLocationIcon from '@material-ui/icons/NotListedLocation'
 
 const useStyles = makeStyles(theme => ({
