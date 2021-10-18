@@ -10,7 +10,7 @@ import { removeFromWatchlist, viewWatchlist } from '../redux/ducks/watchlist'
 import FullPageLoader from '../components/Loading/FullPageLoader'
 import Fade from 'react-reveal/Fade'
 import CloseIcon from '@material-ui/icons/Close'
-import {LISTEN_URL} from "../utils/CONSTANTS";
+import { LISTEN_URL } from '../utils/CONSTANTS'
 
 const headCells = [
   //   { id: 'no', label: 'No', disableSorting: true },
@@ -21,7 +21,6 @@ const headCells = [
   { id: 'volume', label: 'Volume' },
   { id: 'actions', label: 'Actions', disableSorting: true }
 ]
-
 
 const WatchList = () => {
   const dispatch = useDispatch()
@@ -42,27 +41,25 @@ const WatchList = () => {
     if (brands !== null) {
       for (let i in brands) {
         if (brands.hasOwnProperty(i)) {
-          eventSource = new EventSource(
-              LISTEN_URL + brands[i] + '/1d'
-          )
+          eventSource = new EventSource(LISTEN_URL + brands[i] + '/1d')
           eventSource.addEventListener(
-              'message',
-              function (e) {
-                let parsedData = JSON.parse(e.data)
-                let object = {
-                  id: i,
-                  symbol: brands[i],
-                  price: parsedData.k.c,
-                  high: parsedData.k.h,
-                  low: parsedData.k.l,
-                  volume: parsedData.k.v
-                }
-                setHighVal(parsedData.k.h)
-                let tempRecords = records1
-                tempRecords.set(brands[i], object)
-                setRecords1(tempRecords)
-              },
-              false
+            'message',
+            function (e) {
+              let parsedData = JSON.parse(e.data)
+              let object = {
+                id: i,
+                symbol: brands[i],
+                price: parsedData.k.c,
+                high: parsedData.k.h,
+                low: parsedData.k.l,
+                volume: parsedData.k.v
+              }
+              setHighVal(parsedData.k.h)
+              let tempRecords = records1
+              tempRecords.set(brands[i], object)
+              setRecords1(tempRecords)
+            },
+            false
           )
 
           let tempEventSources = eventSources
@@ -86,7 +83,7 @@ const WatchList = () => {
     if (brands !== null && records1.size >= brands.length) {
       let temp = []
       for (let i in brands) {
-        if (brands.hasOwnProperty(i)){
+        if (brands.hasOwnProperty(i)) {
           temp.push(records1.get(brands[i]))
         }
       }
