@@ -60,7 +60,9 @@ const useStyles = makeStyles(theme => ({
       width: 300,
       height: 465,
       padding: 15,
-      marginLeft: -15
+      marginLeft: -15,
+      height: '60vh',
+      width: '70vw'
     }
   },
   linksContainer: {
@@ -72,7 +74,7 @@ const useStyles = makeStyles(theme => ({
   btn: {
     height: 'calc(50*0.8)',
     marginLeft: '1.5rem',
-    marginTop: '20px',
+    marginTop: '2rem',
     borderRadius: '30px',
     marginBottom: '20px',
     maxWidth: '90%'
@@ -119,6 +121,30 @@ const useStyles = makeStyles(theme => ({
   logoContainer: {
     [theme.breakpoints.down('sm')]: {
       display: 'none'
+    }
+  },
+  logoCard: {
+    [theme.breakpoints.down('sm')]: {
+      width: 300,
+      height: 20,
+      marginTop: '1rem',
+      marginLeft: '-2rem'
+    }
+  },
+  paperContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 10,
+    [theme.breakpoints.down('sm')]: {
+      marginTop: '2rem',
+      marginLeft: '1rem'
+    }
+  },
+  inputControl: {
+    marginTop: '3rem',
+    [theme.breakpoints.down('sm')]: {
+      marginTop: '3rem'
     }
   }
 }))
@@ -185,28 +211,43 @@ const SignIn = () => {
               <img src={signUpImg} className={classes.img} alt='' />
             </Fade>
           </article>
-          <article>
+          <article className={classes.paperContainer}>
             <Fade right delay={1500}>
               <Paper className={classes.paper} elevation={8}>
-                <Typography
-                  variant={`${mobile ? 'h5' : 'h4'}`}
-                  style={{
-                    margin: '0 auto',
-                    display: 'flex',
-                    justifyContent: 'center'
-                  }}
-                >
-                  Welcome to{' '}
-                  <span
-                    className={classes.primary}
+                <Grid>
+                  <Typography
+                    variant={`${mobile ? 'h5' : 'h4'}`}
                     style={{
-                      marginLeft: '1rem'
+                      margin: '0 auto',
+                      display: 'flex',
+                      justifyContent: 'center'
                     }}
                   >
-                    STOCKPILOT
-                  </span>
-                </Typography>
-                <Grid container className={classes.linksContainer}>
+                    Welcome to{' '}
+                    {!mobile && (
+                      <span
+                        className={classes.primary}
+                        style={{
+                          marginLeft: '1rem'
+                        }}
+                      >
+                        STOCKPILOT
+                      </span>
+                    )}
+                  </Typography>
+                  {mobile && (
+                    <Grid component={Link} to='/'>
+                      <img
+                        src={logo}
+                        component={Link}
+                        to='/'
+                        alt='top'
+                        className={classes.logoCard}
+                      />
+                    </Grid>
+                  )}
+                </Grid>
+                {/* <Grid container className={classes.linksContainer}>
                   <Grid
                     item
                     sm={12}
@@ -235,9 +276,9 @@ const SignIn = () => {
                       </Typography>
                     </IconButton>
                   </Grid>
-                </Grid>
+                </Grid> */}
                 <form onSubmit={handleSubmit}>
-                  <Grid style={{ marginTop: '1rem' }}>
+                  <Grid className={classes.inputControl}>
                     <Controls.Input
                       fullWidth
                       label='Email'
@@ -246,7 +287,7 @@ const SignIn = () => {
                       onChange={handleChange}
                     />
                   </Grid>
-                  <Grid style={{ marginTop: '1rem' }}>
+                  <Grid style={{ marginTop: '2rem' }}>
                     <Controls.Input
                       fullWidth
                       label='Password'

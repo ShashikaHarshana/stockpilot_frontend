@@ -19,6 +19,16 @@ const useStyles = makeStyles(theme => ({
       alignItems: 'start'
     }
   },
+  gridItemLinks: {
+    display: 'flex',
+    // justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+    [theme.breakpoints.down('sm')]: {
+      // alignItems: 'start'
+      flexDirection: 'row'
+    }
+  },
 
   logo: {
     width: 200,
@@ -35,7 +45,10 @@ const useStyles = makeStyles(theme => ({
     '&:hover': {
       color: '#222'
     },
-    transition: 'all linear 0.25s'
+    transition: 'all linear 0.25s',
+    [theme.breakpoints.down('sm')]: {
+      marginRight: 10
+    }
   },
   icon: {
     marginRight: 25
@@ -75,15 +88,17 @@ const Footer = () => {
           </Grid>
           <Grid item sm={4} xs={12} className={classes.gridItem}>
             <Typography>Helpful Links</Typography>
-            <Link to='/' className={classes.link}>
-              Home
-            </Link>
-            <Link to='/crypto' className={classes.link}>
-              Crypto
-            </Link>
-            <Link to='/stock' className={classes.link}>
-              Stock
-            </Link>
+            <div className={classes.gridItemLinks}>
+              <Link to='/' className={classes.link}>
+                Home
+              </Link>
+              <Link to='/crypto' className={classes.link}>
+                Crypto
+              </Link>
+              <Link to='/stock' className={classes.link}>
+                Stock
+              </Link>
+            </div>
           </Grid>
           <Grid item sm={4} xs={12} className={classes.gridItem}>
             <Typography>Contact Us</Typography>
