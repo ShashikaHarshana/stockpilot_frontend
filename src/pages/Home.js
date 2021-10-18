@@ -85,6 +85,12 @@ const useStyles = makeStyles(theme => ({
       flexDirection: 'column'
     }
   },
+  imgHover: {
+    transition: 'all 0.3s ease-out',
+    '&:hover': {
+      transform: 'scale(1.08)'
+    }
+  },
 
   topImg: {
     height: 'calc(350px*0.8)',
@@ -294,7 +300,7 @@ const Home = () => {
             </Fade>
           </Typography>
         </article>
-        <article>
+        <article className={classes.imgHover}>
           <Fade fraction={0.7} right delay={2000} duration={2000}>
             <img
               src={middleImg}

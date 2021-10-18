@@ -69,7 +69,7 @@ const useStyles = makeStyles(theme => ({
 const Footer = () => {
   const classes = useStyles()
   return (
-    <div>
+    <div style={{ marginTop: '1rem' }}>
       <Box
         borderTop={1}
         py={{ sm: 5, xs: 2 }}
