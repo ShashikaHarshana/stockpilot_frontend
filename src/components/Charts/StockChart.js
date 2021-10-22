@@ -6,7 +6,7 @@ import getMAChart from '../technicalIndicators/maChartFunction'
 import getBBands from '../technicalIndicators/bbands'
 import { useSelector } from 'react-redux'
 import ChartLoader from '../Loading/ChartLoader'
-import {BASE_URL} from "../../utils/CONSTANTS";
+import { BASE_URL } from '../../utils/CONSTANTS'
 
 function StockChart ({ mobile }) {
   const ref = React.useRef()
@@ -66,9 +66,7 @@ function StockChart ({ mobile }) {
         }
       })
 
-      fetch(
-        BASE_URL+ `${marketType}/historical/${market}/${timeInterval}`
-      )
+      fetch(BASE_URL + `${marketType}/historical/${market}/${timeInterval}`)
         .then(res => res.json())
         .then(data => {
           let tempCandlesticks = []
@@ -140,10 +138,14 @@ function StockChart ({ mobile }) {
     }
   }, [market, marketType, internalIndicators, timeInterval, mobile])
 
+  const handleDrag = () => {
+    console.log('hello')
+  }
+
   return (
     <>
       {loading ? <ChartLoader /> : null}
-      <div ref={ref} />
+      <div ref={ref} onMouseDownCapture={handleDrag} />
     </>
   )
 }
