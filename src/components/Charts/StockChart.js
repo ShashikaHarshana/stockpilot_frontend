@@ -20,6 +20,8 @@ function StockChart ({ mobile }) {
   } = useSelector(state => state.chart)
   const { ma, sma, ema, wma, bbands } = internalIndicators
 
+  const [chartData, setChartData] = useState([])
+
   // useEffect(() => {
   //   const { ma, sma, ema, wma, bbands } = internalIndicators
   // }, [internalIndicators])
@@ -80,7 +82,10 @@ function StockChart ({ mobile }) {
             }
             tempCandlesticks.push(object)
           })
-          candleSeries.setData(tempCandlesticks)
+
+          candleSeries.setData([...chartData, ...tempCandlesticks])
+          setChartData([...chartData, ...tempCandlesticks])
+
           if (mobile) {
             chart.resize(325, 150)
           } else {
@@ -139,13 +144,13 @@ function StockChart ({ mobile }) {
   }, [market, marketType, internalIndicators, timeInterval, mobile])
 
   const handleDrag = () => {
-    console.log('hello')
+    console.log('api call to load data')
   }
 
   return (
     <>
       {loading ? <ChartLoader /> : null}
-      <div ref={ref} onMouseDownCapture={handleDrag} />
+      <div ref={ref} onMouseUpCapture={handleDrag} />
     </>
   )
 }
