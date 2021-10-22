@@ -1,4 +1,4 @@
-import {TA_BASE_URL} from "../../utils/CONSTANTS";
+import { TA_BASE_URL } from '../../utils/CONSTANTS'
 
 let getBBands = (
   bbandUpper,
@@ -9,12 +9,11 @@ let getBBands = (
   timeInterval
 ) => {
   const url =
-      TA_BASE_URL + 'bbands' +
+    TA_BASE_URL +
+    'bbands' +
     `/${marketType}/${
       marketType === 'crypto' ? market.toUpperCase() : market
     }/${timeInterval}`
-
-  console.log(market, marketType, timeInterval)
 
   fetch(url)
     .then(res => res.json())
@@ -28,32 +27,32 @@ let getBBands = (
       let dataLower = data['lowerband']
 
       for (let key in dataUpper) {
+        if (dataUpper.hasOwnProperty(key)) {
           if (dataUpper.hasOwnProperty(key)) {
-              if (dataUpper.hasOwnProperty(key)) {
-                  let object = {
-                      time: key / 1000,
-                      value: dataUpper[key]
-                  }
-                  tempUpper.push(object)
-              }
-              if (dataMiddle.hasOwnProperty(key)) {
-                  let object = {
-                      time: key / 1000,
-                      value: dataMiddle[key]
-                  }
-                  tempMiddle.push(object)
-              }
-              if (dataLower.hasOwnProperty(key)) {
-                  let object = {
-                      time: key / 1000,
-                      value: dataLower[key]
-                  }
-                  tempLower.push(object)
-              }
+            let object = {
+              time: key / 1000,
+              value: dataUpper[key]
+            }
+            tempUpper.push(object)
           }
-          bbandUpper.setData(tempUpper)
-          bbandMiddle.setData(tempMiddle)
-          bbandLower.setData(tempLower)
+          if (dataMiddle.hasOwnProperty(key)) {
+            let object = {
+              time: key / 1000,
+              value: dataMiddle[key]
+            }
+            tempMiddle.push(object)
+          }
+          if (dataLower.hasOwnProperty(key)) {
+            let object = {
+              time: key / 1000,
+              value: dataLower[key]
+            }
+            tempLower.push(object)
+          }
+        }
+        bbandUpper.setData(tempUpper)
+        bbandMiddle.setData(tempMiddle)
+        bbandLower.setData(tempLower)
       }
     })
     .catch()

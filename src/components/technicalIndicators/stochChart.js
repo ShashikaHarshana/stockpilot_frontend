@@ -3,7 +3,7 @@ import { createChart, CrosshairMode } from 'lightweight-charts'
 import { Typography } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 import ChartLoader from '../Loading/ChartLoader'
-import {TA_BASE_URL} from "../../utils/CONSTANTS";
+import { TA_BASE_URL } from '../../utils/CONSTANTS'
 
 function StochChart ({ mobile }) {
   const ref = React.useRef()
@@ -11,7 +11,8 @@ function StochChart ({ mobile }) {
   const [loading, setLoading] = useState(true)
 
   const url =
-      TA_BASE_URL + 'stoch' +
+    TA_BASE_URL +
+    'stoch' +
     `/${marketType}/${
       marketType === 'crypto' ? market.toUpperCase() : market
     }/${timeInterval}`
@@ -52,31 +53,30 @@ function StochChart ({ mobile }) {
         let dataSlowk = data['slowk']
         let dataSlowd = data['slowd']
         for (let key in dataSlowk) {
+          if (dataSlowk.hasOwnProperty(key)) {
             if (dataSlowk.hasOwnProperty(key)) {
-
-                if (dataSlowk.hasOwnProperty(key)) {
-                    let object = {
-                        time: key / 1000,
-                        value: dataSlowk[key]
-                    }
-                    tempSlowk.push(object)
-                }
-                if (dataSlowd.hasOwnProperty(key)) {
-                    let object = {
-                        time: key / 1000,
-                        value: dataSlowd[key]
-                    }
-                    tempSlowd.push(object)
-                }
+              let object = {
+                time: key / 1000,
+                value: dataSlowk[key]
+              }
+              tempSlowk.push(object)
             }
-            slowkSeries.setData(tempSlowk)
-            slowdSeries.setData(tempSlowd)
-            if (mobile) {
-                chart.resize(325, 150)
-            } else {
-                chart.resize(1067, 200)
+            if (dataSlowd.hasOwnProperty(key)) {
+              let object = {
+                time: key / 1000,
+                value: dataSlowd[key]
+              }
+              tempSlowd.push(object)
             }
-            setLoading(false)
+          }
+          slowkSeries.setData(tempSlowk)
+          slowdSeries.setData(tempSlowd)
+          if (mobile) {
+            chart.resize(325, 150)
+          } else {
+            chart.resize(1067, 200)
+          }
+          setLoading(false)
         }
       })
       .catch()

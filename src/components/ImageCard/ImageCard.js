@@ -20,10 +20,11 @@ const useStyles = makeStyles(theme => ({
     paddingRight: 'calc(20px*0.8)',
     [theme.breakpoints.down('sm')]: {
       width: '90%',
-      height: '58vh',
+      height: 'fit-content',
       margin: '0 auto',
       marginBottom: '2rem',
-      paddingLeft: 'calc(25px*0.8)'
+      paddingLeft: 'calc(25px*0.8)',
+      paddingBottom: '1rem'
     }
   },
   cardMedia: {
@@ -74,7 +75,6 @@ const ImageCard = ({
   const { isLoggedIn } = useSelector(state => state.auth)
 
   const classes = useStyles({ height, width, mWidth, mHeight, marginTop })
-  console.log(width)
 
   return (
     <Paper elevation={13} className={classes.card}>

@@ -88,7 +88,7 @@ const useStyles = makeStyles(theme => ({
   imgHover: {
     transition: 'all 0.3s ease-out',
     '&:hover': {
-      transform: 'scale(1.08)'
+      transform: 'scale(1.05)'
     }
   },
 

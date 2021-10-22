@@ -1,8 +1,8 @@
-import {TA_BASE_URL} from "../../utils/CONSTANTS";
+import { TA_BASE_URL } from '../../utils/CONSTANTS'
 
 let getMAChart = (type, lineSeries, market, marketType, timeInterval) => {
-    const url =
-        TA_BASE_URL +
+  const url =
+    TA_BASE_URL +
     type +
     `/${marketType}/${
       marketType === 'crypto' ? market.toUpperCase() : market
@@ -21,7 +21,7 @@ let getMAChart = (type, lineSeries, market, marketType, timeInterval) => {
           tempLines.push(object)
         }
       }
-      lineSeries.setData(tempLines);
+      lineSeries.setData(tempLines)
     })
     .catch()
 }

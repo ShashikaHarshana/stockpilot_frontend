@@ -11,6 +11,7 @@ import { BASE_URL } from '../../utils/CONSTANTS'
 function StockChart ({ mobile }) {
   const ref = React.useRef()
   const [loading, setLoading] = useState(true)
+  const [visibleRange, setVisibleRange] = useState({})
   const {
     market,
     marketType,
@@ -92,6 +93,17 @@ function StockChart ({ mobile }) {
             chart.resize(1067, 450)
           }
           setLoading(false)
+          const barsInfo = candleSeries.barsInLogicalRange(
+            chart.timeScale().getVisibleLogicalRange()
+          )
+          console.log(barsInfo)
+          function onVisibleTimeRangeChanged (newVisibleTimeRange) {
+            setVisibleRange(newVisibleTimeRange)
+          }
+
+          chart
+            .timeScale()
+            .subscribeVisibleTimeRangeChange(onVisibleTimeRangeChanged)
         })
         .catch()
 
@@ -145,6 +157,7 @@ function StockChart ({ mobile }) {
 
   const handleDrag = () => {
     console.log('api call to load data')
+    console.log(visibleRange.from)
   }
 
   return (

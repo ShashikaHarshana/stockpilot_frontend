@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { createChart, CrosshairMode } from 'lightweight-charts'
 import { Typography } from '@material-ui/core'
-import { useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 import ChartLoader from '../Loading/ChartLoader'
-import {TA_BASE_URL} from "../../utils/CONSTANTS";
+import { TA_BASE_URL } from '../../utils/CONSTANTS'
 
 function LineChart ({ type, mobile }) {
   const ref = React.useRef()
@@ -15,7 +15,7 @@ function LineChart ({ type, mobile }) {
   const [loading, setLoading] = useState(true)
 
   const url =
-      TA_BASE_URL +
+    TA_BASE_URL +
     type +
     `/${marketType}/${
       marketType === 'crypto' ? market.toUpperCase() : market
