@@ -19,6 +19,10 @@ function CryptoChart ({ mobile }) {
   } = useSelector(state => state.chart)
   const { ma, sma, ema, wma, bbands } = internalIndicators
   const [loading, setLoading] = useState(true)
+  const [timeStamp, setTimeStamp] = useState(0)
+  const [chartData, setChartData] = useState([])
+  const [visibleRange, setVisibleRange] = useState({})
+  const [temp, setTemp] = useState([])
 
   useEffect(() => {
     if (cryptoList.includes(market.toUpperCase())) {
@@ -61,7 +65,8 @@ function CryptoChart ({ mobile }) {
         }
       })
 
-      let newCrypto = HISTORICAL_URL + `${market.toUpperCase()}/${timeInterval}`
+      let newCrypto =
+        HISTORICAL_URL + `${market.toUpperCase()}/${timeInterval}/${timeStamp}`
 
       fetch(newCrypto)
         .then(res => res.json())
@@ -77,14 +82,27 @@ function CryptoChart ({ mobile }) {
               close: row[4]
             }
             tempCandlesticks.push(object)
+            console.log(object)
           })
-          candleSeries.setData(tempCandlesticks)
+          console.log(tempCandlesticks)
+          candleSeries.setData([...chartData, ...tempCandlesticks])
+
+          setChartData([...chartData, ...tempCandlesticks])
+
           if (mobile) {
             chart.resize(325, 150)
           } else {
             chart.resize(1067, 450)
           }
           setLoading(false)
+
+          function onVisibleTimeRangeChanged (newVisibleTimeRange) {
+            setVisibleRange(newVisibleTimeRange)
+          }
+
+          chart
+            .timeScale()
+            .subscribeVisibleTimeRangeChange(onVisibleTimeRangeChanged)
         })
         .catch()
 
@@ -155,12 +173,24 @@ function CryptoChart ({ mobile }) {
         eventSource.close()
       }
     }
-  }, [market, timeInterval, internalIndicators, mobile])
+  }, [market, timeInterval, internalIndicators, mobile, timeStamp])
+
+  const handleDrag = () => {
+    console.log('api call to load data')
+    console.log(visibleRange.from)
+    if (visibleRange.from == null) {
+      setTimeStamp(0)
+    }
+    setTimeStamp(visibleRange.from)
+    console.log('chart Data', chartData)
+    console.log(timeStamp)
+    console.log('temp data', temp)
+  }
 
   return (
     <>
       {loading ? <ChartLoader /> : null}
-      <div ref={ref} />
+      <div ref={ref} onMouseUpCapture={handleDrag} />
     </>
   )
 }
