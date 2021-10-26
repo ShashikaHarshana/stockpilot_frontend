@@ -84,8 +84,8 @@ function StockChart ({ mobile }) {
             tempCandlesticks.push(object)
           })
 
-          candleSeries.setData([...chartData, ...tempCandlesticks])
-          setChartData([...chartData, ...tempCandlesticks])
+          candleSeries.setData(tempCandlesticks)
+          // setChartData([...chartData, ...tempCandlesticks])
 
           if (mobile) {
             chart.resize(325, 150)
@@ -93,17 +93,17 @@ function StockChart ({ mobile }) {
             chart.resize(1067, 450)
           }
           setLoading(false)
-          const barsInfo = candleSeries.barsInLogicalRange(
-            chart.timeScale().getVisibleLogicalRange()
-          )
-          console.log(barsInfo)
-          function onVisibleTimeRangeChanged (newVisibleTimeRange) {
-            setVisibleRange(newVisibleTimeRange)
-          }
+          // const barsInfo = candleSeries.barsInLogicalRange(
+          //   chart.timeScale().getVisibleLogicalRange()
+          // )
+          // console.log(barsInfo)
+          // function onVisibleTimeRangeChanged (newVisibleTimeRange) {
+          //   setVisibleRange(newVisibleTimeRange)
+          // }
 
-          chart
-            .timeScale()
-            .subscribeVisibleTimeRangeChange(onVisibleTimeRangeChanged)
+          // chart
+          //   .timeScale()
+          //   .subscribeVisibleTimeRangeChange(onVisibleTimeRangeChanged)
         })
         .catch()
 

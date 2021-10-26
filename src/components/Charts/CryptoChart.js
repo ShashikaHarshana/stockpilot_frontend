@@ -66,7 +66,8 @@ function CryptoChart ({ mobile }) {
       })
 
       let newCrypto =
-        HISTORICAL_URL + `${market.toUpperCase()}/${timeInterval}/${timeStamp}`
+        HISTORICAL_URL +
+        `${market.toUpperCase()}/${timeInterval}/${timeStamp}000`
 
       fetch(newCrypto)
         .then(res => res.json())
@@ -82,10 +83,12 @@ function CryptoChart ({ mobile }) {
               close: row[4]
             }
             tempCandlesticks.push(object)
-            console.log(object)
+            // console.log(object)
           })
-          console.log(tempCandlesticks)
-          candleSeries.setData([...chartData, ...tempCandlesticks])
+          // chartData !== null
+          // ? candleSeries.setData(chartData)
+          console.log(chartData)
+          candleSeries.setData(tempCandlesticks)
 
           setChartData([...chartData, ...tempCandlesticks])
 

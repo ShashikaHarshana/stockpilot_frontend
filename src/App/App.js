@@ -13,7 +13,7 @@ import SingleMarket from '../components/SingleMarket/SingleMaret'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeDataRequest } from '../redux/ducks/chart'
 import FullPageLoader from '../components/Loading/FullPageLoader'
-import ProtectedRoute from '../components/ProtectedRout/ProtectedRoute'
+import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute'
 
 const useStyles = makeStyles(theme => ({
   container: {
