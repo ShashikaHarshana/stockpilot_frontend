@@ -77,12 +77,13 @@ const useStyles = makeStyles(theme => ({
     }
   },
   section: {
-    minHeight: '80vh',
+    minHeight: '100vh',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     [theme.breakpoints.down('sm')]: {
-      flexDirection: 'column'
+      flexDirection: 'column',
+      minHeight: ' 80vh'
     }
   },
   imgHover: {
@@ -132,19 +133,19 @@ const useStyles = makeStyles(theme => ({
   },
   bottom: {
     right: 0,
-    top: 130,
+    top: 200,
     marginRight: '2rem',
     position: 'absolute',
     width: '50%',
     [theme.breakpoints.down('sm')]: {
-      top: '18rem',
+      top: '20rem',
       left: '0',
       width: '100%'
     }
   },
   bottomLeft: {
     position: 'absolute',
-    top: '-20rem',
+    top: '-15rem',
     left: '-15rem',
     height: 'calc(1200.73px*0.8)',
     width: 'calc(875.51px*0.8)',
@@ -152,7 +153,7 @@ const useStyles = makeStyles(theme => ({
       height: 388,
       width: 290,
       left: '-2rem',
-      top: '-8rem'
+      top: '-6rem'
     }
   },
   title: {
@@ -221,10 +222,7 @@ const Home = () => {
       {/*  */}
       <section className={classes.section1} id='topSection'>
         <article className={classes.articleTypo}>
-          <Typography
-            variant={`{${mobile} ? 'h5' : 'h4'}`}
-            className={classes.title}
-          >
+          <Typography variant={`${mobile} ? h5 :h4`} className={classes.title}>
             <Zoom right big cascade delay={500} duration={2000}>
               Smart Investing Platform
             </Zoom>

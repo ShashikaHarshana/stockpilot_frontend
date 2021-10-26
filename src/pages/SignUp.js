@@ -50,8 +50,7 @@ const useStyles = makeStyles(theme => ({
   },
   divContainer: {
     maxHeight: '100vh',
-    maxWidth: '100vw',
-    overflow: 'hidden'
+    maxWidth: '100vw'
   },
   img: {
     height: 'calc(442px*0.8)',
@@ -72,7 +71,7 @@ const useStyles = makeStyles(theme => ({
 
     [theme.breakpoints.down('sm')]: {
       width: '70vw',
-      height: '60vh',
+      height: 'fit-content',
       padding: 15,
       marginLeft: -15,
       zIndex: 10
@@ -153,7 +152,7 @@ const useStyles = makeStyles(theme => ({
       width: 300,
       height: 20,
       marginTop: '1rem',
-      marginLeft: '-1rem'
+      marginLeft: '-2rem'
     }
   },
   logoContainer: {

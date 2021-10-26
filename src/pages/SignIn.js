@@ -61,7 +61,7 @@ const useStyles = makeStyles(theme => ({
       height: 465,
       padding: 15,
       marginLeft: -15,
-      height: '60vh',
+      height: '63vh',
       width: '70vw'
     }
   },

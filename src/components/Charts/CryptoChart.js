@@ -23,6 +23,7 @@ function CryptoChart ({ mobile }) {
   const [chartData, setChartData] = useState([])
   const [visibleRange, setVisibleRange] = useState({})
   const [temp, setTemp] = useState([])
+  const [timeLine, setTimeLine] = useState([])
 
   useEffect(() => {
     if (cryptoList.includes(market.toUpperCase())) {
@@ -82,13 +83,16 @@ function CryptoChart ({ mobile }) {
               low: row[3],
               close: row[4]
             }
+            timeLine.push(object.time)
             tempCandlesticks.push(object)
             // console.log(object)
           })
           // chartData !== null
           // ? candleSeries.setData(chartData)
-          console.log(chartData)
+
           candleSeries.setData(tempCandlesticks)
+          console.log(tempCandlesticks)
+          console.log([...tempCandlesticks, ...chartData])
 
           setChartData([...chartData, ...tempCandlesticks])
 
@@ -186,14 +190,15 @@ function CryptoChart ({ mobile }) {
     }
     setTimeStamp(visibleRange.from)
     console.log('chart Data', chartData)
-    console.log(timeStamp)
+    console.log('timestamp', timeStamp)
     console.log('temp data', temp)
+    console.log('time line', timeLine)
   }
 
   return (
     <>
       {loading ? <ChartLoader /> : null}
-      <div ref={ref} onMouseUpCapture={handleDrag} />
+      <div ref={ref} onMouseUpCapture={handleDrag} onTouchEnd={handleDrag} />
     </>
   )
 }

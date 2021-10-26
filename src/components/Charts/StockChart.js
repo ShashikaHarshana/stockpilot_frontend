@@ -163,7 +163,11 @@ function StockChart ({ mobile }) {
   return (
     <>
       {loading ? <ChartLoader /> : null}
-      <div ref={ref} onMouseUpCapture={handleDrag} />
+      <div
+        ref={ref}
+        onMouseUpCapture={handleDrag}
+        onTouchEnd={() => console.log('hello')}
+      />
     </>
   )
 }
