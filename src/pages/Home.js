@@ -219,7 +219,7 @@ const Home = () => {
       <Fade right fraction={0.5}>
         <img src={cardsRight} alt='' className={classes.cardsRight} />
       </Fade>
-      {/*  */}
+
       <section className={classes.section1} id='topSection'>
         <article className={classes.articleTypo}>
           <Typography variant={`${mobile} ? h5 :h4`} className={classes.title}>

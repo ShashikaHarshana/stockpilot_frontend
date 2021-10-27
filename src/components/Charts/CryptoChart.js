@@ -26,6 +26,13 @@ function CryptoChart ({ mobile }) {
   const [timeLine, setTimeLine] = useState([])
 
   useEffect(() => {
+    setTimeStamp(0)
+    setChartData([])
+    setTimeLine([])
+    console.log('hello')
+  }, [market, timeInterval])
+
+  useEffect(() => {
     if (cryptoList.includes(market.toUpperCase())) {
       setLoading(true)
       const chart = createChart(ref.current, {
@@ -92,12 +99,13 @@ function CryptoChart ({ mobile }) {
           // ? candleSeries.setData(chartData)
 
           // chartData !== null &&
-          //   candleSeries.setData([...tempCandlesticks, ...chartData])
+          console.log('initial chart data', chartData)
+          candleSeries.setData([...tempCandlesticks, ...chartData])
           candleSeries.setData(tempCandlesticks)
           console.log('candles', tempCandlesticks)
           console.log('timeLine', tempTimeLine)
-          // setChartData([...tempCandlesticks, ...chartData])
-          // setTimeLine([...tempTimeLine, ...timeLine])
+          setChartData([...tempCandlesticks, ...chartData])
+          setTimeLine([...tempTimeLine, ...timeLine])
 
           if (mobile) {
             chart.resize(325, 150)
@@ -106,13 +114,13 @@ function CryptoChart ({ mobile }) {
           }
           setLoading(false)
 
-          //   function onVisibleTimeRangeChanged (newVisibleTimeRange) {
-          //     setVisibleRange(newVisibleTimeRange)
-          //   }
+          function onVisibleTimeRangeChanged (newVisibleTimeRange) {
+            setVisibleRange(newVisibleTimeRange)
+          }
 
-          //   chart
-          //     .timeScale()
-          //     .subscribeVisibleTimeRangeChange(onVisibleTimeRangeChanged)
+          chart
+            .timeScale()
+            .subscribeVisibleTimeRangeChange(onVisibleTimeRangeChanged)
         })
         .catch()
 
@@ -187,17 +195,17 @@ function CryptoChart ({ mobile }) {
 
   const handleDrag = () => {
     console.log('api call to load data')
-    // console.log(visibleRange.from)
-    // console.log('state', timeLine)
-    // console.log('state', chartData)
-    // console.log(timeLine[0])
-    // // if (visibleRange.from !== null) {
-    // //   setTimeStamp(visibleRange.from)
-    // // }
-    // // console.log(timeLine[0])
-    // if (timeLine[0] === visibleRange.from) {
+    console.log(visibleRange.from)
+    console.log('state', timeLine)
+    console.log('state', chartData)
+    console.log(timeLine[0])
+    // if (visibleRange.from !== null) {
     //   setTimeStamp(visibleRange.from)
     // }
+    // console.log(timeLine[0])
+    if (timeLine[0] === visibleRange.from) {
+      setTimeStamp(visibleRange.from)
+    }
   }
 
   return (
