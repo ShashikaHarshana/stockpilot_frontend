@@ -1,5 +1,3 @@
-// noinspection DuplicatedCode
-
 import React, { useEffect, useState } from 'react'
 import { createChart, CrosshairMode } from 'lightweight-charts'
 import getMAChart from '../technicalIndicators/maChartFunction'
@@ -24,13 +22,6 @@ function CryptoChart ({ mobile }) {
   const [visibleRange, setVisibleRange] = useState({})
   const [temp, setTemp] = useState([])
   const [timeLine, setTimeLine] = useState([])
-
-  useEffect(() => {
-    setTimeStamp(0)
-    setChartData([])
-    setTimeLine([])
-    console.log('hello')
-  }, [market, timeInterval])
 
   useEffect(() => {
     if (cryptoList.includes(market.toUpperCase())) {
@@ -100,7 +91,7 @@ function CryptoChart ({ mobile }) {
 
           // chartData !== null &&
           console.log('initial chart data', chartData)
-          candleSeries.setData([...tempCandlesticks, ...chartData])
+          // candleSeries.setData([...tempCandlesticks, ...chartData])
           candleSeries.setData(tempCandlesticks)
           console.log('candles', tempCandlesticks)
           console.log('timeLine', tempTimeLine)
@@ -211,7 +202,7 @@ function CryptoChart ({ mobile }) {
   return (
     <>
       {loading ? <ChartLoader /> : null}
-      <div ref={ref} onMouseUpCapture={handleDrag} />
+      <div ref={ref} onMouseUpCapture={handleDrag} onTouchEnd={handleDrag} />
     </>
   )
 }
