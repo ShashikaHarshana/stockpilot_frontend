@@ -96,8 +96,8 @@ function CryptoChart ({ mobile }) {
           candleSeries.setData(tempCandlesticks)
           console.log('candles', tempCandlesticks)
           console.log('timeLine', tempTimeLine)
-          setChartData([...tempCandlesticks, ...chartData])
-          setTimeLine([...tempTimeLine, ...timeLine])
+          // setChartData([...tempCandlesticks, ...chartData])
+          // setTimeLine([...tempTimeLine, ...timeLine])
 
           if (mobile) {
             chart.resize(325, 150)
