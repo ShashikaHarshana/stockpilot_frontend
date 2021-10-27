@@ -160,7 +160,7 @@ const DesBox = ({ type }) => {
                 <Grid item>
                   <Typography className={classes.textUpper}>Price</Typography>
                   <Typography className={classes.textLower}>
-                    {liveData.price}
+                    {parseFloat(liveData.price).toFixed(4)}
                   </Typography>
                 </Grid>
                 <Grid item>
@@ -168,7 +168,7 @@ const DesBox = ({ type }) => {
                     24h High
                   </Typography>
                   <Typography className={classes.textLower}>
-                    {liveData.high}
+                    {parseFloat(liveData.high).toFixed(4)}
                   </Typography>
                 </Grid>
                 <Grid item>
@@ -176,13 +176,13 @@ const DesBox = ({ type }) => {
                     24h Low{' '}
                   </Typography>
                   <Typography className={classes.textLower}>
-                    {liveData.low}
+                    {parseFloat(liveData.low).toFixed(4)}
                   </Typography>
                 </Grid>
                 <Grid item>
                   <Typography className={classes.textUpper}>Volume</Typography>
                   <Typography className={classes.textLower}>
-                    {liveData.volume}
+                    {parseFloat(liveData.volume).toFixed(4)}
                   </Typography>
                 </Grid>
               </Grid>

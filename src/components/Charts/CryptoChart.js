@@ -75,6 +75,7 @@ function CryptoChart ({ mobile }) {
         .then(data => {
           // console.log(data)
           let tempCandlesticks = []
+          let tempTimeLine = []
           data.forEach(row => {
             let object = {
               time: row[0] / 1000,
@@ -83,18 +84,20 @@ function CryptoChart ({ mobile }) {
               low: row[3],
               close: row[4]
             }
-            timeLine.push(object.time)
+            tempTimeLine.push(object.time)
             tempCandlesticks.push(object)
             // console.log(object)
           })
           // chartData !== null
           // ? candleSeries.setData(chartData)
 
+          // chartData !== null &&
+          //   candleSeries.setData([...tempCandlesticks, ...chartData])
           candleSeries.setData(tempCandlesticks)
-          console.log(tempCandlesticks)
-          console.log([...tempCandlesticks, ...chartData])
-
-          setChartData([...chartData, ...tempCandlesticks])
+          console.log('candles', tempCandlesticks)
+          console.log('timeLine', tempTimeLine)
+          setChartData([...tempCandlesticks, ...chartData])
+          setTimeLine([...tempTimeLine, ...timeLine])
 
           if (mobile) {
             chart.resize(325, 150)
@@ -185,14 +188,16 @@ function CryptoChart ({ mobile }) {
   const handleDrag = () => {
     console.log('api call to load data')
     console.log(visibleRange.from)
-    if (visibleRange.from == null) {
-      setTimeStamp(0)
+    console.log('state', timeLine)
+    console.log('state', chartData)
+    console.log(timeLine[0])
+    // if (visibleRange.from !== null) {
+    //   setTimeStamp(visibleRange.from)
+    // }
+    // console.log(timeLine[0])
+    if (timeLine[0] === visibleRange.from) {
+      setTimeStamp(visibleRange.from)
     }
-    setTimeStamp(visibleRange.from)
-    console.log('chart Data', chartData)
-    console.log('timestamp', timeStamp)
-    console.log('temp data', temp)
-    console.log('time line', timeLine)
   }
 
   return (

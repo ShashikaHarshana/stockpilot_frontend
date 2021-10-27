@@ -15,7 +15,7 @@ import { LISTEN_URL } from '../utils/CONSTANTS'
 const headCells = [
   //   { id: 'no', label: 'No', disableSorting: true },
   { id: 'symbol', label: 'Symbol' },
-  { id: 'price', label: 'Price' },
+  { id: 'price', label: 'Price ($)' },
   { id: 'high', label: 'High' },
   { id: 'low', label: 'Low' },
   { id: 'volume', label: 'Volume' },
@@ -32,9 +32,9 @@ const WatchList = () => {
   let brands = useSelector(state => state.watchlist.brands)
   const isLoading = useSelector(state => state.watchlist.isLoading)
 
-  if (brands === null) {
+  useEffect(() => {
     dispatch(viewWatchlist(token))
-  }
+  }, [])
 
   useEffect(() => {
     let eventSource = null
@@ -49,10 +49,10 @@ const WatchList = () => {
               let object = {
                 id: i,
                 symbol: brands[i],
-                price: parsedData.k.c,
-                high: parsedData.k.h,
-                low: parsedData.k.l,
-                volume: parsedData.k.v
+                price: parseFloat(parsedData.k.c).toFixed(4),
+                high: parseFloat(parsedData.k.h).toFixed(4),
+                low: parseFloat(parsedData.k.l).toFixed(4),
+                volume: parseFloat(parsedData.k.v).toFixed(4)
               }
               setHighVal(parsedData.k.h)
               let tempRecords = records1
@@ -73,6 +73,7 @@ const WatchList = () => {
         console.log(eventSources)
         for (let e in eventSources) {
           eventSources[e].close()
+          console.log('event source closed')
         }
         setEventSources([])
       }
