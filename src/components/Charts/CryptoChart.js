@@ -18,11 +18,13 @@ function CryptoChart ({ mobile }) {
   const { ma, sma, ema, wma, bbands } = internalIndicators
   const [loading, setLoading] = useState(true)
   const [timeStamp, setTimeStamp] = useState(0)
+  const [currentInterval, setCurrentInterval] = useState(timeInterval)
   const [chartData, setChartData] = useState([])
   const [visibleRange, setVisibleRange] = useState({})
   const [temp, setTemp] = useState([])
   const [timeLine, setTimeLine] = useState([])
-
+  console.log(currentInterval, timeInterval)
+  
   useEffect(() => {
     if (cryptoList.includes(market.toUpperCase())) {
       setLoading(true)
@@ -91,8 +93,8 @@ function CryptoChart ({ mobile }) {
 
           // chartData !== null &&
           console.log('initial chart data', chartData)
-          // candleSeries.setData([...tempCandlesticks, ...chartData])
-          candleSeries.setData(tempCandlesticks)
+          candleSeries.setData([...tempCandlesticks, ...chartData])
+          // candleSeries.setData(tempCandlesticks)
           console.log('candles', tempCandlesticks)
           console.log('timeLine', tempTimeLine)
           setChartData([...tempCandlesticks, ...chartData])
@@ -133,6 +135,13 @@ function CryptoChart ({ mobile }) {
         },
         false
       )
+      if (currentInterval !== timeInterval) {
+        setChartData([])
+        setTimeStamp(0)
+        setTimeLine([])
+        setCurrentInterval(timeInterval)
+        console.log('hello world')
+      }
 
       if (ma) {
         const maSeries = chart.addLineSeries({ lineWidth: 1, title: 'MA' })
@@ -184,12 +193,18 @@ function CryptoChart ({ mobile }) {
     }
   }, [market, timeInterval, internalIndicators, mobile, timeStamp])
 
+  useEffect(() => {
+    setChartData([])
+    setTimeStamp(0)
+    setTimeLine([])
+  }, [market, timeInterval])
+
   const handleDrag = () => {
-    console.log('api call to load data')
-    console.log(visibleRange.from)
-    console.log('state', timeLine)
-    console.log('state', chartData)
-    console.log(timeLine[0])
+    // console.log('api call to load data')
+    // console.log(visibleRange.from)
+    // console.log('state', timeLine)
+    // console.log('state', chartData)
+    // console.log(timeLine[0])
     // if (visibleRange.from !== null) {
     //   setTimeStamp(visibleRange.from)
     // }

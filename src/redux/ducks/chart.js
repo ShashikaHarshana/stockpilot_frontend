@@ -63,7 +63,8 @@ const initialState = {
   externalIndicators: {},
   marketType: '',
   market: '',
-  isLoading: false
+  isLoading: false,
+  chartData:[]
 }
 
 export const chartReducer = (state = initialState, { type, payload }) => {
@@ -73,9 +74,9 @@ export const chartReducer = (state = initialState, { type, payload }) => {
     case INITIALIZE_DATA_SUCCESS:
       return { ...state, isLoading: false, cryptoList: payload.cryptoList, stockList: payload.stockList }
     case UPDATE_TIME_INTERVAL:
-      return { ...state, timeInterval: payload, stockLoading: true }
+      return { ...state, timeInterval: payload, stockLoading: true,chartData:[] }
     case UPDATE_MARKET:
-      return { ...state, market: payload, stockLoading: true }
+      return { ...state, market: payload, stockLoading: true,chartData:[] }
     case UPDATE_MARKET_TYPE:
       return { ...state, marketType: payload }
     case UPDATE_INTERNAL_INDICATORS:
