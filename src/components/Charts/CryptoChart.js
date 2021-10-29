@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { createChart, CrosshairMode } from 'lightweight-charts'
 import getMAChart from '../technicalIndicators/maChartFunction'
 import getBBands from '../technicalIndicators/bbands'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import ChartLoader from '../Loading/ChartLoader'
 import { HISTORICAL_URL, LISTEN_URL } from '../../utils/CONSTANTS'
+import { updateChartData, updateTimeStamp } from '../../redux/ducks/chart'
 
 function CryptoChart ({ mobile }) {
   const ref = React.useRef()
@@ -13,18 +14,22 @@ function CryptoChart ({ mobile }) {
     marketType,
     internalIndicators,
     timeInterval,
-    cryptoList
+    cryptoList,
+    timeStamp,
+    chartData,
+    timeLine
   } = useSelector(state => state.chart)
+
   const { ma, sma, ema, wma, bbands } = internalIndicators
   const [loading, setLoading] = useState(true)
-  const [timeStamp, setTimeStamp] = useState(0)
-  const [currentInterval, setCurrentInterval] = useState(timeInterval)
-  const [chartData, setChartData] = useState([])
+  // const [timeStamp, setTimeStamp] = useState(0)
+  // const [currentInterval, setCurrentInterval] = useState(timeInterval)
+  // const [chartData, setChartData] = useState([])
   const [visibleRange, setVisibleRange] = useState({})
-  const [temp, setTemp] = useState([])
-  const [timeLine, setTimeLine] = useState([])
-  console.log(currentInterval, timeInterval)
-  
+
+  // const [timeLine, setTimeLine] = useState([])
+  const dispatch = useDispatch()
+
   useEffect(() => {
     if (cryptoList.includes(market.toUpperCase())) {
       setLoading(true)
@@ -97,8 +102,14 @@ function CryptoChart ({ mobile }) {
           // candleSeries.setData(tempCandlesticks)
           console.log('candles', tempCandlesticks)
           console.log('timeLine', tempTimeLine)
-          setChartData([...tempCandlesticks, ...chartData])
-          setTimeLine([...tempTimeLine, ...timeLine])
+          dispatch(
+            updateChartData({
+              chartData: [...tempCandlesticks, ...chartData],
+              timeLine: [...tempTimeLine, ...timeLine]
+            })
+          )
+          // setChartData([...tempCandlesticks, ...chartData])
+          // setTimeLine([...tempTimeLine, ...timeLine])
 
           if (mobile) {
             chart.resize(325, 150)
@@ -135,13 +146,6 @@ function CryptoChart ({ mobile }) {
         },
         false
       )
-      if (currentInterval !== timeInterval) {
-        setChartData([])
-        setTimeStamp(0)
-        setTimeLine([])
-        setCurrentInterval(timeInterval)
-        console.log('hello world')
-      }
 
       if (ma) {
         const maSeries = chart.addLineSeries({ lineWidth: 1, title: 'MA' })
@@ -193,24 +197,20 @@ function CryptoChart ({ mobile }) {
     }
   }, [market, timeInterval, internalIndicators, mobile, timeStamp])
 
-  useEffect(() => {
-    setChartData([])
-    setTimeStamp(0)
-    setTimeLine([])
-  }, [market, timeInterval])
-
   const handleDrag = () => {
     // console.log('api call to load data')
-    // console.log(visibleRange.from)
-    // console.log('state', timeLine)
-    // console.log('state', chartData)
+    console.log(visibleRange.from)
+    console.log('state', timeLine)
+    console.log('state', chartData)
+    console.log(timeStamp)
     // console.log(timeLine[0])
     // if (visibleRange.from !== null) {
     //   setTimeStamp(visibleRange.from)
     // }
     // console.log(timeLine[0])
     if (timeLine[0] === visibleRange.from) {
-      setTimeStamp(visibleRange.from)
+      // setTimeStamp(visibleRange.from)
+      dispatch(updateTimeStamp(visibleRange.from))
     }
   }
 

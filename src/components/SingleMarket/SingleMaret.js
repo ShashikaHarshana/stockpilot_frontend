@@ -1,4 +1,4 @@
-import React, { useEffect} from 'react'
+import React, { useEffect } from 'react'
 import { Grid, useTheme, useMediaQuery } from '@material-ui/core'
 import { useParams } from 'react-router'
 import DesBox from '../graph/DesBox'
@@ -32,7 +32,7 @@ const SingleMarket = () => {
   const theme = useTheme()
   const mobile = useMediaQuery(theme.breakpoints.down('sm'))
 
-  const { externalIndicators} = useSelector(state => state.chart)
+  const { externalIndicators } = useSelector(state => state.chart)
   const { macd, obv, roc, rsi, stoch } = externalIndicators
 
   useEffect(() => {

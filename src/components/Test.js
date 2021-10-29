@@ -1,42 +1,27 @@
-import React, { useState } from 'react'
+import React from 'react'
 
-import {
-  Backdrop,
-  Button,
-  CircularProgress,
-  makeStyles
-} from '@material-ui/core'
+function Test () {
+  const seen = new Set()
+  const arr = [
+    { id: 1, name: 'test1' },
+    { id: 2, name: 'test2' },
+    { id: 2, name: 'test2' },
+    { id: 3, name: 'test3' },
+    { id: 4, name: 'test3' },
+    { id: 5, name: 'test6' },
+    { id: 5, name: 'test7' },
+    { id: 6, name: 'test8' }
+  ]
 
-const useStyles = makeStyles({
-  h1: {
-    fontSize: props => (props.open ? '10rem' : '1rem')
-  }
-})
+  const filteredArr = arr.filter(el => {
+    const duplicate = seen.has(el.id)
+    seen.add(el.id)
+    return !duplicate
+  })
 
-const Test = () => {
-  const [open, setOpen] = useState(false)
-  const classes = useStyles({ open })
+  console.log(filteredArr)
 
-  return (
-    <div>
-      <h1 className={classes.h1}>test....</h1>
-      <Button
-        onClick={() => {
-          setOpen(true)
-        }}
-      >
-        open backdrop
-      </Button>
-      <Backdrop
-        open={open}
-        onClick={() => {
-          setOpen(false)
-        }}
-      >
-        <CircularProgress />
-      </Backdrop>
-    </div>
-  )
+  return <div></div>
 }
 
 export default Test
