@@ -11,7 +11,9 @@ function LineChart ({ type, mobile }) {
   // const mobile = true
   console.log(mobile)
 
-  const { market, marketType, timeInterval } = useSelector(state => state.chart)
+  const { market, marketType, timeInterval, timeStamp } = useSelector(
+    state => state.chart
+  )
   const [loading, setLoading] = useState(true)
 
   const url =
@@ -19,7 +21,7 @@ function LineChart ({ type, mobile }) {
     type +
     `/${marketType}/${
       marketType === 'crypto' ? market.toUpperCase() : market
-    }/${timeInterval}`
+    }/${timeInterval}/${timeStamp}000`
 
   useEffect(() => {
     const chart = createChart(ref.current, {
@@ -91,7 +93,7 @@ function LineChart ({ type, mobile }) {
     return () => {
       chart.remove()
     }
-  }, [market, marketType, timeInterval, mobile])
+  }, [market, marketType, timeInterval, mobile, timeStamp])
 
   return (
     <>

@@ -97,7 +97,7 @@ function CryptoChart ({ mobile }) {
           // ? candleSeries.setData(chartData)
 
           // chartData !== null &&
-          console.log('initial chart data', chartData)
+          // console.log('initial chart data', chartData)
           candleSeries.setData([...tempCandlesticks, ...chartData])
           // candleSeries.setData(tempCandlesticks)
           console.log('candles', tempCandlesticks)
@@ -149,19 +149,40 @@ function CryptoChart ({ mobile }) {
 
       if (ma) {
         const maSeries = chart.addLineSeries({ lineWidth: 1, title: 'MA' })
-        getMAChart('ma', maSeries, market, marketType, timeInterval)
+        getMAChart('ma', maSeries, market, marketType, timeInterval, timeStamp)
       }
       if (ema) {
         const emaSeries = chart.addLineSeries({ lineWidth: 1, title: 'EMA' })
-        getMAChart('ema', emaSeries, market, marketType, timeInterval)
+        getMAChart(
+          'ema',
+          emaSeries,
+          market,
+          marketType,
+          timeInterval,
+          timeStamp
+        )
       }
       if (sma) {
         const smaSeries = chart.addLineSeries({ lineWidth: 1, title: 'SMA' })
-        getMAChart('sma', smaSeries, market, marketType, timeInterval)
+        getMAChart(
+          'sma',
+          smaSeries,
+          market,
+          marketType,
+          timeInterval,
+          timeStamp
+        )
       }
       if (wma) {
         const wmaSeries = chart.addLineSeries({ lineWidth: 1, title: 'WMA' })
-        getMAChart('wma', wmaSeries, market, marketType, timeInterval)
+        getMAChart(
+          'wma',
+          wmaSeries,
+          market,
+          marketType,
+          timeInterval,
+          timeStamp
+        )
       }
       if (bbands) {
         const bbandUpper = chart.addLineSeries({
@@ -185,7 +206,8 @@ function CryptoChart ({ mobile }) {
           bbandLower,
           market,
           marketType,
-          timeInterval
+          timeInterval,
+          timeStamp
         )
       }
       console.log('Opened Stream ' + market.toUpperCase())
@@ -200,9 +222,9 @@ function CryptoChart ({ mobile }) {
   const handleDrag = () => {
     // console.log('api call to load data')
     console.log(visibleRange.from)
-    console.log('state', timeLine)
-    console.log('state', chartData)
-    console.log(timeStamp)
+    // console.log('state', timeLine)
+    // console.log('state', chartData)
+    // console.log(timeStamp)
     // console.log(timeLine[0])
     // if (visibleRange.from !== null) {
     //   setTimeStamp(visibleRange.from)

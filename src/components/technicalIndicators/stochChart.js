@@ -7,7 +7,9 @@ import { TA_BASE_URL } from '../../utils/CONSTANTS'
 
 function StochChart ({ mobile }) {
   const ref = React.useRef()
-  const { market, marketType, timeInterval } = useSelector(state => state.chart)
+  const { market, marketType, timeInterval, timeStamp } = useSelector(
+    state => state.chart
+  )
   const [loading, setLoading] = useState(true)
 
   const url =
@@ -15,7 +17,7 @@ function StochChart ({ mobile }) {
     'stoch' +
     `/${marketType}/${
       marketType === 'crypto' ? market.toUpperCase() : market
-    }/${timeInterval}`
+    }/${timeInterval}/${timeStamp}000`
 
   console.log(market, marketType, timeInterval)
 
@@ -84,7 +86,7 @@ function StochChart ({ mobile }) {
     return () => {
       chart.remove()
     }
-  }, [market, marketType, timeInterval, mobile])
+  }, [market, marketType, timeInterval, mobile, timeStamp])
 
   return (
     <>

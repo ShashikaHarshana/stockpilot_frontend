@@ -111,12 +111,15 @@ export const chartReducer = (state = initialState, { type, payload }) => {
     case UPDATE_MARKET_TYPE:
       return { ...state, marketType: payload }
     case UPDATE_INTERNAL_INDICATORS:
-      return { ...state, internalIndicators: payload, stockLoading: true }
+      return {
+        ...state,
+        internalIndicators: payload,
+        stockLoading: true,
+        timeStamp: 0
+      }
     case UPDATE_EXTERNAL_INDICATORS:
       return { ...state, externalIndicators: payload }
     case UPDATE_CHART_DATA:
-      // const data = [...new Set(payload.chartData)]
-      // const time = [...new Set(payload.timeLine)]
       const removeDuplicates = arr => {
         const seen = new Set()
         const filteredArr = arr.filter(el => {
@@ -140,7 +143,12 @@ export const chartReducer = (state = initialState, { type, payload }) => {
     case SET_STOCK_LOADING:
       return { ...state, stockLoading: false }
     case RESET_INDICATORS:
-      return { ...state, internalIndicators: {}, externalIndicators: {} }
+      return {
+        ...state,
+        internalIndicators: {},
+        externalIndicators: {},
+        timeStamp: 0
+      }
     default:
       return state
   }

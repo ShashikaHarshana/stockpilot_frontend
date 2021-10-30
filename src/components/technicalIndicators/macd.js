@@ -8,7 +8,9 @@ import { TA_BASE_URL } from '../../utils/CONSTANTS'
 function MACDChart ({ mobile }) {
   const ref = React.useRef()
 
-  const { market, marketType, timeInterval } = useSelector(state => state.chart)
+  const { market, marketType, timeInterval, timeStamp } = useSelector(
+    state => state.chart
+  )
   const [loading, setLoading] = useState(true)
 
   const url =
@@ -16,7 +18,7 @@ function MACDChart ({ mobile }) {
     'macd' +
     `/${marketType}/${
       marketType === 'crypto' ? market.toUpperCase() : market
-    }/${timeInterval}`
+    }/${timeInterval}/${timeStamp}000`
 
   useEffect(() => {
     const chart = createChart(ref.current, {
@@ -102,7 +104,7 @@ function MACDChart ({ mobile }) {
     return () => {
       chart.remove()
     }
-  }, [market, marketType, timeInterval, mobile])
+  }, [market, marketType, timeInterval, mobile, timeStamp])
 
   return (
     <>

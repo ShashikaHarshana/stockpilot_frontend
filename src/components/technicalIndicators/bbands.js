@@ -6,14 +6,15 @@ let getBBands = (
   bbandLower,
   market,
   marketType,
-  timeInterval
+  timeInterval,
+  timeStamp
 ) => {
   const url =
     TA_BASE_URL +
     'bbands' +
     `/${marketType}/${
       marketType === 'crypto' ? market.toUpperCase() : market
-    }/${timeInterval}`
+    }/${timeInterval}/${timeStamp}000`
 
   fetch(url)
     .then(res => res.json())
