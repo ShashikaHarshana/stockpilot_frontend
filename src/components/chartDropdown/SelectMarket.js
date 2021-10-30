@@ -53,21 +53,24 @@ const SelectMarket = ({ type }) => {
   const stockMarkets = useSelector(state => state.chart.stockList)
   const { marketType } = useSelector(state => state.chart)
   const [market, setMarket] = React.useState(
-    type === 'stock' ? stockMarkets[0].toUpperCase(): cryptoMarkets[0]
+    type === 'stock' && stockMarkets && cryptoMarkets
+      ? stockMarkets[0].toUpperCase()
+      : cryptoMarkets[0]
   )
-
 
   const handleChange = event => {
     setMarket(event.target.value)
   }
 
   useEffect(() => {
-    setMarket(type === 'stock' ? stockMarkets[0].toUpperCase() : cryptoMarkets[0])
+    setMarket(
+      type === 'stock' ? stockMarkets[0].toUpperCase() : cryptoMarkets[0]
+    )
     dispatch(resetIndicators())
   }, [type])
 
   useEffect(() => {
-    dispatch(updateMarket(market.toLowerCase()))
+    market && dispatch(updateMarket(market.toLowerCase()))
   }, [market])
 
   return (

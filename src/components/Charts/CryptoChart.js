@@ -93,15 +93,12 @@ function CryptoChart ({ mobile }) {
             tempCandlesticks.push(object)
             // console.log(object)
           })
-          // chartData !== null
-          // ? candleSeries.setData(chartData)
+          let tempChartData = [...tempCandlesticks, ...chartData]
 
-          // chartData !== null &&
-          // console.log('initial chart data', chartData)
-          candleSeries.setData([...tempCandlesticks, ...chartData])
+          candleSeries.setData()
           // candleSeries.setData(tempCandlesticks)
-          console.log('candles', tempCandlesticks)
-          console.log('timeLine', tempTimeLine)
+          console.log([...tempCandlesticks, ...chartData])
+
           dispatch(
             updateChartData({
               chartData: [...tempCandlesticks, ...chartData],
@@ -131,21 +128,22 @@ function CryptoChart ({ mobile }) {
       let eventSource = new EventSource(
         LISTEN_URL + `${market.toUpperCase()}/${timeInterval}`
       )
-      eventSource.addEventListener(
-        'message',
-        function (e) {
-          let parsedData = JSON.parse(e.data)
-          let object = {
-            time: parsedData.k.t / 1000,
-            open: parsedData.k.o,
-            high: parsedData.k.h,
-            low: parsedData.k.l,
-            close: parsedData.k.c
-          }
-          candleSeries.update(object)
-        },
-        false
-      )
+      chartData.length !== 0 &&
+        eventSource.addEventListener(
+          'message',
+          function (e) {
+            let parsedData = JSON.parse(e.data)
+            let object = {
+              time: parsedData.k.t / 1000,
+              open: parsedData.k.o,
+              high: parsedData.k.h,
+              low: parsedData.k.l,
+              close: parsedData.k.c
+            }
+
+          },
+          false
+        )
 
       if (ma) {
         const maSeries = chart.addLineSeries({ lineWidth: 1, title: 'MA' })
