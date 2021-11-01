@@ -30,6 +30,16 @@ function CryptoChart ({ mobile }) {
   // const [timeLine, setTimeLine] = useState([])
   const dispatch = useDispatch()
 
+  const removeDuplicates = arr => {
+    const seen = new Set()
+    const filteredArr = arr.filter(el => {
+      const duplicate = seen.has(el.time)
+      seen.add(el.time)
+      return !duplicate
+    })
+    return filteredArr
+  }
+
   useEffect(() => {
     if (cryptoList.includes(market.toUpperCase())) {
       setLoading(true)
@@ -93,16 +103,23 @@ function CryptoChart ({ mobile }) {
             tempCandlesticks.push(object)
             // console.log(object)
           })
-          let tempChartData = [...tempCandlesticks, ...chartData]
+          let tempChartData = removeDuplicates([
+            ...tempCandlesticks,
+            ...chartData
+          ])
+          let tempTimeLineData = removeDuplicates([
+            ...tempTimeLine,
+            ...timeLine
+          ])
 
-          candleSeries.setData()
+          console.log('temp', tempChartData)
+          candleSeries.setData(tempChartData)
           // candleSeries.setData(tempCandlesticks)
-          console.log([...tempCandlesticks, ...chartData])
 
           dispatch(
             updateChartData({
-              chartData: [...tempCandlesticks, ...chartData],
-              timeLine: [...tempTimeLine, ...timeLine]
+              chartData: tempChartData,
+              timeLine: tempTimeLineData
             })
           )
           // setChartData([...tempCandlesticks, ...chartData])
@@ -128,22 +145,22 @@ function CryptoChart ({ mobile }) {
       let eventSource = new EventSource(
         LISTEN_URL + `${market.toUpperCase()}/${timeInterval}`
       )
-      chartData.length !== 0 &&
-        eventSource.addEventListener(
-          'message',
-          function (e) {
-            let parsedData = JSON.parse(e.data)
-            let object = {
-              time: parsedData.k.t / 1000,
-              open: parsedData.k.o,
-              high: parsedData.k.h,
-              low: parsedData.k.l,
-              close: parsedData.k.c
-            }
-
-          },
-          false
-        )
+      eventSource.addEventListener(
+        'message',
+        function (e) {
+          let parsedData = JSON.parse(e.data)
+          let object = {
+            time: parsedData.k.t / 1000,
+            open: parsedData.k.o,
+            high: parsedData.k.h,
+            low: parsedData.k.l,
+            close: parsedData.k.c
+          }
+          candleSeries.update(object)
+          console.log(object.time)
+        },
+        false
+      )
 
       if (ma) {
         const maSeries = chart.addLineSeries({ lineWidth: 1, title: 'MA' })
@@ -219,7 +236,7 @@ function CryptoChart ({ mobile }) {
 
   const handleDrag = () => {
     // console.log('api call to load data')
-    console.log(visibleRange.from)
+    // console.log(visibleRange.from)
     // console.log('state', timeLine)
     // console.log('state', chartData)
     // console.log(timeStamp)
