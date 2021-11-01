@@ -76,7 +76,14 @@ const initialState = {
   isLoading: false,
   chartData: [],
   timeLine: [],
-  timeStamp: 0
+  timeStamp: 0,
+  internalIndicatorData: {
+    ma: [],
+    sma: [],
+    ema: [],
+    wma: [],
+    bbands: []
+  }
 }
 
 export const chartReducer = (state = initialState, { type, payload }) => {

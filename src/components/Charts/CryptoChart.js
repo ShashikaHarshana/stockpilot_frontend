@@ -113,8 +113,8 @@ function CryptoChart ({ mobile }) {
           ])
 
           console.log('temp', tempChartData)
-          candleSeries.setData(tempChartData)
-          // candleSeries.setData(tempCandlesticks)
+          // candleSeries.setData(tempChartData)
+          candleSeries.setData(tempCandlesticks)
 
           dispatch(
             updateChartData({
@@ -157,7 +157,7 @@ function CryptoChart ({ mobile }) {
             close: parsedData.k.c
           }
           candleSeries.update(object)
-          console.log(object.time)
+          // console.log(object.time)
         },
         false
       )

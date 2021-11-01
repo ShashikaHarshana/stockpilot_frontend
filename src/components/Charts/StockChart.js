@@ -17,7 +17,8 @@ function StockChart ({ mobile }) {
     marketType,
     internalIndicators,
     timeInterval,
-    stockList
+    stockList,
+    timeStamp
   } = useSelector(state => state.chart)
   const { ma, sma, ema, wma, bbands } = internalIndicators
 
@@ -163,11 +164,7 @@ function StockChart ({ mobile }) {
   return (
     <>
       {loading ? <ChartLoader /> : null}
-      <div
-        ref={ref}
-        onMouseUpCapture={handleDrag}
-        
-      />
+      <div ref={ref} onMouseUpCapture={handleDrag} />
     </>
   )
 }
