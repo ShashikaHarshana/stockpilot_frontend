@@ -1,3 +1,4 @@
+import { updateInternalIndicators } from '../../redux/ducks/chart';
 import { TA_BASE_URL } from '../../utils/CONSTANTS'
 
 let getMAChart = (
@@ -29,7 +30,7 @@ let getMAChart = (
         }
       }
       lineSeries.setData(tempLines)
-      console.log('line series', tempLines)
+      dispatch(updateInternalIndicatorData({type:type,[...tempLines,]}))
     })
     .catch(e => {
       console.log(e)

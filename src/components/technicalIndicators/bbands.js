@@ -1,3 +1,4 @@
+import { useDispatch } from 'react-redux'
 import { TA_BASE_URL } from '../../utils/CONSTANTS'
 
 let getBBands = (
@@ -54,6 +55,16 @@ let getBBands = (
         bbandUpper.setData(tempUpper)
         bbandMiddle.setData(tempMiddle)
         bbandLower.setData(tempLower)
+
+        useDispatch(
+          updateInternalIndicatorData({
+            bbands: {
+              upper: [...tempUpper, ...upper],
+              middle: [...tempMiddle, ...middle],
+              lower: [...tempLower, ...lower]
+            }
+          })
+        )
       }
     })
     .catch()

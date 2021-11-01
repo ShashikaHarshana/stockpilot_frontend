@@ -11,6 +11,17 @@ export const INITIALIZE_DATA_REQUEST = 'INITIALIZE_DATA_REQUEST'
 const INITIALIZE_DATA_SUCCESS = 'INITIALIZE_DATA_SUCCESS'
 const UPDATE_CHART_DATA = 'UPDATE_CHART_DATA'
 const UPDATE_TIME_STAMP = 'UPDATE_TIME_STAMP'
+const SET_LOADING = 'SET_LOADING'
+const UPDATE_BBANDS = 'UPDATE_BBANDS'
+const UPDATE_MA = 'UPDATE_MA'
+const UPDATE_SMA = 'UPDATE_SMA'
+const UPDATE_EMA = 'UPDATE_EMA'
+const UPDATE_WMA = 'UPDATE_WMA'
+
+export const setLoading = payload => ({
+  type: SET_LOADING,
+  payload
+})
 
 export const updateMarket = payload => ({
   type: UPDATE_MARKET,
@@ -64,6 +75,28 @@ export const updateTimeStamp = payload => ({
   payload
 })
 
+export const updateBbands = payload => ({
+  type: UPDATE_BBANDS,
+  payload
+})
+
+export const updateMa = payload => ({
+  type: UPDATE_MA,
+  payload
+})
+export const updateSma = payload => ({
+  type: UPDATE_SMA,
+  payload
+})
+export const updateEma = payload => ({
+  type: UPDATE_EMA,
+  payload
+})
+export const updateWma = payload => ({
+  type: UPDATE_WMA,
+  payload
+})
+
 const initialState = {
   cryptoList: [],
   stockList: [],
@@ -82,7 +115,7 @@ const initialState = {
     sma: [],
     ema: [],
     wma: [],
-    bbands: []
+    bbands: {}
   }
 }
 
@@ -116,7 +149,13 @@ export const chartReducer = (state = initialState, { type, payload }) => {
         timeStamp: 0
       }
     case UPDATE_MARKET_TYPE:
-      return { ...state, marketType: payload }
+      return {
+        ...state,
+        marketType: payload,
+        chartData: [],
+        timeLine: [],
+        timeStamp: 0
+      }
     case UPDATE_INTERNAL_INDICATORS:
       return {
         ...state,
@@ -156,6 +195,32 @@ export const chartReducer = (state = initialState, { type, payload }) => {
         externalIndicators: {},
         timeStamp: 0
       }
+    case UPDATE_BBANDS:
+      return {
+        ...state,
+        internalIndicatorData: { ...internalIndicatorData, bbands: payload }
+      }
+    case UPDATE_MA:
+      return {
+        ...state,
+        internalIndicatorData: { ...internalIndicatorData, ma: payload }
+      }
+    case UPDATE_SMA:
+      return {
+        ...state,
+        internalIndicatorData: { ...internalIndicatorData, sma: payload }
+      }
+    case UPDATE_EMA:
+      return {
+        ...state,
+        internalIndicatorData: { ...internalIndicatorData, ema: payload }
+      }
+    case UPDATE_WMA:
+      return {
+        ...state,
+        internalIndicatorData: { ...internalIndicatorData, wma: payload }
+      }
+
     default:
       return state
   }

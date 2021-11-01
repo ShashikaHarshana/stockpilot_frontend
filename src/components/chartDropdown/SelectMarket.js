@@ -57,6 +57,9 @@ const SelectMarket = ({ type }) => {
       ? stockMarkets[0].toUpperCase()
       : cryptoMarkets[0]
   )
+  if (!stockMarkets || !cryptoMarkets) {
+    console.log('loading')
+  }
 
   const handleChange = event => {
     setMarket(event.target.value)
