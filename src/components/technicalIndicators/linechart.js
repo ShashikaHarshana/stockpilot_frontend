@@ -10,6 +10,7 @@ import {
   updateLineTime,
   updateTimeStampLine
 } from '../../redux/ducks/chart'
+import { removeDuplicates } from '../../utils/functions'
 
 function LineChart ({ type, mobile }) {
   const ref = React.useRef()
@@ -95,11 +96,16 @@ function LineChart ({ type, mobile }) {
             tempTimeLine.push(object.time)
           }
         }
-        lineSeries.setData(tempLines)
+        let tempLineData = removeDuplicates([
+          ...tempLines,
+          ...externalIndicatorData[type]
+        ])
+        // lineSeries.setData(tempLines)
+        lineSeries.setData(tempLineData)
         dispatch(
           updateExternalIndicatorData({
             type,
-            data: [...tempLines, ...externalIndicatorData[type]]
+            data: tempLineData
           })
         )
         dispatch(updateLineTime({ type, data: tempTimeLine }))
@@ -137,6 +143,7 @@ function LineChart ({ type, mobile }) {
         <Typography
           style={{
             margin: '0 auto',
+            marginTop: '1rem',
 
             width: 'fit-content'
           }}
@@ -147,7 +154,11 @@ function LineChart ({ type, mobile }) {
       </div>
 
       {loading ? <ChartLoader /> : null}
-      <div ref={ref} onMouseUpCapture={handleDrag} />
+      <div
+        ref={ref}
+        onMouseUpCapture={handleDrag}
+        style={{ marginBottom: '1rem' }}
+      />
     </>
   )
 }

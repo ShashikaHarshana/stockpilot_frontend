@@ -7,10 +7,10 @@ import { TA_BASE_URL } from '../../utils/CONSTANTS'
 import {
   updateExternalIndicatorData,
   updateStochTime,
-  updateTimeStamp,
   updateTimeStampStoch
 } from '../../redux/ducks/chart'
 import { useDispatch } from 'react-redux'
+import { removeDuplicates } from '../../utils/functions'
 
 function StochChart ({ mobile }) {
   const ref = React.useRef()
@@ -91,8 +91,17 @@ function StochChart ({ mobile }) {
           }
         }
         // console.log(tempSlowk, tempSlowd)
-        slowkSeries.setData(tempSlowk)
-        slowdSeries.setData(tempSlowd)
+        let tempSlowkData = removeDuplicates([
+          ...tempSlowk,
+          ...externalIndicatorData.stoch.slowk
+        ])
+        let tempSlowdData = removeDuplicates([
+          ...tempSlowd,
+          ...externalIndicatorData.stoch.slowd
+        ])
+
+        slowkSeries.setData(tempSlowkData)
+        slowdSeries.setData(tempSlowdData)
         // slowkSeries.setData([
         //   ...tempSlowk,
         //   ...externalIndicatorData.stoch.slowk
@@ -105,8 +114,8 @@ function StochChart ({ mobile }) {
           updateExternalIndicatorData({
             type: 'stoch',
             data: {
-              slowk: [...tempSlowk, ...externalIndicatorData.stoch.slowk],
-              slowd: [...tempSlowd, ...externalIndicatorData.stoch.slowd]
+              slowk: tempSlowkData,
+              slowd: tempSlowdData
             }
           })
         )
@@ -146,6 +155,7 @@ function StochChart ({ mobile }) {
         <Typography
           style={{
             margin: '0 auto',
+            marginTop: '1rem',
 
             width: 'fit-content'
           }}
@@ -155,7 +165,11 @@ function StochChart ({ mobile }) {
         </Typography>
       </div>
       {loading ? <ChartLoader /> : null}
-      <div ref={ref} onMouseUpCapture={handleDrag} />
+      <div
+        ref={ref}
+        onMouseUpCapture={handleDrag}
+        style={{ marginBottom: '1rem' }}
+      />
     </>
   )
 }

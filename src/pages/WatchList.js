@@ -11,6 +11,8 @@ import FullPageLoader from '../components/Loading/FullPageLoader'
 import Fade from 'react-reveal/Fade'
 import CloseIcon from '@material-ui/icons/Close'
 import { LISTEN_URL } from '../utils/CONSTANTS'
+import ConfirmDialog from '../components/controls/ConfirmDialog'
+import { openPopUp } from '../redux/ducks/notifications'
 
 const headCells = [
   //   { id: 'no', label: 'No', disableSorting: true },
@@ -31,6 +33,7 @@ const WatchList = () => {
   const token = useSelector(state => state.auth.token)
   let brands = useSelector(state => state.watchlist.brands)
   const isLoading = useSelector(state => state.watchlist.isLoading)
+  const [tableLoading, setTableLoading] = useState(true)
 
   useEffect(() => {
     dispatch(viewWatchlist(token))
@@ -118,8 +121,10 @@ const WatchList = () => {
         <NavBar />
       </Fade>
 
-      {isLoading || records.length === 0 ? (
+      {isLoading && tableLoading ? (
         <FullPageLoader />
+      ) : brands && brands.length < 1 ? (
+        <h1>No items currently in your Watch List</h1>
       ) : (
         <Paper>
           <TblContainer>
@@ -136,7 +141,20 @@ const WatchList = () => {
                   <TableCell>
                     <Controls.ActionButton
                       color='secondary'
-                      onClick={() => handleDelete(item.symbol)}
+                      // onClick={() => handleDelete(item.symbol)
+                      // }
+                      onClick={() =>
+                        dispatch(
+                          openPopUp({
+                            isOpen: true,
+                            title: 'Are you sure you want to delete this item!',
+                            subTitle:
+                              'This item will be deleted from the Watch List...!',
+                            item,
+                            handleDelete
+                          })
+                        )
+                      }
                     >
                       <CloseIcon fontSize='small' />
                     </Controls.ActionButton>
@@ -147,6 +165,7 @@ const WatchList = () => {
           </TblContainer>
         </Paper>
       )}
+      <ConfirmDialog handleDelete={handleDelete} />
     </div>
   )
 }

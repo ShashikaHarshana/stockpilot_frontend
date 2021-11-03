@@ -55,7 +55,7 @@ const SelectMarket = ({ type }) => {
   const [market, setMarket] = React.useState(
     type === 'stock' && stockMarkets && cryptoMarkets
       ? stockMarkets[0].toUpperCase()
-      : cryptoMarkets[0]
+      : cryptoMarkets[2]
   )
   if (!stockMarkets || !cryptoMarkets) {
     console.log('loading')
@@ -67,7 +67,7 @@ const SelectMarket = ({ type }) => {
 
   useEffect(() => {
     setMarket(
-      type === 'stock' ? stockMarkets[0].toUpperCase() : cryptoMarkets[0]
+      type === 'stock' ? stockMarkets[0].toUpperCase() : cryptoMarkets[2]
     )
     dispatch(resetIndicators())
   }, [type])

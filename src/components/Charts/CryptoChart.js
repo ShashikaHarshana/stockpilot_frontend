@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import ChartLoader from '../Loading/ChartLoader'
 import { HISTORICAL_URL, LISTEN_URL } from '../../utils/CONSTANTS'
 import { updateChartData, updateTimeStamp } from '../../redux/ducks/chart'
+import { removeDuplicates } from '../../utils/functions'
 
 function CryptoChart ({ mobile }) {
   const ref = React.useRef()
@@ -30,16 +31,6 @@ function CryptoChart ({ mobile }) {
 
   // const [timeLine, setTimeLine] = useState([])
   const dispatch = useDispatch()
-
-  const removeDuplicates = arr => {
-    const seen = new Set()
-    const filteredArr = arr.filter(el => {
-      const duplicate = seen.has(el.time)
-      seen.add(el.time)
-      return !duplicate
-    })
-    return filteredArr
-  }
 
   useEffect(() => {
     if (cryptoList.includes(market.toUpperCase())) {
@@ -113,9 +104,9 @@ function CryptoChart ({ mobile }) {
             ...timeLine
           ])
 
+          // candleSeries.setData(tempCandlesticks)
+          candleSeries.setData(tempChartData)
           console.log('temp', tempChartData)
-          // candleSeries.setData(tempChartData)
-          candleSeries.setData(tempCandlesticks)
 
           dispatch(
             updateChartData({

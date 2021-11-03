@@ -1,5 +1,3 @@
-// noinspection DuplicatedCode
-
 import React, { useEffect, useState } from 'react'
 import { createChart, CrosshairMode } from 'lightweight-charts'
 import getMAChart from '../technicalIndicators/maChartFunction'
@@ -22,7 +20,8 @@ function StockChart ({ mobile }) {
     stockList,
     timeStamp,
     chartData,
-    timeLine
+    timeLine,
+    internalIndicatorData
   } = useSelector(state => state.chart)
   const { ma, sma, ema, wma, bbands } = internalIndicators
 
@@ -153,7 +152,16 @@ function StockChart ({ mobile }) {
 
       if (ma) {
         const maSeries = chart.addLineSeries({ lineWidth: 1, title: 'MA' })
-        getMAChart('ma', maSeries, market, marketType, timeInterval, timeStamp)
+        getMAChart(
+          'ma',
+          maSeries,
+          market,
+          marketType,
+          timeInterval,
+          timeStamp,
+          dispatch,
+          internalIndicatorData.ma
+        )
       }
       if (ema) {
         const emaSeries = chart.addLineSeries({ lineWidth: 1, title: 'EMA' })
@@ -163,7 +171,9 @@ function StockChart ({ mobile }) {
           market,
           marketType,
           timeInterval,
-          timeStamp
+          timeStamp,
+          dispatch,
+          internalIndicatorData.sma
         )
       }
       if (sma) {
@@ -174,7 +184,9 @@ function StockChart ({ mobile }) {
           market,
           marketType,
           timeInterval,
-          timeStamp
+          timeStamp,
+          dispatch,
+          internalIndicatorData.ema
         )
       }
       if (wma) {
@@ -185,7 +197,9 @@ function StockChart ({ mobile }) {
           market,
           marketType,
           timeInterval,
-          timeStamp
+          timeStamp,
+          dispatch,
+          internalIndicatorData.wma
         )
       }
       if (bbands) {
@@ -210,7 +224,10 @@ function StockChart ({ mobile }) {
           bbandLower,
           market,
           marketType,
-          timeInterval
+          timeInterval,
+          timeStamp,
+          dispatch,
+          internalIndicatorData.bbands
         )
       }
 

@@ -1,5 +1,6 @@
 import { updateInternalIndicatorData } from '../../redux/ducks/chart'
 import { TA_BASE_URL } from '../../utils/CONSTANTS'
+import { removeDuplicates } from '../../utils/functions'
 
 let getMAChart = (
   type,
@@ -31,11 +32,10 @@ let getMAChart = (
           tempLines.push(object)
         }
       }
-      lineSeries.setData(tempLines)
+      let tempLineData = removeDuplicates([...tempLines, ...lineData])
+      lineSeries.setData(tempLineData)
       console.log(lineData)
-      dispatch(
-        updateInternalIndicatorData({ type, data: [...tempLines, ...lineData] })
-      )
+      dispatch(updateInternalIndicatorData({ type, data: tempLineData }))
       console.log('ma line series')
     })
     .catch()

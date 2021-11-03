@@ -11,6 +11,8 @@ import {
   updateTimeStampMacd
 } from '../../redux/ducks/chart'
 
+import { removeDuplicates } from '../../utils/functions'
+
 function MACDChart ({ mobile }) {
   const ref = React.useRef()
   const dispatch = useDispatch()
@@ -105,22 +107,29 @@ function MACDChart ({ mobile }) {
             }
           }
         }
-        macdSeries.setData(tempMacd)
-        macdSignalSeries.setData(tempMacdSignal)
-        macdHistSeries.setData(tempMacdHist)
+        let tempMacdData = removeDuplicates([
+          ...tempMacd,
+          ...externalIndicatorData.macd.series
+        ])
+        let tempMacdSignalData = removeDuplicates([
+          ...tempMacdSignal,
+          ...externalIndicatorData.macd.signalSeries
+        ])
+        let tempMacdHistData = removeDuplicates([
+          ...tempMacdHist,
+          ...externalIndicatorData.macd.histSeries
+        ])
+
+        macdSeries.setData(tempMacdData)
+        macdSignalSeries.setData(tempMacdSignalData)
+        macdHistSeries.setData(tempMacdHistData)
         dispatch(
           updateExternalIndicatorData({
             type: 'macd',
             data: {
-              series: [...tempMacd, ...externalIndicatorData.macd.series],
-              signalSeries: [
-                ...tempMacdSignal,
-                ...externalIndicatorData.macd.signalSeries
-              ],
-              histSeries: [
-                ...tempMacdHist,
-                ...externalIndicatorData.macd.histSeries
-              ]
+              series: tempMacdData,
+              signalSeries: tempMacdSignalData,
+              histSeries: tempMacdHistData
             }
           })
         )
@@ -159,7 +168,7 @@ function MACDChart ({ mobile }) {
         <Typography
           style={{
             margin: '0 auto',
-
+            marginTop: '1rem',
             width: 'fit-content'
           }}
           variant='h6'
@@ -168,7 +177,11 @@ function MACDChart ({ mobile }) {
         </Typography>
       </div>
       {loading ? <ChartLoader /> : null}
-      <div ref={ref} onMouseUpCapture={handleDrag} />
+      <div
+        ref={ref}
+        onMouseUpCapture={handleDrag}
+        style={{ marginBottom: '1rem' }}
+      />
     </>
   )
 }

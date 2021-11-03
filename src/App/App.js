@@ -15,6 +15,7 @@ import { initializeDataRequest } from '../redux/ducks/chart'
 import FullPageLoader from '../components/Loading/FullPageLoader'
 import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute'
 import Test from '../components/Test'
+import { userRefresh } from '../redux/ducks/auth'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -31,6 +32,9 @@ function App () {
   const isLoading = useSelector(state => state.chart.isLoading)
   useEffect(() => {
     dispatch(initializeDataRequest())
+    if (localStorage.getItem('token')) {
+      dispatch(userRefresh(localStorage.getItem('token')))
+    }
   }, [])
   //routing
 
