@@ -1,4 +1,5 @@
 import { useDispatch } from 'react-redux'
+import { updateInternalIndicatorData } from '../../redux/ducks/chart'
 import { TA_BASE_URL } from '../../utils/CONSTANTS'
 
 let getBBands = (
@@ -8,7 +9,9 @@ let getBBands = (
   market,
   marketType,
   timeInterval,
-  timeStamp
+  timeStamp,
+  dispatch,
+  lineData
 ) => {
   const url =
     TA_BASE_URL +
@@ -52,20 +55,21 @@ let getBBands = (
             tempLower.push(object)
           }
         }
-        bbandUpper.setData(tempUpper)
-        bbandMiddle.setData(tempMiddle)
-        bbandLower.setData(tempLower)
-
-        useDispatch(
-          updateInternalIndicatorData({
-            bbands: {
-              upper: [...tempUpper, ...upper],
-              middle: [...tempMiddle, ...middle],
-              lower: [...tempLower, ...lower]
-            }
-          })
-        )
       }
+      bbandUpper.setData(tempUpper)
+      bbandMiddle.setData(tempMiddle)
+      bbandLower.setData(tempLower)
+      console.log('update chart data')
+      dispatch(
+        updateInternalIndicatorData({
+          type: 'bbands',
+          data: {
+            upper: [...tempUpper, ...lineData.upper],
+            middle: [...tempMiddle, ...lineData.middle],
+            lower: [...tempLower, ...lineData.lower]
+          }
+        })
+      )
     })
     .catch()
 }

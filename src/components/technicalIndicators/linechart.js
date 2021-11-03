@@ -4,16 +4,27 @@ import { Typography } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 import ChartLoader from '../Loading/ChartLoader'
 import { TA_BASE_URL } from '../../utils/CONSTANTS'
+import { useDispatch } from 'react-redux'
+import {
+  updateExternalIndicatorData,
+  updateLineTime,
+  updateTimeStampLine
+} from '../../redux/ducks/chart'
 
 function LineChart ({ type, mobile }) {
   const ref = React.useRef()
-
+  const dispatch = useDispatch()
+  const [visibleRange, setVisibleRange] = useState({})
   // const mobile = true
-  console.log(mobile)
 
-  const { market, marketType, timeInterval, timeStamp } = useSelector(
-    state => state.chart
-  )
+  const {
+    market,
+    marketType,
+    timeInterval,
+    lineTimeStamp,
+    lineTime,
+    externalIndicatorData
+  } = useSelector(state => state.chart)
   const [loading, setLoading] = useState(true)
 
   const url =
@@ -21,9 +32,11 @@ function LineChart ({ type, mobile }) {
     type +
     `/${marketType}/${
       marketType === 'crypto' ? market.toUpperCase() : market
-    }/${timeInterval}/${timeStamp}000`
+    }/${timeInterval}/${lineTimeStamp[type]}000`
 
   useEffect(() => {
+    setLoading(true)
+    console.log(loading)
     const chart = createChart(ref.current, {
       width: 0,
       height: 0,
@@ -70,6 +83,7 @@ function LineChart ({ type, mobile }) {
       .then(res => res.json())
       .then(data => {
         let tempLines = []
+        let tempTimeLine = []
 
         for (let key in data) {
           if (data.hasOwnProperty(key)) {
@@ -78,22 +92,44 @@ function LineChart ({ type, mobile }) {
               value: data[key]
             }
             tempLines.push(object)
+            tempTimeLine.push(object.time)
           }
         }
         lineSeries.setData(tempLines)
+        dispatch(
+          updateExternalIndicatorData({
+            type,
+            data: [...tempLines, ...externalIndicatorData[type]]
+          })
+        )
+        dispatch(updateLineTime({ type, data: tempTimeLine }))
+
         if (mobile) {
           chart.resize(325, 150)
         } else {
           chart.resize(1067, 200)
         }
         setLoading(false)
+        function onVisibleTimeRangeChanged (newVisibleTimeRange) {
+          setVisibleRange(newVisibleTimeRange)
+        }
+
+        chart
+          .timeScale()
+          .subscribeVisibleTimeRangeChange(onVisibleTimeRangeChanged)
       })
       .catch()
 
     return () => {
       chart.remove()
     }
-  }, [market, marketType, timeInterval, mobile, timeStamp])
+  }, [market, marketType, timeInterval, mobile, lineTimeStamp[type]])
+
+  const handleDrag = () => {
+    if (lineTime[type][0] === visibleRange.from) {
+      dispatch(updateTimeStampLine({ type, data: visibleRange.from }))
+    }
+  }
 
   return (
     <>
@@ -111,7 +147,7 @@ function LineChart ({ type, mobile }) {
       </div>
 
       {loading ? <ChartLoader /> : null}
-      <div ref={ref} />
+      <div ref={ref} onMouseUpCapture={handleDrag} />
     </>
   )
 }

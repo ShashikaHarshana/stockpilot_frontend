@@ -13,10 +13,18 @@ const UPDATE_CHART_DATA = 'UPDATE_CHART_DATA'
 const UPDATE_TIME_STAMP = 'UPDATE_TIME_STAMP'
 const SET_LOADING = 'SET_LOADING'
 const UPDATE_BBANDS = 'UPDATE_BBANDS'
-const UPDATE_MA = 'UPDATE_MA'
-const UPDATE_SMA = 'UPDATE_SMA'
-const UPDATE_EMA = 'UPDATE_EMA'
-const UPDATE_WMA = 'UPDATE_WMA'
+const UPDATE_STOCH_TIME = 'UPDATE_STOCH_TIME'
+const UPDATE_TIME_STAMP_STOCH = 'UPDATE_TIME_STAMP_STOCH'
+const UPDATE_MACD_TIME = 'UPDATE_MACD_TIME'
+const UPDATE_TIME_STAMP_MACD = 'UPDATE_TIME_STAMP_MACD'
+const UPDATE_LINE_TIME = 'UPDATE_LINE_TIME'
+const UPDATE_TIME_STAMP_LINE = 'UPDATE_TIME_STAMP_LINE'
+// const UPDATE_MA = 'UPDATE_MA'
+// const UPDATE_SMA = 'UPDATE_SMA'
+// const UPDATE_EMA = 'UPDATE_EMA'
+// const UPDATE_WMA = 'UPDATE_WMA'
+const UPDATE_INTERNAL_INDICATOR_DATA = 'UPDATE_INTERNAL_INDICATOR_DATA'
+const UPDATE_EXTERNAL_INDICATOR_DATA = 'UPDATE_EXTERNAL_INDICATOR_DATA'
 
 export const setLoading = payload => ({
   type: SET_LOADING,
@@ -80,22 +88,57 @@ export const updateBbands = payload => ({
   payload
 })
 
-export const updateMa = payload => ({
-  type: UPDATE_MA,
+export const updateInternalIndicatorData = payload => ({
+  type: UPDATE_INTERNAL_INDICATOR_DATA,
   payload
 })
-export const updateSma = payload => ({
-  type: UPDATE_SMA,
+export const updateExternalIndicatorData = payload => ({
+  type: UPDATE_EXTERNAL_INDICATOR_DATA,
   payload
 })
-export const updateEma = payload => ({
-  type: UPDATE_EMA,
+export const updateStochTime = payload => ({
+  type: UPDATE_STOCH_TIME,
   payload
 })
-export const updateWma = payload => ({
-  type: UPDATE_WMA,
+
+export const updateTimeStampStoch = payload => ({
+  type: UPDATE_TIME_STAMP_STOCH,
   payload
 })
+export const updateMacdTime = payload => ({
+  type: UPDATE_MACD_TIME,
+  payload
+})
+
+export const updateTimeStampMacd = payload => ({
+  type: UPDATE_TIME_STAMP_MACD,
+  payload
+})
+export const updateLineTime = payload => ({
+  type: UPDATE_LINE_TIME,
+  payload
+})
+
+export const updateTimeStampLine = payload => ({
+  type: UPDATE_TIME_STAMP_LINE,
+  payload
+})
+// export const updateMa = payload => ({
+//   type: UPDATE_MA,
+//   payload
+// })
+// export const updateSma = payload => ({
+//   type: UPDATE_SMA,
+//   payload
+// })
+// export const updateEma = payload => ({
+//   type: UPDATE_EMA,
+//   payload
+// })
+// export const updateWma = payload => ({
+//   type: UPDATE_WMA,
+//   payload
+// })
 
 const initialState = {
   cryptoList: [],
@@ -115,8 +158,32 @@ const initialState = {
     sma: [],
     ema: [],
     wma: [],
-    bbands: {}
-  }
+    bbands: {
+      upper: [],
+      middle: [],
+      lower: []
+    }
+  },
+  externalIndicatorData: {
+    rsi: [],
+    obv: [],
+    roc: [],
+    macd: {
+      series: [],
+      signalSeries: [],
+      histSeries: []
+    },
+    stoch: {
+      slowk: [],
+      slowd: []
+    }
+  },
+  stochTime: [],
+  stochTimeStamp: 0,
+  macdTime: [],
+  macdTimeStamp: 0,
+  lineTime: { rsi: [], obv: [], roc: [] },
+  lineTimeStamp: { rsi: 0, obv: 0, roc: 0 }
 }
 
 export const chartReducer = (state = initialState, { type, payload }) => {
@@ -193,33 +260,83 @@ export const chartReducer = (state = initialState, { type, payload }) => {
         ...state,
         internalIndicators: {},
         externalIndicators: {},
-        timeStamp: 0
+        timeStamp: 0,
+        chartData: [],
+        timeLine: []
+      }
+
+    case UPDATE_INTERNAL_INDICATOR_DATA:
+      return {
+        ...state,
+        internalIndicatorData: {
+          ...state.internalIndicatorData,
+          [payload.type]: payload.data
+        }
+      }
+    case UPDATE_EXTERNAL_INDICATOR_DATA:
+      return {
+        ...state,
+        externalIndicatorData: {
+          ...state.externalIndicatorData,
+          [payload.type]: payload.data
+        }
       }
     case UPDATE_BBANDS:
       return {
         ...state,
-        internalIndicatorData: { ...internalIndicatorData, bbands: payload }
+        internalIndicatorData: {
+          ...state.internalIndicatorData,
+          bbands: payload
+        }
       }
-    case UPDATE_MA:
+    case UPDATE_STOCH_TIME:
+      return { ...state, stochTime: payload }
+
+    case UPDATE_TIME_STAMP_STOCH:
       return {
         ...state,
-        internalIndicatorData: { ...internalIndicatorData, ma: payload }
+        stochTimeStamp: payload
       }
-    case UPDATE_SMA:
+    case UPDATE_MACD_TIME:
+      return { ...state, macdTime: payload }
+
+    case UPDATE_TIME_STAMP_MACD:
       return {
         ...state,
-        internalIndicatorData: { ...internalIndicatorData, sma: payload }
+        macdTimeStamp: payload
       }
-    case UPDATE_EMA:
+    case UPDATE_LINE_TIME:
       return {
         ...state,
-        internalIndicatorData: { ...internalIndicatorData, ema: payload }
+        lineTime: { ...state.lineTime, [payload.type]: payload.data }
       }
-    case UPDATE_WMA:
+
+    case UPDATE_TIME_STAMP_LINE:
       return {
         ...state,
-        internalIndicatorData: { ...internalIndicatorData, wma: payload }
+        lineTimeStamp: { ...state.lineTimeStamp, [payload.type]: payload.data }
       }
+
+    // case UPDATE_MA:
+    //   return {
+    //     ...state,
+    //     internalIndicatorData: { ...internalIndicatorData, ma: payload }
+    //   }
+    // case UPDATE_SMA:
+    //   return {
+    //     ...state,
+    //     internalIndicatorData: { ...internalIndicatorData, sma: payload }
+    //   }
+    // case UPDATE_EMA:
+    //   return {
+    //     ...state,
+    //     internalIndicatorData: { ...internalIndicatorData, ema: payload }
+    //   }
+    // case UPDATE_WMA:
+    //   return {
+    //     ...state,
+    //     internalIndicatorData: { ...internalIndicatorData, wma: payload }
+    //   }
 
     default:
       return state

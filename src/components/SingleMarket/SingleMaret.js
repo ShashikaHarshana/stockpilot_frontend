@@ -60,9 +60,9 @@ const SingleMarket = () => {
             )}
           </Grid>
           <Grid item className={classes.lineChart}>
+            {rsi && <LineChart mobile={mobile} type='rsi' />}
             {obv && <LineChart mobile={mobile} type='obv' />}
             {roc && <LineChart mobile={mobile} type='roc' />}
-            {rsi && <LineChart mobile={mobile} type='rsi' />}
           </Grid>
           {macd && (
             <Grid item>

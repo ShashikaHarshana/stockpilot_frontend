@@ -4,24 +4,39 @@ import { Typography } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 import ChartLoader from '../Loading/ChartLoader'
 import { TA_BASE_URL } from '../../utils/CONSTANTS'
+import {
+  updateExternalIndicatorData,
+  updateStochTime,
+  updateTimeStamp,
+  updateTimeStampStoch
+} from '../../redux/ducks/chart'
+import { useDispatch } from 'react-redux'
 
 function StochChart ({ mobile }) {
   const ref = React.useRef()
-  const { market, marketType, timeInterval, timeStamp } = useSelector(
-    state => state.chart
-  )
+  const dispatch = useDispatch()
+  const {
+    market,
+    marketType,
+    timeInterval,
+    externalIndicatorData,
+    stochTime,
+    stochTimeStamp
+  } = useSelector(state => state.chart)
   const [loading, setLoading] = useState(true)
+  const [visibleRange, setVisibleRange] = useState({})
 
   const url =
     TA_BASE_URL +
     'stoch' +
     `/${marketType}/${
       marketType === 'crypto' ? market.toUpperCase() : market
-    }/${timeInterval}/${timeStamp}000`
+    }/${timeInterval}/${stochTimeStamp}000`
 
-  console.log(market, marketType, timeInterval)
+  // console.log(market, marketType, timeInterval)
 
   useEffect(() => {
+    setLoading(true)
     const chart = createChart(ref.current, {
       width: 0,
       height: 0,
@@ -51,6 +66,7 @@ function StochChart ({ mobile }) {
       .then(data => {
         let tempSlowk = []
         let tempSlowd = []
+        let tempTimeLine = []
 
         let dataSlowk = data['slowk']
         let dataSlowd = data['slowd']
@@ -61,7 +77,9 @@ function StochChart ({ mobile }) {
                 time: key / 1000,
                 value: dataSlowk[key]
               }
+
               tempSlowk.push(object)
+              tempTimeLine.push(object.time)
             }
             if (dataSlowd.hasOwnProperty(key)) {
               let object = {
@@ -71,22 +89,56 @@ function StochChart ({ mobile }) {
               tempSlowd.push(object)
             }
           }
-          slowkSeries.setData(tempSlowk)
-          slowdSeries.setData(tempSlowd)
-          if (mobile) {
-            chart.resize(325, 150)
-          } else {
-            chart.resize(1067, 200)
-          }
-          setLoading(false)
         }
+        // console.log(tempSlowk, tempSlowd)
+        slowkSeries.setData(tempSlowk)
+        slowdSeries.setData(tempSlowd)
+        // slowkSeries.setData([
+        //   ...tempSlowk,
+        //   ...externalIndicatorData.stoch.slowk
+        // ])
+        // slowdSeries.setData([
+        //   ...tempSlowd,
+        //   ...externalIndicatorData.stoch.slowd
+        // ])
+        dispatch(
+          updateExternalIndicatorData({
+            type: 'stoch',
+            data: {
+              slowk: [...tempSlowk, ...externalIndicatorData.stoch.slowk],
+              slowd: [...tempSlowd, ...externalIndicatorData.stoch.slowd]
+            }
+          })
+        )
+        dispatch(updateStochTime(tempTimeLine))
+        if (mobile) {
+          chart.resize(325, 150)
+        } else {
+          chart.resize(1067, 200)
+        }
+
+        function onVisibleTimeRangeChanged (newVisibleTimeRange) {
+          setVisibleRange(newVisibleTimeRange)
+        }
+
+        chart
+          .timeScale()
+          .subscribeVisibleTimeRangeChange(onVisibleTimeRangeChanged)
+        setLoading(false)
       })
       .catch()
 
     return () => {
       chart.remove()
     }
-  }, [market, marketType, timeInterval, mobile, timeStamp])
+  }, [market, marketType, timeInterval, mobile, stochTimeStamp])
+
+  const handleDrag = () => {
+    console.log(visibleRange.from)
+    if (stochTime[0] === visibleRange.from) {
+      dispatch(updateTimeStampStoch(visibleRange.from))
+    }
+  }
 
   return (
     <>
@@ -103,7 +155,7 @@ function StochChart ({ mobile }) {
         </Typography>
       </div>
       {loading ? <ChartLoader /> : null}
-      <div ref={ref} />
+      <div ref={ref} onMouseUpCapture={handleDrag} />
     </>
   )
 }

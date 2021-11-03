@@ -17,7 +17,8 @@ function CryptoChart ({ mobile }) {
     cryptoList,
     timeStamp,
     chartData,
-    timeLine
+    timeLine,
+    internalIndicatorData
   } = useSelector(state => state.chart)
 
   const { ma, sma, ema, wma, bbands } = internalIndicators
@@ -164,7 +165,16 @@ function CryptoChart ({ mobile }) {
 
       if (ma) {
         const maSeries = chart.addLineSeries({ lineWidth: 1, title: 'MA' })
-        getMAChart('ma', maSeries, market, marketType, timeInterval, timeStamp)
+        getMAChart(
+          'ma',
+          maSeries,
+          market,
+          marketType,
+          timeInterval,
+          timeStamp,
+          dispatch,
+          internalIndicatorData.ma
+        )
       }
       if (ema) {
         const emaSeries = chart.addLineSeries({ lineWidth: 1, title: 'EMA' })
@@ -174,7 +184,9 @@ function CryptoChart ({ mobile }) {
           market,
           marketType,
           timeInterval,
-          timeStamp
+          timeStamp,
+          dispatch,
+          internalIndicatorData.ema
         )
       }
       if (sma) {
@@ -185,7 +197,9 @@ function CryptoChart ({ mobile }) {
           market,
           marketType,
           timeInterval,
-          timeStamp
+          timeStamp,
+          dispatch,
+          internalIndicatorData.sma
         )
       }
       if (wma) {
@@ -196,7 +210,9 @@ function CryptoChart ({ mobile }) {
           market,
           marketType,
           timeInterval,
-          timeStamp
+          timeStamp,
+          dispatch,
+          internalIndicatorData.wma
         )
       }
       if (bbands) {
@@ -222,7 +238,9 @@ function CryptoChart ({ mobile }) {
           market,
           marketType,
           timeInterval,
-          timeStamp
+          timeStamp,
+          dispatch,
+          internalIndicatorData.bbands
         )
       }
       console.log('Opened Stream ' + market.toUpperCase())
