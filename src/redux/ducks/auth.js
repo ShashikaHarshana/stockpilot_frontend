@@ -6,14 +6,17 @@ export const USER_REGISTER_REQUEST = 'USER_REGISTER'
 const USER_REGISTER_SUCCESS = 'USER_REGISTER_SUCCESS'
 const USER_REGISTER_FAIL = 'USER_REGISTER_FAIL'
 
+export const USER_LOGOUT = 'USER_LOGOUT'
+const USER_REFRESH = 'USER_REFRESH'
+
 export const authUser = creds => ({
   type: AUTH_USER_REQUEST,
   payload: creds
 })
 
-export const authUserSuccess = user => ({
+export const authUserSuccess = data => ({
   type: AUTH_USER_SUCCESS,
-  payload: user
+  payload: data
 })
 
 export const authUserFail = error => ({
@@ -36,11 +39,23 @@ export const userRegisterFail = error => ({
   payload: error
 })
 
+export const logOut = () => ({
+  type: USER_LOGOUT
+})
+
+export const userRefresh = payload => ({
+  type: USER_REFRESH,
+  payload
+})
+
 const initialState = {
   user: null,
+  token: null,
   isLoggedIn: false,
   isLoading: false,
-  error: null
+  isRegistered: false,
+  error: null,
+  message: null
 }
 
 export const authReducer = (state = initialState, { type, payload }) => {
@@ -55,7 +70,8 @@ export const authReducer = (state = initialState, { type, payload }) => {
     case AUTH_USER_SUCCESS:
       return {
         ...state,
-        user: payload,
+        token: payload.token,
+        message: payload.message,
         isLoggedIn: true,
         isLoading: false
       }
@@ -63,22 +79,32 @@ export const authReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         isLoading: false,
+        message: payload,
         error: payload
       }
     case USER_REGISTER_SUCCESS:
       return {
         ...state,
-        user: payload,
-        isLoggedIn: true,
+        message: payload,
+        isRegistered: true,
         isLoading: false
       }
-    case AUTH_USER_FAIL:
+    case USER_REGISTER_FAIL:
       return {
         ...state,
         isLoading: false,
         error: payload
       }
+    case USER_LOGOUT:
+      localStorage.removeItem('token')
+      return { ...state, isLoggedIn: false }
+
+    case USER_REFRESH:
+      return { ...state, token: payload, isLoggedIn: true }
+
     default:
       return state
   }
 }
+
+//comment

@@ -1,18 +1,36 @@
-import { useMediaQuery } from '@material-ui/core'
-import { useTheme } from '@material-ui/styles'
 import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import NavBar from '../components/NavBar'
+// import VerticalTabs from '../components/TabPanel'
+// import ImageAvatars from '../components/ImageAvatars'
+import CenteredGrid from '../components/ProfileComponents/CenteredGrid'
+import { makeStyles } from '@material-ui/core'
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    padding: theme.spacing(3, 2),
+    height: 200,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center'
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary
+  }
+}))
 
 const Profile = () => {
   const handleClick = () => {}
-
-  const { mobile } = useSelector(state => state.page)
-
+  const classes = useStyles()
   return (
     <div>
-      <h2>This is profile</h2>
-      {mobile && <h3>mobile</h3>}
-      <button onClick={handleClick}>click me</button>
+      <div>
+        <NavBar />
+      </div>
+      <div style={{ marginTop: '125px' }}>
+        <CenteredGrid />
+      </div>
     </div>
   )
 }
