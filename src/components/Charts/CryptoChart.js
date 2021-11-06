@@ -7,6 +7,7 @@ import ChartLoader from '../Loading/ChartLoader'
 import { HISTORICAL_URL, LISTEN_URL } from '../../utils/CONSTANTS'
 import { updateChartData, updateTimeStamp } from '../../redux/ducks/chart'
 import { removeDuplicates } from '../../utils/functions'
+import { compare } from '../../utils/functions'
 
 function CryptoChart ({ mobile }) {
   const ref = React.useRef()
@@ -98,11 +99,11 @@ function CryptoChart ({ mobile }) {
           let tempChartData = removeDuplicates([
             ...tempCandlesticks,
             ...chartData
-          ])
+          ]).sort(compare)
           let tempTimeLineData = removeDuplicates([
             ...tempTimeLine,
             ...timeLine
-          ])
+          ]).sort(compare)
 
           // candleSeries.setData(tempCandlesticks)
           candleSeries.setData(tempChartData)
