@@ -11,6 +11,9 @@ import CenteredGrid from './CenteredGrid'
 import PaperGrid from './PaperGrid'
 import ReactPlayer from 'react-player'
 import { FormControlLabel, FormGroup, Switch } from '@material-ui/core'
+import { useSelector } from 'react-redux'
+import jwt_decode from 'jwt-decode'
+
 // import Notification from './Notification'
 
 function TabPanel (props) {
@@ -87,6 +90,11 @@ export default function VerticalTabs () {
   const toggleChecked = () => {
     setChecked(prev => !prev)
   }
+  const { token } = useSelector(state => state.auth)
+  console.log(token)
+
+  const decoded = jwt_decode(token)
+  console.log(decoded)
 
   return (
     <div className={classes.root}>
@@ -104,8 +112,11 @@ export default function VerticalTabs () {
       <TabPanel value={value} index={0}>
         <div className={classes.cnt}>
           <Typography className={classes.custom}>General</Typography>
-          <Variants type={'Name'} />
-          <Variants type={'Email'} />
+          <Variants
+            type={'Name'}
+            content={`${decoded.user_data.first_name} ${decoded.user_data.last_name}`}
+          />
+          <Variants type={'Email'} content={decoded.user_data.email} />
           {/* <Variants type={'Address'} /> */}
         </div>
       </TabPanel>

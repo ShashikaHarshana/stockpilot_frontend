@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-function Variants ({ type }) {
+function Variants ({ type, content }) {
   const classes = useStyles()
   return (
     <div>
@@ -32,10 +32,10 @@ function Variants ({ type }) {
             <Typography>{type}</Typography>
           </Grid>
           <Grid item sm={6}>
-            <Typography>Shashika Harshana</Typography>
+            <Typography>{content}</Typography>
           </Grid>
           <Grid item sm={3}>
-            <Button Variant='text' color='secondary'>
+            <Button variant='text' color='secondary'>
               edit
             </Button>
           </Grid>
