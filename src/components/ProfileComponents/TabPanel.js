@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import Tabs from '@material-ui/core/Tabs'
@@ -10,6 +10,7 @@ import { blue, red } from '@material-ui/core/colors'
 import CenteredGrid from './CenteredGrid'
 import PaperGrid from './PaperGrid'
 import ReactPlayer from 'react-player'
+import { FormControlLabel, FormGroup, Switch } from '@material-ui/core'
 // import Notification from './Notification'
 
 function TabPanel (props) {
@@ -59,7 +60,7 @@ const useStyles = makeStyles(theme => ({
     alignContent: 'left'
   },
   cnt: {
-    marginLeft: theme.spacing(10),
+    marginLeft: theme.spacing(5),
     marginTop: '-3rem'
   },
   cntt: {
@@ -70,7 +71,6 @@ const useStyles = makeStyles(theme => ({
   custom: {
     color: theme.palette.primary.main,
     fontWeight: 'bold',
-    fontWeight: 3000,
     fontSize: 30,
     textAlign: 'left',
     marginBottom: 15
@@ -79,10 +79,13 @@ const useStyles = makeStyles(theme => ({
 
 export default function VerticalTabs () {
   const classes = useStyles()
-  const [value, setValue] = React.useState(0)
-
+  const [value, setValue] = useState(0)
+  const [checked, setChecked] = useState(false)
   const handleChange = (event, newValue) => {
     setValue(newValue)
+  }
+  const toggleChecked = () => {
+    setChecked(prev => !prev)
   }
 
   return (
@@ -100,22 +103,30 @@ export default function VerticalTabs () {
       </Tabs>
       <TabPanel value={value} index={0}>
         <div className={classes.cnt}>
-          <Typography className={classes.custom}>
-            General User Information
-          </Typography>
-
-          <Variants />
-          <Variants />
-          <Variants />
+          <Typography className={classes.custom}>General</Typography>
+          <Variants type={'Name'} />
+          <Variants type={'Email'} />
+          {/* <Variants type={'Address'} /> */}
         </div>
       </TabPanel>
-      <TabPanel value={value} index={1}></TabPanel>
+      <TabPanel value={value} index={1}>
+        <div className={classes.cnt}>
+          <Typography className={classes.custom}>Notifications</Typography>
+          <FormGroup>
+            <FormControlLabel
+              label='Enable Notifications'
+              labelPlacement='start'
+              control={<Switch checked={checked} onChange={toggleChecked} />}
+            />
+          </FormGroup>
+        </div>
+      </TabPanel>
       <TabPanel value={value} index={2}>
-        <div className={classes.cntt}>
+        <div className={classes.cnt}>
+          <Typography className={classes.custom}>Learn</Typography>
           <Typography
-            className={classes.custom}
+            // className={classes.custom}
             style={{
-              fontWeight: 3000,
               fontSize: 20,
               textAlign: 'left',
               marginBottom: 30

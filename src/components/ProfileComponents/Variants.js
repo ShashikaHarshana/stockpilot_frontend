@@ -1,29 +1,48 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import { Grid, Typography } from '@material-ui/core';
+import React from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import Paper from '@material-ui/core/Paper'
+import { Button, Grid, Typography } from '@material-ui/core'
 
-const useStyles = makeStyles((theme) => ({
-  root: {
+const useStyles = makeStyles(theme => ({
+  paper: {
     display: 'flex',
-    '& > *': {
-      margin: theme.spacing(2),
-      width: theme.spacing(60),
-      height: theme.spacing(5),
-    },
-  },
-}));
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    // border: '1px solid red',
+    marginBottom: '1rem',
+    padding: '0.75rem 1rem',
+    width: '30rem',
+    height: '1.5rem',
+    borderRadius: 10,
+    paddingLeft: '2rem'
+  }
+}))
 
-export default function Variants() {
-  const classes = useStyles();
-  const {name} = 29
-
+function Variants ({ type }) {
+  const classes = useStyles()
   return (
-    <div className={classes.root}>
-      <Paper elevation={2}>
-        
+    <div>
+      <Paper elevation={4} className={classes.paper}>
+        <Grid
+          container
+          spacing={3}
+          style={{ display: 'flex', alignItems: 'center' }}
+        >
+          <Grid item sm={3}>
+            <Typography>{type}</Typography>
+          </Grid>
+          <Grid item sm={6}>
+            <Typography>Shashika Harshana</Typography>
+          </Grid>
+          <Grid item sm={3}>
+            <Button Variant='text' color='secondary'>
+              edit
+            </Button>
+          </Grid>
+        </Grid>
       </Paper>
-
     </div>
-  );
+  )
 }
+
+export default Variants

@@ -24,14 +24,10 @@ const Profile = () => {
   const handleClick = () => {}
   const classes = useStyles()
   return (
-    <div>
-      <div>
-        <NavBar />
-      </div>
-      <div style={{ marginTop: '125px' }}>
-        <CenteredGrid />
-      </div>
-    </div>
+    <>
+      <NavBar />
+      <CenteredGrid />
+    </>
   )
 }
 
