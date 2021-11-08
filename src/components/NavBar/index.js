@@ -135,18 +135,31 @@ const NavBar = () => {
   const dispatch = useDispatch()
   const { isLoggedIn } = useSelector(state => state.auth)
   const [openPopup, setOpenPopup] = useState(false)
-
+  const { notifications } = useSelector(state => state.notifications)
   const [filterFn, setFilterFn] = useState({
     fn: items => {
       return items
     }
   })
   const { TblContainer, TblHead } = useTable(records, headCells, filterFn)
+  const [newNotifications, setNewNotifications] = useState(
+    notifications && notifications.slice(-10)
+  )
+  const [numNotifications, setNumNotifications] = useState(
+    notifications ? newNotifications.length : 0
+  )
 
   const history = useHistory()
 
-  const handleDelete = () => {
-    console.log('deleled')
+  useEffect(() => {
+    if (notifications) {
+      setNumNotifications(newNotifications.length)
+    }
+  }, [newNotifications])
+
+  const handleDelete = time => {
+    let tempNotifications = newNotifications.filter(item => item[0] !== time)
+    setNewNotifications(tempNotifications)
   }
 
   const handleClick = event => {
@@ -234,7 +247,7 @@ const NavBar = () => {
                   onClick={() => setOpenPopup(true)}
                   style={{ marginRight: '10px' }}
                 >
-                  <Badge badgeContent={4} color='secondary'>
+                  <Badge badgeContent={numNotifications} color='secondary'>
                     <MailIcon />
                   </Badge>
                 </IconButton>
@@ -295,35 +308,42 @@ const NavBar = () => {
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >
-        <Paper>
-          <TblContainer>
-            <TblHead />
-            {/* <TableRow>
+        {notifications && newNotifications.length === 0 ? (
+          <h1>No new Notifications</h1>
+        ) : (
+          <Paper>
+            <TblContainer>
+              <TblHead />
+              {/* <TableRow>
               <TableCell>Crypto</TableCell>
               <TableCell>Crypto</TableCell>
               <TableCell>Crypto</TableCell>
               <TableCell>Crypto</TableCell>
             </TableRow> */}
-            <TableBody>
-              {records.map((item, index) => (
-                <TableRow key={index}>
-                  <TableCell>{item.symbol}</TableCell>
-                  <TableCell>{item.type}</TableCell>
-                  <TableCell>{item.openPrice}</TableCell>
-                  <TableCell>{item.currentPeakPrice}</TableCell>
-                  <TableCell>
-                    <Controls.ActionButton
-                      color='secondary'
-                      onClick={() => handleDelete(item.symbol)}
-                    >
-                      <CloseIcon fontSize='small' />
-                    </Controls.ActionButton>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </TblContainer>
-        </Paper>
+              <TableBody>
+                {notifications &&
+                  newNotifications.map((item, index) => (
+                    <TableRow key={index}>
+                      <TableCell>{item[1].symbol}</TableCell>
+                      <TableCell>{item[1].type}</TableCell>
+                      <TableCell>
+                        {parseFloat(item[1]['open price']).toFixed(4)}
+                      </TableCell>
+                      <TableCell>{item[1]['current peak price']}</TableCell>
+                      <TableCell>
+                        <Controls.ActionButton
+                          color='secondary'
+                          onClick={() => handleDelete(item[0])}
+                        >
+                          <CloseIcon fontSize='small' />
+                        </Controls.ActionButton>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </TblContainer>
+          </Paper>
+        )}
       </Popup>
     </div>
   )

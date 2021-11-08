@@ -16,6 +16,7 @@ import FullPageLoader from '../components/Loading/FullPageLoader'
 import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute'
 import Test from '../components/Test'
 import { userRefresh } from '../redux/ducks/auth'
+import { getNotifications } from '../redux/ducks/notifications'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -35,6 +36,7 @@ function App () {
     if (localStorage.getItem('token')) {
       dispatch(userRefresh(localStorage.getItem('token')))
     }
+    dispatch(getNotifications())
   }, [])
   //routing
 

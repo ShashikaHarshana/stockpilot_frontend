@@ -8,12 +8,14 @@ import {
 import * as service from './serviceSaga'
 // saga workers
 
-function * getNotifications ({ payload }) {
+function * getNotifications () {
   try {
-    const response = yield call(service.notifications, payload)
+    const response = yield call(service.notifications)
     let data = response.data
-    if (response.data.error === false) {
-      yield put(getNotificationsSuccess(data))
+    console.log(data)
+    if (data.error !== false) {
+      let notifications = data['last 5 days notifications']
+      yield put(getNotificationsSuccess(notifications))
     } else {
       yield put(getNotificationsFail(data.message))
     }
