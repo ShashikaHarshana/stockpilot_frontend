@@ -233,18 +233,8 @@ export const chartReducer = (state = initialState, { type, payload }) => {
     case UPDATE_EXTERNAL_INDICATORS:
       return { ...state, externalIndicators: payload }
     case UPDATE_CHART_DATA:
-      const removeDuplicates = arr => {
-        const seen = new Set()
-        const filteredArr = arr.filter(el => {
-          const duplicate = seen.has(el.time)
-          seen.add(el.time)
-          return !duplicate
-        })
-        return filteredArr
-      }
-
-      const filteredChartData = removeDuplicates(payload.chartData)
-      const filteredTimeLine = removeDuplicates(payload.timeLine)
+      const filteredChartData = payload.chartData
+      const filteredTimeLine = payload.timeLine
 
       return {
         ...state,
