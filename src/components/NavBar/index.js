@@ -146,7 +146,7 @@ const NavBar = () => {
     notifications && notifications.slice(-10)
   )
   const [numNotifications, setNumNotifications] = useState(
-    notifications ? newNotifications.length : 0
+    newNotifications ? newNotifications.length : 0
   )
 
   const history = useHistory()
