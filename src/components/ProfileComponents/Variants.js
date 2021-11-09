@@ -35,9 +35,9 @@ function Variants ({ type, content }) {
             <Typography>{content}</Typography>
           </Grid>
           <Grid item sm={3}>
-            <Button variant='text' color='secondary'>
+            {/* <Button variant='text' color='secondary'>
               edit
-            </Button>
+            </Button> */}
           </Grid>
         </Grid>
       </Paper>

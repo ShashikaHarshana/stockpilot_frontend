@@ -204,7 +204,38 @@ export const chartReducer = (state = initialState, { type, payload }) => {
         stockLoading: true,
         chartData: [],
         timeLine: [],
-        timeStamp: 0
+        timeStamp: 0,
+        internalIndicatorData: {
+          ma: [],
+          sma: [],
+          ema: [],
+          wma: [],
+          bbands: {
+            upper: [],
+            middle: [],
+            lower: []
+          }
+        },
+        externalIndicatorData: {
+          rsi: [],
+          obv: [],
+          roc: [],
+          macd: {
+            series: [],
+            signalSeries: [],
+            histSeries: []
+          },
+          stoch: {
+            slowk: [],
+            slowd: []
+          }
+        },
+        stochTime: [],
+        stochTimeStamp: 0,
+        macdTime: [],
+        macdTimeStamp: 0,
+        lineTime: { rsi: [], obv: [], roc: [] },
+        lineTimeStamp: { rsi: 0, obv: 0, roc: 0 }
       }
     case UPDATE_MARKET:
       return {
@@ -213,7 +244,38 @@ export const chartReducer = (state = initialState, { type, payload }) => {
         stockLoading: true,
         chartData: [],
         timeLine: [],
-        timeStamp: 0
+        timeStamp: 0,
+        internalIndicatorData: {
+          ma: [],
+          sma: [],
+          ema: [],
+          wma: [],
+          bbands: {
+            upper: [],
+            middle: [],
+            lower: []
+          }
+        },
+        externalIndicatorData: {
+          rsi: [],
+          obv: [],
+          roc: [],
+          macd: {
+            series: [],
+            signalSeries: [],
+            histSeries: []
+          },
+          stoch: {
+            slowk: [],
+            slowd: []
+          }
+        },
+        stochTime: [],
+        stochTimeStamp: 0,
+        macdTime: [],
+        macdTimeStamp: 0,
+        lineTime: { rsi: [], obv: [], roc: [] },
+        lineTimeStamp: { rsi: 0, obv: 0, roc: 0 }
       }
     case UPDATE_MARKET_TYPE:
       return {
@@ -221,14 +283,78 @@ export const chartReducer = (state = initialState, { type, payload }) => {
         marketType: payload,
         chartData: [],
         timeLine: [],
-        timeStamp: 0
+        timeStamp: 0,
+        internalIndicatorData: {
+          ma: [],
+          sma: [],
+          ema: [],
+          wma: [],
+          bbands: {
+            upper: [],
+            middle: [],
+            lower: []
+          }
+        },
+        externalIndicatorData: {
+          rsi: [],
+          obv: [],
+          roc: [],
+          macd: {
+            series: [],
+            signalSeries: [],
+            histSeries: []
+          },
+          stoch: {
+            slowk: [],
+            slowd: []
+          }
+        },
+        stochTime: [],
+        stochTimeStamp: 0,
+        macdTime: [],
+        macdTimeStamp: 0,
+        lineTime: { rsi: [], obv: [], roc: [] },
+        lineTimeStamp: { rsi: 0, obv: 0, roc: 0 }
       }
     case UPDATE_INTERNAL_INDICATORS:
       return {
         ...state,
         internalIndicators: payload,
         stockLoading: true,
-        timeStamp: 0
+        chartData: [],
+        timeLine: [],
+        timeStamp: 0,
+        internalIndicatorData: {
+          ma: [],
+          sma: [],
+          ema: [],
+          wma: [],
+          bbands: {
+            upper: [],
+            middle: [],
+            lower: []
+          }
+        },
+        externalIndicatorData: {
+          rsi: [],
+          obv: [],
+          roc: [],
+          macd: {
+            series: [],
+            signalSeries: [],
+            histSeries: []
+          },
+          stoch: {
+            slowk: [],
+            slowd: []
+          }
+        },
+        stochTime: [],
+        stochTimeStamp: 0,
+        macdTime: [],
+        macdTimeStamp: 0,
+        lineTime: { rsi: [], obv: [], roc: [] },
+        lineTimeStamp: { rsi: 0, obv: 0, roc: 0 }
       }
     case UPDATE_EXTERNAL_INDICATORS:
       return { ...state, externalIndicators: payload }

@@ -151,7 +151,7 @@ const NavBar = () => {
 
   useEffect(() => {
     if (notifications) {
-      setNumNotifications(newNotifications.length)
+      // setNumNotifications(newNotifications.length)
     }
   }, [newNotifications])
 
@@ -306,7 +306,7 @@ const NavBar = () => {
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >
-        {notifications && newNotifications.length === 0 ? (
+        {notifications ? (
           <h1>No new Notifications</h1>
         ) : (
           <Paper>

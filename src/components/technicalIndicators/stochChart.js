@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { createChart, CrosshairMode } from 'lightweight-charts'
 import { Typography } from '@material-ui/core'
 import { useSelector } from 'react-redux'
@@ -14,6 +14,10 @@ import { removeDuplicates } from '../../utils/functions'
 
 function StochChart ({ mobile }) {
   const ref = React.useRef()
+  const chart = useRef()
+  const slowkSeries = useRef()
+  const slowdSeries = useRef()
+
   const dispatch = useDispatch()
   const {
     market,
@@ -37,7 +41,7 @@ function StochChart ({ mobile }) {
 
   useEffect(() => {
     setLoading(true)
-    const chart = createChart(ref.current, {
+    chart.current = createChart(ref.current, {
       width: 0,
       height: 0,
       crosshair: {
@@ -45,18 +49,18 @@ function StochChart ({ mobile }) {
       }
     })
 
-    chart.applyOptions({
+    chart.current.applyOptions({
       timeScale: {
         visible: true,
         timeVisible: true,
         secondsVisible: true
       }
     })
-    const slowkSeries = chart.addLineSeries({
+    slowkSeries.current = chart.current.addLineSeries({
       lineWidth: 1.5,
       color: '#8E0072'
     })
-    const slowdSeries = chart.addLineSeries({
+    slowdSeries.current = chart.current.addLineSeries({
       lineWidth: 1.5,
       color: '#00733E'
     })
@@ -100,8 +104,8 @@ function StochChart ({ mobile }) {
           ...externalIndicatorData.stoch.slowd
         ])
 
-        slowkSeries.setData(tempSlowkData)
-        slowdSeries.setData(tempSlowdData)
+        slowkSeries.current.setData(tempSlowkData)
+        slowdSeries.current.setData(tempSlowdData)
         // slowkSeries.setData([
         //   ...tempSlowk,
         //   ...externalIndicatorData.stoch.slowk
@@ -121,16 +125,16 @@ function StochChart ({ mobile }) {
         )
         dispatch(updateStochTime(tempTimeLine))
         if (mobile) {
-          chart.resize(325, 150)
+          chart.current.resize(325, 150)
         } else {
-          chart.resize(1067, 200)
+          chart.current.resize(1067, 200)
         }
 
         function onVisibleTimeRangeChanged (newVisibleTimeRange) {
           setVisibleRange(newVisibleTimeRange)
         }
 
-        chart
+        chart.current
           .timeScale()
           .subscribeVisibleTimeRangeChange(onVisibleTimeRangeChanged)
         setLoading(false)
@@ -138,10 +142,72 @@ function StochChart ({ mobile }) {
       .catch()
 
     return () => {
-      chart.remove()
+      chart.current.remove()
     }
-  }, [market, marketType, timeInterval, mobile, stochTimeStamp])
+  }, [market, marketType, timeInterval, mobile])
+  useEffect(() => {
+    stochTimeStamp !== 0 &&
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          let tempSlowk = []
+          let tempSlowd = []
+          let tempTimeLine = []
 
+          let dataSlowk = data['slowk']
+          let dataSlowd = data['slowd']
+          for (let key in dataSlowk) {
+            if (dataSlowk.hasOwnProperty(key)) {
+              if (dataSlowk.hasOwnProperty(key)) {
+                let object = {
+                  time: key / 1000,
+                  value: dataSlowk[key]
+                }
+
+                tempSlowk.push(object)
+                tempTimeLine.push(object.time)
+              }
+              if (dataSlowd.hasOwnProperty(key)) {
+                let object = {
+                  time: key / 1000,
+                  value: dataSlowd[key]
+                }
+                tempSlowd.push(object)
+              }
+            }
+          }
+          // console.log(tempSlowk, tempSlowd)
+          let tempSlowkData = removeDuplicates([
+            ...tempSlowk,
+            ...externalIndicatorData.stoch.slowk
+          ])
+          let tempSlowdData = removeDuplicates([
+            ...tempSlowd,
+            ...externalIndicatorData.stoch.slowd
+          ])
+
+          slowkSeries.current.setData(tempSlowkData)
+          slowdSeries.current.setData(tempSlowdData)
+          // slowkSeries.setData([
+          //   ...tempSlowk,
+          //   ...externalIndicatorData.stoch.slowk
+          // ])
+          // slowdSeries.setData([
+          //   ...tempSlowd,
+          //   ...externalIndicatorData.stoch.slowd
+          // ])
+          dispatch(
+            updateExternalIndicatorData({
+              type: 'stoch',
+              data: {
+                slowk: tempSlowkData,
+                slowd: tempSlowdData
+              }
+            })
+          )
+          dispatch(updateStochTime(tempTimeLine))
+        })
+  }, [stochTimeStamp])
   const handleDrag = () => {
     console.log(visibleRange.from)
     if (stochTime[0] === visibleRange.from) {
