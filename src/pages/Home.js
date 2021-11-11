@@ -8,7 +8,6 @@ import cardsRight from '../svgs/home/cardsRight.svg'
 import middleImg from '../svgs/home/middleImg.svg'
 import img1 from '../svgs/home/card1.svg'
 import img2 from '../svgs/home/card2.svg'
-
 import botmLeft from '../svgs/home/botmLeft.svg'
 import elipse from '../svgs/home/elipse.svg'
 import { Link } from 'react-router-dom'
@@ -21,7 +20,6 @@ import Footer from '../components/Footer/Footer'
 import Zoom from 'react-reveal/Zoom'
 import Fade from 'react-reveal/Fade'
 import Pulse from 'react-reveal/Pulse'
-import HeadShake from 'react-reveal/HeadShake'
 
 //classes for css
 const useStyles = makeStyles(theme => ({
@@ -236,7 +234,7 @@ const Home = () => {
             <Button
               className={classes.signupBtn}
               component={Link}
-              to={`${isLoggedIn ? '/analyze/stock' : '/sign_up'}`}
+              to={`${isLoggedIn ? '/analyze/crypto' : '/sign_up'}`}
               variant='contained'
               color='secondary'
             >

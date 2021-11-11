@@ -99,7 +99,13 @@ const ImageCard = ({
           variant='text'
           color='secondary'
           component={Link}
-          to={`${isLoggedIn ? '/analyze/crypto' : '/sign_up'}`}
+          to={`${
+            isLoggedIn
+              ? type === 'Crypto'
+                ? '/analyze/crypto'
+                : '/analyze/stock'
+              : '/sign_up'
+          }`}
         >
           {`Analyze ${type}`}
           <span style={{ marginTop: 'calc(0.75rem*0.8)' }}>

@@ -295,7 +295,7 @@ function CryptoChart ({ mobile }) {
           })
           let chars = [...tempTimeLine, ...timeLine]
           // console.log('timeLine', timeLine)
-          console.log('timeStamp', timeStamp)
+          // console.log('timeStamp', timeStamp)
           let tempTimeLineData = chars.filter((c, index) => {
             return chars.indexOf(c) === index
           })

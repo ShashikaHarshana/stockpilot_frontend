@@ -31,9 +31,9 @@ import { useDispatch } from 'react-redux'
 import { logOut } from '../../redux/ducks/auth'
 import Popup from '../controls/Popup'
 import useTable from '../hooks/useTable'
-import notifications from './../../utils/data'
-import Controls from '../controls/Controls'
-import CloseIcon from '@material-ui/icons/Close'
+// import notifications from './../../utils/data'
+
+import NotificationModal from '../Notifications/NotificationModal'
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -114,16 +114,6 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const records = notifications
-const headCells = [
-  //   { id: 'no', label: 'No', disableSorting: true },
-  { id: 'symbol', label: 'Symbol' },
-  { id: 'type', label: 'Message', disableSorting: true },
-  { id: 'open', label: 'Open Price' },
-  { id: 'peak', label: 'Current Peak' },
-  { id: 'actions', label: 'Actions', disableSorting: true }
-]
-
 const NavBar = () => {
   const [open, setOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
@@ -136,29 +126,13 @@ const NavBar = () => {
   const { isLoggedIn } = useSelector(state => state.auth)
   const [openPopup, setOpenPopup] = useState(false)
   const { notifications } = useSelector(state => state.notifications)
-  const [filterFn, setFilterFn] = useState({
-    fn: items => {
-      return items
-    }
-  })
-  const { TblContainer, TblHead } = useTable(records, headCells, filterFn)
-  const [newNotifications, setNewNotifications] = useState(
-    notifications && notifications.slice(-10)
-  )
-  const [numNotifications, setNumNotifications] = useState(0)
 
   const history = useHistory()
 
-  useEffect(() => {
-    if (notifications) {
-      // setNumNotifications(newNotifications.length)
-    }
-  }, [newNotifications])
-
-  const handleDelete = time => {
-    let tempNotifications = newNotifications.filter(item => item[0] !== time)
-    setNewNotifications(tempNotifications)
-  }
+  // const handleDelete = time => {
+  //   let tempNotifications = newNotifications.filter(item => item[0] !== time)
+  //   setNewNotifications(tempNotifications)
+  // }
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget)
@@ -245,7 +219,10 @@ const NavBar = () => {
                   onClick={() => setOpenPopup(true)}
                   style={{ marginRight: '10px' }}
                 >
-                  <Badge badgeContent={numNotifications} color='secondary'>
+                  <Badge
+                    badgeContent={notifications ? notifications.length : 0}
+                    color='secondary'
+                  >
                     <MailIcon />
                   </Badge>
                 </IconButton>
@@ -306,42 +283,7 @@ const NavBar = () => {
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >
-        {notifications ? (
-          <h1>No new Notifications</h1>
-        ) : (
-          <Paper>
-            <TblContainer>
-              <TblHead />
-              {/* <TableRow>
-              <TableCell>Crypto</TableCell>
-              <TableCell>Crypto</TableCell>
-              <TableCell>Crypto</TableCell>
-              <TableCell>Crypto</TableCell>
-            </TableRow> */}
-              <TableBody>
-                {notifications &&
-                  newNotifications.map((item, index) => (
-                    <TableRow key={index}>
-                      <TableCell>{item[1].symbol}</TableCell>
-                      <TableCell>{item[1].type}</TableCell>
-                      <TableCell>
-                        {parseFloat(item[1]['open price']).toFixed(4)}
-                      </TableCell>
-                      <TableCell>{item[1]['current peak price']}</TableCell>
-                      <TableCell>
-                        <Controls.ActionButton
-                          color='secondary'
-                          onClick={() => handleDelete(item[0])}
-                        >
-                          <CloseIcon fontSize='small' />
-                        </Controls.ActionButton>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </TblContainer>
-          </Paper>
-        )}
+        <NotificationModal />
       </Popup>
     </div>
   )

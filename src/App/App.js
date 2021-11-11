@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Home from '../pages/Home'
 import { ThemeProvider } from '@material-ui/core/styles'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
@@ -17,6 +17,10 @@ import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute'
 import Test from '../components/Test'
 import { userRefresh } from '../redux/ducks/auth'
 import { getNotifications } from '../redux/ducks/notifications'
+import { onMessageListener } from '../firebaseInit'
+import Notifications from '../components/Notifications/Notifications'
+import ReactNotificationComponent from '../components/Notifications/ReactNotifications'
+import { toast } from 'react-toastify'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -31,6 +35,23 @@ function App () {
   const classes = useStyles()
   const dispatch = useDispatch()
   const isLoading = useSelector(state => state.chart.isLoading)
+  const [show, setShow] = useState(false)
+  const [notification, setNotification] = useState({ title: '', body: '' })
+
+  console.log(show, notification)
+
+  onMessageListener()
+    .then(payload => {
+      // setShow(true)
+      toast.success(`${payload.notification.body}`)
+      setNotification({
+        title: 'New notification',
+        body: payload.notification.body
+      })
+      console.log(payload.notification)
+    })
+    .catch(err => console.log('failed: ', err))
+
   useEffect(() => {
     dispatch(initializeDataRequest())
     if (localStorage.getItem('token')) {
@@ -38,37 +59,39 @@ function App () {
     }
     dispatch(getNotifications())
   }, [])
-  //routing
+  console.log('show', show)
 
   return (
-    <Router>
-      <ThemeProvider theme={theme}>
-        <Container className={classes.container}>
-          <Switch>
-            <Route exact path='/'>
-              <Home />
-            </Route>
-            <Route exact path='/sign_up'>
-              <SignUp />
-            </Route>
-            <Route exact path='/sign_in'>
-              <SignIn />
-            </Route>
-            <ProtectedRoute path='/profile' component={Profile} />
-            <ProtectedRoute path='/watchList' component={WatchList} />
-            <Route exact path='/analyze/:type'>
-              {isLoading ? <FullPageLoader /> : <SingleMarket />}
-            </Route>
-            <Route exact path='/test'>
-              <Test />
-            </Route>
-            <Route exact path='*'>
-              <ErrorPage />
-            </Route>
-          </Switch>
-        </Container>
-      </ThemeProvider>
-    </Router>
+    <>
+      <Router>
+        <ThemeProvider theme={theme}>
+          <Container className={classes.container}>
+            <Switch>
+              <Route exact path='/'>
+                <Home />
+              </Route>
+              <Route exact path='/sign_up'>
+                <SignUp />
+              </Route>
+              <Route exact path='/sign_in'>
+                <SignIn />
+              </Route>
+              <ProtectedRoute path='/profile' component={Profile} />
+              <ProtectedRoute path='/watchList' component={WatchList} />
+              <Route exact path='/analyze/:type'>
+                {isLoading ? <FullPageLoader /> : <SingleMarket />}
+              </Route>
+              <Route exact path='/test'>
+                <Test />
+              </Route>
+              <Route exact path='*'>
+                <ErrorPage />
+              </Route>
+            </Switch>
+          </Container>
+        </ThemeProvider>
+      </Router>
+    </>
   )
 }
 

@@ -256,142 +256,143 @@ function StockChart ({ mobile }) {
   }, [market, marketType, internalIndicators, timeInterval, mobile])
 
   useEffect(() => {
-    fetch(
-      BASE_URL +
-        `${marketType}/historical/${market}/${timeInterval}/${timeStamp}000`
-    )
-      .then(res => res.json())
-      .then(data => {
-        let tempCandlesticks = []
-        let tempTimeLine = []
-        data.forEach(row => {
-          let object = {
-            time: row[0] / 1000,
-            open: row[1],
-            high: row[2],
-            low: row[3],
-            close: row[4]
-          }
-          tempCandlesticks.push(object)
-          tempTimeLine.push(object.time)
-        })
-        let tempChartData = removeDuplicates([
-          ...tempCandlesticks,
-          ...chartData
-        ]).sort(compare)
-
-        let chars = [...tempTimeLine, ...timeLine]
-        // console.log('timeLine', timeLine)
-        // console.log('timeStamp', timeStamp)
-        let tempTimeLineData = chars.filter((c, index) => {
-          return chars.indexOf(c) === index
-        })
-
-        candleSeries.current.setData(tempChartData)
-        // setChartData([...chartData, ...tempCandlesticks])
-
-        dispatch(
-          updateChartData({
-            chartData: tempChartData,
-            timeLine: tempTimeLineData
+    timeStamp !== 0 &&
+      fetch(
+        BASE_URL +
+          `${marketType}/historical/${market}/${timeInterval}/${timeStamp}000`
+      )
+        .then(res => res.json())
+        .then(data => {
+          let tempCandlesticks = []
+          let tempTimeLine = []
+          data.forEach(row => {
+            let object = {
+              time: row[0] / 1000,
+              open: row[1],
+              high: row[2],
+              low: row[3],
+              close: row[4]
+            }
+            tempCandlesticks.push(object)
+            tempTimeLine.push(object.time)
           })
-        )
-        if (timeStamp !== 0) {
-          if (ma) {
-            const maSeries = chart.current.addLineSeries({
-              lineWidth: 1,
-              title: 'MA'
+          let tempChartData = removeDuplicates([
+            ...tempCandlesticks,
+            ...chartData
+          ]).sort(compare)
+
+          let chars = [...tempTimeLine, ...timeLine]
+          // console.log('timeLine', timeLine)
+          // console.log('timeStamp', timeStamp)
+          let tempTimeLineData = chars.filter((c, index) => {
+            return chars.indexOf(c) === index
+          })
+
+          candleSeries.current.setData(tempChartData)
+          // setChartData([...chartData, ...tempCandlesticks])
+
+          dispatch(
+            updateChartData({
+              chartData: tempChartData,
+              timeLine: tempTimeLineData
             })
-            getMAChart(
-              'ma',
-              maSeries,
-              market,
-              marketType,
-              timeInterval,
-              timeStamp,
-              dispatch,
-              internalIndicatorData.ma
-            )
+          )
+          if (timeStamp !== 0) {
+            if (ma) {
+              const maSeries = chart.current.addLineSeries({
+                lineWidth: 1,
+                title: 'MA'
+              })
+              getMAChart(
+                'ma',
+                maSeries,
+                market,
+                marketType,
+                timeInterval,
+                timeStamp,
+                dispatch,
+                internalIndicatorData.ma
+              )
+            }
+            if (ema) {
+              const emaSeries = chart.current.addLineSeries({
+                lineWidth: 1,
+                title: 'EMA'
+              })
+              getMAChart(
+                'ema',
+                emaSeries,
+                market,
+                marketType,
+                timeInterval,
+                timeStamp,
+                dispatch,
+                internalIndicatorData.ema
+              )
+            }
+            if (sma) {
+              const smaSeries = chart.current.addLineSeries({
+                lineWidth: 1,
+                title: 'SMA'
+              })
+              getMAChart(
+                'sma',
+                smaSeries,
+                market,
+                marketType,
+                timeInterval,
+                timeStamp,
+                dispatch,
+                internalIndicatorData.sma
+              )
+            }
+            if (wma) {
+              const wmaSeries = chart.current.addLineSeries({
+                lineWidth: 1,
+                title: 'WMA'
+              })
+              getMAChart(
+                'wma',
+                wmaSeries,
+                market,
+                marketType,
+                timeInterval,
+                timeStamp,
+                dispatch,
+                internalIndicatorData.wma
+              )
+            }
+            if (bbands) {
+              const bbandUpper = chart.current.addLineSeries({
+                lineWidth: 1,
+                title: 'BBAND Upper',
+                color: '#0069CD'
+              })
+              const bbandMiddle = chart.current.addLineSeries({
+                lineWidth: 1,
+                title: 'BBAND Middle',
+                color: 'orange'
+              })
+              const bbandLower = chart.current.addLineSeries({
+                lineWidth: 1,
+                title: 'BBAND Lower',
+                color: '#0069CD'
+              })
+              getBBands(
+                bbandUpper,
+                bbandMiddle,
+                bbandLower,
+                market,
+                marketType,
+                timeInterval,
+                timeStamp,
+                dispatch,
+                internalIndicatorData.bbands
+              )
+            }
           }
-          if (ema) {
-            const emaSeries = chart.current.addLineSeries({
-              lineWidth: 1,
-              title: 'EMA'
-            })
-            getMAChart(
-              'ema',
-              emaSeries,
-              market,
-              marketType,
-              timeInterval,
-              timeStamp,
-              dispatch,
-              internalIndicatorData.ema
-            )
-          }
-          if (sma) {
-            const smaSeries = chart.current.addLineSeries({
-              lineWidth: 1,
-              title: 'SMA'
-            })
-            getMAChart(
-              'sma',
-              smaSeries,
-              market,
-              marketType,
-              timeInterval,
-              timeStamp,
-              dispatch,
-              internalIndicatorData.sma
-            )
-          }
-          if (wma) {
-            const wmaSeries = chart.current.addLineSeries({
-              lineWidth: 1,
-              title: 'WMA'
-            })
-            getMAChart(
-              'wma',
-              wmaSeries,
-              market,
-              marketType,
-              timeInterval,
-              timeStamp,
-              dispatch,
-              internalIndicatorData.wma
-            )
-          }
-          if (bbands) {
-            const bbandUpper = chart.current.addLineSeries({
-              lineWidth: 1,
-              title: 'BBAND Upper',
-              color: '#0069CD'
-            })
-            const bbandMiddle = chart.current.addLineSeries({
-              lineWidth: 1,
-              title: 'BBAND Middle',
-              color: 'orange'
-            })
-            const bbandLower = chart.current.addLineSeries({
-              lineWidth: 1,
-              title: 'BBAND Lower',
-              color: '#0069CD'
-            })
-            getBBands(
-              bbandUpper,
-              bbandMiddle,
-              bbandLower,
-              market,
-              marketType,
-              timeInterval,
-              timeStamp,
-              dispatch,
-              internalIndicatorData.bbands
-            )
-          }
-        }
-      })
-      .catch()
+        })
+        .catch()
   }, [timeStamp])
 
   const handleDrag = () => {
