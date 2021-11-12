@@ -82,7 +82,7 @@ const Footer = () => {
             <Grid component={Link} to='/'>
               <img src={logo} alt='logo' className={classes.logo} />
             </Grid>
-            <Typography>
+            <Typography data-testid='header'>
               The website for all Your Crypto and Stock Analysis needs
             </Typography>
           </Grid>
@@ -92,10 +92,10 @@ const Footer = () => {
               <Link to='/' className={classes.link}>
                 Home
               </Link>
-              <Link to='/crypto' className={classes.link}>
+              <Link to='/analyze/crypto' className={classes.link}>
                 Crypto
               </Link>
-              <Link to='/stock' className={classes.link}>
+              <Link to='/analyze/stock' className={classes.link}>
                 Stock
               </Link>
             </div>
