@@ -4,72 +4,81 @@ import useTable from '../components/hooks/useTable'
 import NavBar from '../components/NavBar'
 import Controls from '../components/controls/Controls'
 
-import { makeStyles } from '@material-ui/core'
 import { useDispatch, useSelector } from 'react-redux'
 import { removeFromWatchlist, viewWatchlist } from '../redux/ducks/watchlist'
 
 import FullPageLoader from '../components/Loading/FullPageLoader'
 import Fade from 'react-reveal/Fade'
 import CloseIcon from '@material-ui/icons/Close'
+import { LISTEN_URL } from '../utils/CONSTANTS'
+import ConfirmDialog from '../components/controls/ConfirmDialog'
+import { openPopUp } from '../redux/ducks/notifications'
 
 const headCells = [
   //   { id: 'no', label: 'No', disableSorting: true },
   { id: 'symbol', label: 'Symbol' },
-  { id: 'price', label: 'Price' },
+  { id: 'price', label: 'Price ($)' },
   { id: 'high', label: 'High' },
   { id: 'low', label: 'Low' },
   { id: 'volume', label: 'Volume' },
   { id: 'actions', label: 'Actions', disableSorting: true }
 ]
 
-const useStyles = makeStyles({})
-
 const WatchList = () => {
-  const classes = useStyles()
   const dispatch = useDispatch()
+  const [eventSources, setEventSources] = useState([])
   const [records, setRecords] = useState([])
   const [records1, setRecords1] = useState(new Map())
   const [highVal, setHighVal] = useState(0)
   const token = useSelector(state => state.auth.token)
   let brands = useSelector(state => state.watchlist.brands)
   const isLoading = useSelector(state => state.watchlist.isLoading)
-  const isLoadingDelete = useSelector(state => state.watchlist.isLoadingDelete)
+  const [tableLoading, setTableLoading] = useState(true)
 
-  if (brands === null) {
+  useEffect(() => {
     dispatch(viewWatchlist(token))
-  }
+  }, [])
 
   useEffect(() => {
     let eventSource = null
     if (brands !== null) {
       for (let i in brands) {
-        eventSource = new EventSource(
-          'http://localhost:5000/binance/listen/' + brands[i] + '/1d'
-        )
-        eventSource.addEventListener(
-          'message',
-          function (e) {
-            let parsedData = JSON.parse(e.data)
-            let object = {
-              id: i,
-              symbol: brands[i],
-              price: parsedData.k.c,
-              high: parsedData.k.h,
-              low: parsedData.k.l,
-              volume: parsedData.k.v
-            }
-            setHighVal(parsedData.k.h)
-            let tempRecords = records1
-            tempRecords.set(brands[i], object)
-            setRecords1(tempRecords)
-          },
-          false
-        )
+        if (brands.hasOwnProperty(i)) {
+          eventSource = new EventSource(LISTEN_URL + brands[i] + '/1d')
+          eventSource.addEventListener(
+            'message',
+            function (e) {
+              let parsedData = JSON.parse(e.data)
+              let object = {
+                id: i,
+                symbol: brands[i],
+                price: parseFloat(parsedData.k.c).toFixed(4),
+                high: parseFloat(parsedData.k.h).toFixed(4),
+                low: parseFloat(parsedData.k.l).toFixed(4),
+                volume: parseFloat(parsedData.k.v).toFixed(4)
+              }
+              setHighVal(parsedData.k.h)
+              let tempRecords = records1
+              tempRecords.set(brands[i], object)
+              setRecords1(tempRecords)
+            },
+            false
+          )
+
+          let tempEventSources = eventSources
+          tempEventSources.push(eventSource)
+          setEventSources(tempEventSources)
+        }
       }
     }
-    return function cleanup () {
-      if (eventSource !== null) {
-        eventSource.close()
+    return () => {
+      if (eventSources.length !== 0) {
+        console.log(eventSources)
+        for (let e in eventSources) {
+          eventSources[e].close()
+          console.log('event source closed')
+        }
+        setEventSources([])
       }
     }
   }, [brands])
@@ -78,7 +87,9 @@ const WatchList = () => {
     if (brands !== null && records1.size >= brands.length) {
       let temp = []
       for (let i in brands) {
-        temp.push(records1.get(brands[i]))
+        if (brands.hasOwnProperty(i)) {
+          temp.push(records1.get(brands[i]))
+        }
       }
       setRecords(temp)
     }
@@ -110,8 +121,10 @@ const WatchList = () => {
         <NavBar />
       </Fade>
 
-      {isLoading || records.length === 0 ? (
+      {isLoading && tableLoading ? (
         <FullPageLoader />
+      ) : brands && brands.length < 1 ? (
+        <h1>No items currently in your Watch List</h1>
       ) : (
         <Paper>
           <TblContainer>
@@ -128,7 +141,20 @@ const WatchList = () => {
                   <TableCell>
                     <Controls.ActionButton
                       color='secondary'
-                      onClick={() => handleDelete(item.symbol)}
+                      // onClick={() => handleDelete(item.symbol)
+                      // }
+                      onClick={() =>
+                        dispatch(
+                          openPopUp({
+                            isOpen: true,
+                            title: 'Are you sure you want to delete this item!',
+                            subTitle:
+                              'This item will be deleted from the Watch List...!',
+                            item,
+                            handleDelete
+                          })
+                        )
+                      }
                     >
                       <CloseIcon fontSize='small' />
                     </Controls.ActionButton>
@@ -139,6 +165,7 @@ const WatchList = () => {
           </TblContainer>
         </Paper>
       )}
+      <ConfirmDialog handleDelete={handleDelete} />
     </div>
   )
 }

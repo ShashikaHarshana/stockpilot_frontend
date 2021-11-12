@@ -1,5 +1,5 @@
-import { takeEvery, all, call, put } from 'redux-saga/effects'
-import { authUser, authUserFail } from '../ducks/auth'
+import { takeEvery, call, put } from 'redux-saga/effects'
+import { authUserFail } from '../ducks/auth'
 import {
   getNotificationsFail,
   getNotificationsSuccess,

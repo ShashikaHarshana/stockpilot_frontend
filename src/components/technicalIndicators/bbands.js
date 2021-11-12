@@ -1,3 +1,7 @@
+import { useDispatch } from 'react-redux'
+import { updateInternalIndicatorData } from '../../redux/ducks/chart'
+import { TA_BASE_URL } from '../../utils/CONSTANTS'
+
 let getBBands = (
   bbandUpper,
   bbandMiddle,
@@ -5,15 +9,16 @@ let getBBands = (
   market,
   marketType,
   timeInterval,
-  setLoading
+  timeStamp,
+  dispatch,
+  lineData
 ) => {
   const url =
-    'http://127.0.0.1:5000/ta/bbands' +
+    TA_BASE_URL +
+    'bbands' +
     `/${marketType}/${
       marketType === 'crypto' ? market.toUpperCase() : market
-    }/${timeInterval}`
-
-  console.log(market, marketType, timeInterval)
+    }/${timeInterval}/${timeStamp}000`
 
   fetch(url)
     .then(res => res.json())
@@ -28,30 +33,43 @@ let getBBands = (
 
       for (let key in dataUpper) {
         if (dataUpper.hasOwnProperty(key)) {
-          let object = {
-            time: key / 1000,
-            value: dataUpper[key]
+          if (dataUpper.hasOwnProperty(key)) {
+            let object = {
+              time: key / 1000,
+              value: dataUpper[key]
+            }
+            tempUpper.push(object)
           }
-          tempUpper.push(object)
-        }
-        if (dataMiddle.hasOwnProperty(key)) {
-          let object = {
-            time: key / 1000,
-            value: dataMiddle[key]
+          if (dataMiddle.hasOwnProperty(key)) {
+            let object = {
+              time: key / 1000,
+              value: dataMiddle[key]
+            }
+            tempMiddle.push(object)
           }
-          tempMiddle.push(object)
-        }
-        if (dataLower.hasOwnProperty(key)) {
-          let object = {
-            time: key / 1000,
-            value: dataLower[key]
+          if (dataLower.hasOwnProperty(key)) {
+            let object = {
+              time: key / 1000,
+              value: dataLower[key]
+            }
+            tempLower.push(object)
           }
-          tempLower.push(object)
         }
       }
       bbandUpper.setData(tempUpper)
       bbandMiddle.setData(tempMiddle)
       bbandLower.setData(tempLower)
+      console.log('update chart data')
+      dispatch(
+        updateInternalIndicatorData({
+          type: 'bbands',
+          data: {
+            upper: [...tempUpper, ...lineData.upper],
+            middle: [...tempMiddle, ...lineData.middle],
+            lower: [...tempLower, ...lineData.lower]
+          }
+        })
+      )
     })
     .catch()
 }

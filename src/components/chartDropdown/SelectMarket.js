@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
 //   'HD'
 // ]
 
-const cryptoMarkets = ['BNBUSDT', 'BNBBTC', 'LTCBTC', 'ETHUSDT', 'BTCUSDT', 'SOLUSDT']
+// const cryptoMarkets = ['BNBUSDT', 'BNBBTC', 'LTCBTC', 'ETHUSDT', 'BTCUSDT', 'SOLUSDT']
 
 const SelectMarket = ({ type }) => {
   const classes = useStyles()
@@ -53,21 +53,27 @@ const SelectMarket = ({ type }) => {
   const stockMarkets = useSelector(state => state.chart.stockList)
   const { marketType } = useSelector(state => state.chart)
   const [market, setMarket] = React.useState(
-    type === 'stock' ? stockMarkets[0].toUpperCase(): cryptoMarkets[0]
+    type === 'stock' && stockMarkets && cryptoMarkets
+      ? stockMarkets[0].toUpperCase()
+      : cryptoMarkets[2]
   )
-
+  if (!stockMarkets || !cryptoMarkets) {
+    console.log('loading')
+  }
 
   const handleChange = event => {
     setMarket(event.target.value)
   }
 
   useEffect(() => {
-    setMarket(type === 'stock' ? stockMarkets[0].toUpperCase() : cryptoMarkets[0])
+    setMarket(
+      type === 'stock' ? stockMarkets[0].toUpperCase() : cryptoMarkets[2]
+    )
     dispatch(resetIndicators())
   }, [type])
 
   useEffect(() => {
-    dispatch(updateMarket(market.toLowerCase()))
+    market && dispatch(updateMarket(market.toLowerCase()))
   }, [market])
 
   return (

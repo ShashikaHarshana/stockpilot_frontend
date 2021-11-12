@@ -7,6 +7,7 @@ const USER_REGISTER_SUCCESS = 'USER_REGISTER_SUCCESS'
 const USER_REGISTER_FAIL = 'USER_REGISTER_FAIL'
 
 export const USER_LOGOUT = 'USER_LOGOUT'
+const USER_REFRESH = 'USER_REFRESH'
 
 export const authUser = creds => ({
   type: AUTH_USER_REQUEST,
@@ -40,6 +41,11 @@ export const userRegisterFail = error => ({
 
 export const logOut = () => ({
   type: USER_LOGOUT
+})
+
+export const userRefresh = payload => ({
+  type: USER_REFRESH,
+  payload
 })
 
 const initialState = {
@@ -90,7 +96,12 @@ export const authReducer = (state = initialState, { type, payload }) => {
         error: payload
       }
     case USER_LOGOUT:
+      localStorage.removeItem('token')
       return { ...state, isLoggedIn: false }
+
+    case USER_REFRESH:
+      return { ...state, token: payload, isLoggedIn: true }
+
     default:
       return state
   }

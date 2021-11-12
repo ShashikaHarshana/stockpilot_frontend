@@ -8,8 +8,11 @@ import {
   makeStyles,
   IconButton
 } from '@material-ui/core'
-import Controls from './controls/Controls'
+import Controls from './Controls'
 import NotListedLocationIcon from '@material-ui/icons/NotListedLocation'
+import { useDispatch, useSelector } from 'react-redux'
+import { closePopUp } from '../../redux/ducks/notifications'
+import { handleDelete } from '../../pages/WatchList'
 
 const useStyles = makeStyles(theme => ({
   dialog: {
@@ -39,31 +42,43 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function ConfirmDialog (props) {
-  const { confirmDialog, setConfirmDialog } = props
+export default function ConfirmDialog ({ handleDelete }) {
+  // const { confirmDialog, setConfirmDialog } = props
   const classes = useStyles()
+  const dispatch = useDispatch()
+  const { confirmationDialog } = useSelector(state => state.notifications)
 
   return (
-    <Dialog open={confirmDialog.isOpen} classes={{ paper: classes.dialog }}>
+    <Dialog
+      open={confirmationDialog.isOpen}
+      classes={{ paper: classes.dialog }}
+    >
       <DialogTitle className={classes.dialogTitle}>
         <IconButton disableRipple className={classes.titleIcon}>
           <NotListedLocationIcon />
         </IconButton>
       </DialogTitle>
       <DialogContent className={classes.dialogContent}>
-        <Typography variant='h6'>{confirmDialog.title}</Typography>
-        <Typography variant='subtitle2'>{confirmDialog.subTitle}</Typography>
+        <Typography variant='h6'>{confirmationDialog.title}</Typography>
+        <Typography variant='subtitle2'>
+          {confirmationDialog.subTitle}
+        </Typography>
       </DialogContent>
       <DialogActions className={classes.dialogAction}>
         <Controls.Button
           text='No'
           color='default'
-          onClick={() => setConfirmDialog({ ...confirmDialog, isOpen: false })}
+          // onClick={() => setconfirmationDialog({ ...confirmationDialog, isOpen: false })}\
+          onClick={() => dispatch(closePopUp())}
         />
         <Controls.Button
           text='Yes'
           color='secondary'
-          onClick={confirmDialog.onConfirm}
+          // onClick={confirmationDialog.onConfirm}
+          onClick={() => {
+            handleDelete(confirmationDialog.item.symbol)
+            dispatch(closePopUp())
+          }}
         />
       </DialogActions>
     </Dialog>

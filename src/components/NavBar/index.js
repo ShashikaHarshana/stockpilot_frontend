@@ -3,9 +3,7 @@ import {
   AppBar,
   Button,
   Grid,
-  Tabs,
   Toolbar,
-  Tab,
   Avatar,
   Menu,
   MenuItem,
@@ -23,7 +21,7 @@ import SearchBox from './SearchBox'
 import { makeStyles } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 import MenuIcon from '@material-ui/icons/Menu'
-import profilePic from '../../svgs/profilePic.png'
+import profilePic from '../../svgs/profilePhoto.png'
 import Badge from '@material-ui/core/Badge'
 import MailIcon from '@material-ui/icons/Mail'
 import { useSelector } from 'react-redux'
@@ -190,7 +188,7 @@ const NavBar = () => {
               variant='text'
               label='Stock'
               component={Link}
-              to={`/analyze/${'stock'}`}
+              to={`/analyze/stock`}
               className={classes.tabBtn}
             >
               Stock
@@ -199,7 +197,7 @@ const NavBar = () => {
               variant='text'
               label='Cripto'
               component={Link}
-              to={`/analyze/${'crypto'}`}
+              to={`/analyze/crypto`}
               className={classes.tabBtn}
             >
               crypto

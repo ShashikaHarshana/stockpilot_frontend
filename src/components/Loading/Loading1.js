@@ -1,8 +1,6 @@
 import React from 'react'
 import Lottie from 'react-lottie'
-import * as cryptoLoading from '../../components/loading files/crypto.json'
 import * as growthLoading from '../../components/loading files/growth.json'
-import * as loaderLoading from '../../components/loading files/loader.json'
 
 const defaultOptions = {
   loop: true,

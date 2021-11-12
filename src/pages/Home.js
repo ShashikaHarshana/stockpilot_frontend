@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import topRightImg from '../svgs/home/topRight.svg'
 import topImg from '../svgs/home/topImg.svg'
 import { Button, Grid, Typography } from '@material-ui/core'
@@ -83,7 +83,13 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     [theme.breakpoints.down('sm')]: {
       flexDirection: 'column',
-      marginTop: '1rem'
+      minHeight: ' 80vh'
+    }
+  },
+  imgHover: {
+    transition: 'all 0.3s ease-out',
+    '&:hover': {
+      transform: 'scale(1.05)'
     }
   },
 
@@ -94,7 +100,7 @@ const useStyles = makeStyles(theme => ({
       width: '290px',
       height: '200px',
       position: 'absolute',
-      top: '25rem',
+      top: '23rem',
       left: '2.5rem'
     }
   },
@@ -126,40 +132,46 @@ const useStyles = makeStyles(theme => ({
     }
   },
   bottom: {
+    right: 0,
+    top: 200,
+    marginRight: '2rem',
     position: 'absolute',
-    left: '50rem',
-    top: '153rem',
+    width: '50%',
     [theme.breakpoints.down('sm')]: {
-      left: '5rem',
-      top: '150rem'
+      top: '20rem',
+      left: '0',
+      width: '100%'
     }
   },
   bottomLeft: {
     position: 'absolute',
-    top: '120rem',
-    left: '-1rem',
+    top: '-15rem',
+    left: '-15rem',
     height: 'calc(1200.73px*0.8)',
     width: 'calc(875.51px*0.8)',
     [theme.breakpoints.down('sm')]: {
       height: 388,
       width: 290,
-      top: '115rem'
+      left: '-2rem',
+      top: '-6rem'
     }
   },
   title: {
-    fontWeight: 300,
     fontSize: '3rem',
+    // fontFamily: 'arial
+    fontWeight: 400,
     letterSpacing: '1.75px',
-    [theme.breakpoints.down('sm')]: { width: '80%' }
+    [theme.breakpoints.down('sm')]: { width: '80%', fontSize: '2.38rem' }
   },
   subTitle: {
-    lineHeight: '1.5rem',
+    lineHeight: '1.2rem',
     letterSpacing: '1px',
     color: '',
-    fontWeight: 400,
+    fontWeight: 500,
     marginTop: 'calc(25px*0.8)',
     width: '82%',
-    [theme.breakpoints.down('sm')]: { fontSize: '0.8rem' }
+    textOverflow: 'ellipsis',
+    [theme.breakpoints.down('sm')]: { fontSize: '0.8rem', width: '93%' }
   },
   signupBtnB: {
     width: 'calc(190px*0.8)',
@@ -174,6 +186,12 @@ const useStyles = makeStyles(theme => ({
   },
   typo: {
     fontWeight: 300
+  },
+  imgCard: {
+    [theme.breakpoints.down('sm')]: {
+      margin: '0 auto',
+      border: '1px solid red'
+    }
   }
 }))
 
@@ -201,15 +219,9 @@ const Home = () => {
       <Fade right fraction={0.5}>
         <img src={cardsRight} alt='' className={classes.cardsRight} />
       </Fade>
-      <Fade fraction={0.6} left duration={2000}>
-        <img src={botmLeft} className={classes.bottomLeft} alt='' />
-      </Fade>
       <section className={classes.section1} id='topSection'>
         <article className={classes.articleTypo}>
-          <Typography
-            variant={`${mobile ? 'h5' : 'h2'}`}
-            className={classes.title}
-          >
+          <Typography variant={`${mobile} ? h5 :h4`} className={classes.title}>
             <Zoom right big cascade delay={500} duration={2000}>
               Smart Investing Platform
             </Zoom>
@@ -240,7 +252,7 @@ const Home = () => {
           </Fade>
         </article>
       </section>
-      <Fade left delay={6000} fraction={1}>
+      <Fade left fraction={1}>
         <section className={classes.section}>
           <ImageCard
             mobile={mobile}
@@ -253,6 +265,7 @@ const Home = () => {
             type={'Crypto'}
           />
           <ImageCard
+            className={classes.imgCard}
             mobile={mobile}
             img={img2}
             width={405}
@@ -279,30 +292,34 @@ const Home = () => {
             style={{ width: '80%', lineHeight: '20px', marginTop: '10px' }}
           >
             <Fade bottom cascade delay={1000} fraction={0.7}>
-              The one stop website for all your stock and crypto analysis needs
-              without any commission or deposits.
+              The one stop website for all your stock and crypto analysis
+              needs...
             </Fade>
           </Typography>
         </article>
-        <article>
+        <article className={classes.imgHover}>
           <Fade fraction={0.7} right delay={2000} duration={2000}>
-            <HeadShake fraction={0.7} delay={4000}>
-              <img
-                src={middleImg}
-                className={classes.middleImg}
-                alt='middleImg'
-              />
-            </HeadShake>
+            <img
+              src={middleImg}
+              className={classes.middleImg}
+              alt='middleImg'
+            />
           </Fade>
         </article>
       </section>
-      <section>
-        <Fade right fraction={0.5} delay={1500} duration={2000}>
+      <section className={classes.section} style={{ position: 'relative' }}>
+        <article>
+          <img src={botmLeft} className={classes.bottomLeft} alt='' />
+        </article>
+        <Fade fraction={0.7} right delay={1000} duration={2000}>
           <article className={classes.bottom}>
             <Typography variant={`${mobile ? 'h5' : 'h4'}`}>
               Get Notified <span className={classes.secondary}>24/7 </span>{' '}
             </Typography>{' '}
-            <Typography variant='subtitle2' style={{ width: '70%' }}>
+            <Typography
+              variant='subtitle1'
+              style={{ marginTop: 'calc(25px*0.8)' }}
+            >
               The one stop website for all your stock and crypto analysis needs
               without any commission or deposits.
             </Typography>
@@ -321,7 +338,6 @@ const Home = () => {
 
       <Grid
         style={{
-          transform: 'translateY(650px)',
           width: '100%',
           // width: '1200px',
           margin: '0 auto'

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { IconButton, makeStyles } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core'
 import { Box, Grid, Paper, Typography, Button } from '@material-ui/core'
 
 import DropdownSelect from '../chartDropdown/DropdownSelect'

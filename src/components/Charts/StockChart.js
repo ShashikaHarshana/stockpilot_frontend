@@ -3,22 +3,40 @@ import { createChart, CrosshairMode } from 'lightweight-charts'
 import getMAChart from '../technicalIndicators/maChartFunction'
 import getBBands from '../technicalIndicators/bbands'
 import { useSelector } from 'react-redux'
-import { useDispatch } from 'react-redux'
-import { setStockLoading } from '../../redux/ducks/chart'
 import ChartLoader from '../Loading/ChartLoader'
+import { BASE_URL } from '../../utils/CONSTANTS'
+import { useDispatch } from 'react-redux'
+import { updateChartData, updateTimeStamp } from '../../redux/ducks/chart'
 
 function StockChart ({ mobile }) {
   const ref = React.useRef()
-  const dispatch = useDispatch()
   const [loading, setLoading] = useState(true)
+  const [visibleRange, setVisibleRange] = useState({})
   const {
     market,
     marketType,
     internalIndicators,
     timeInterval,
-    stockList
+    stockList,
+    timeStamp,
+    chartData,
+    timeLine,
+    internalIndicatorData
   } = useSelector(state => state.chart)
   const { ma, sma, ema, wma, bbands } = internalIndicators
+
+  // const [chartData, setChartData] = useState([])
+  const dispatch = useDispatch()
+
+  const removeDuplicates = arr => {
+    const seen = new Set()
+    const filteredArr = arr.filter(el => {
+      const duplicate = seen.has(el.time)
+      seen.add(el.time)
+      return !duplicate
+    })
+    return filteredArr
+  }
 
   // useEffect(() => {
   //   const { ma, sma, ema, wma, bbands } = internalIndicators
@@ -67,11 +85,13 @@ function StockChart ({ mobile }) {
       })
 
       fetch(
-        `http://127.0.0.1:5000/${marketType}/historical/${market}/${timeInterval}`
+        BASE_URL +
+          `${marketType}/historical/${market}/${timeInterval}/${timeStamp}000`
       )
         .then(res => res.json())
         .then(data => {
           let tempCandlesticks = []
+          let tempTimeLine = []
           data.forEach(row => {
             let object = {
               time: row[0] / 1000,
@@ -81,32 +101,106 @@ function StockChart ({ mobile }) {
               close: row[4]
             }
             tempCandlesticks.push(object)
+            tempTimeLine.push(object.time)
           })
+          let tempChartData = removeDuplicates([
+            ...tempCandlesticks,
+            ...chartData
+          ])
+          let tempTimeLineData = removeDuplicates([
+            ...tempTimeLine,
+            ...timeLine
+          ])
+
           candleSeries.setData(tempCandlesticks)
+          // setChartData([...chartData, ...tempCandlesticks])
+
+          dispatch(
+            updateChartData({
+              chartData: tempChartData,
+              timeLine: tempTimeLineData
+            })
+          )
+
           if (mobile) {
             chart.resize(325, 150)
           } else {
             chart.resize(1067, 450)
           }
           setLoading(false)
+          function onVisibleTimeRangeChanged (newVisibleTimeRange) {
+            setVisibleRange(newVisibleTimeRange)
+          }
+
+          chart
+            .timeScale()
+            .subscribeVisibleTimeRangeChange(onVisibleTimeRangeChanged)
         })
+        // const barsInfo = candleSeries.barsInLogicalRange(
+        //   chart.timeScale().getVisibleLogicalRange()
+        // )
+        // console.log(barsInfo)
+        // function onVisibleTimeRangeChanged (newVisibleTimeRange) {
+        //   setVisibleRange(newVisibleTimeRange)
+        // }
+
+        // chart
+        //   .timeScale()
+        //   .subscribeVisibleTimeRangeChange(onVisibleTimeRangeChanged)
+
         .catch()
 
       if (ma) {
         const maSeries = chart.addLineSeries({ lineWidth: 1, title: 'MA' })
-        getMAChart('ma', maSeries, market, marketType, timeInterval)
+        getMAChart(
+          'ma',
+          maSeries,
+          market,
+          marketType,
+          timeInterval,
+          timeStamp,
+          dispatch,
+          internalIndicatorData.ma
+        )
       }
       if (ema) {
         const emaSeries = chart.addLineSeries({ lineWidth: 1, title: 'EMA' })
-        getMAChart('ema', emaSeries, market, marketType, timeInterval)
+        getMAChart(
+          'ema',
+          emaSeries,
+          market,
+          marketType,
+          timeInterval,
+          timeStamp,
+          dispatch,
+          internalIndicatorData.sma
+        )
       }
       if (sma) {
         const smaSeries = chart.addLineSeries({ lineWidth: 1, title: 'SMA' })
-        getMAChart('sma', smaSeries, market, marketType, timeInterval)
+        getMAChart(
+          'sma',
+          smaSeries,
+          market,
+          marketType,
+          timeInterval,
+          timeStamp,
+          dispatch,
+          internalIndicatorData.ema
+        )
       }
       if (wma) {
         const wmaSeries = chart.addLineSeries({ lineWidth: 1, title: 'WMA' })
-        getMAChart('wma', wmaSeries, market, marketType, timeInterval)
+        getMAChart(
+          'wma',
+          wmaSeries,
+          market,
+          marketType,
+          timeInterval,
+          timeStamp,
+          dispatch,
+          internalIndicatorData.wma
+        )
       }
       if (bbands) {
         const bbandUpper = chart.addLineSeries({
@@ -130,7 +224,10 @@ function StockChart ({ mobile }) {
           bbandLower,
           market,
           marketType,
-          timeInterval
+          timeInterval,
+          timeStamp,
+          dispatch,
+          internalIndicatorData.bbands
         )
       }
 
@@ -138,12 +235,21 @@ function StockChart ({ mobile }) {
         chart.remove()
       }
     }
-  }, [market, marketType, internalIndicators, timeInterval, mobile])
+  }, [market, marketType, internalIndicators, timeInterval, mobile, timeStamp])
+
+  const handleDrag = () => {
+    console.log('api call to load data')
+    console.log(visibleRange.from)
+    if (timeLine[0] === visibleRange.from) {
+      // setTimeStamp(visibleRange.from)
+      dispatch(updateTimeStamp(visibleRange.from))
+    }
+  }
 
   return (
     <>
       {loading ? <ChartLoader /> : null}
-      <div ref={ref} />
+      <div ref={ref} onMouseUpCapture={handleDrag} />
     </>
   )
 }

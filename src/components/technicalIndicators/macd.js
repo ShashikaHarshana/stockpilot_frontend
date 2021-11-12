@@ -3,20 +3,40 @@ import { createChart, CrosshairMode } from 'lightweight-charts'
 import { Typography } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 import ChartLoader from '../Loading/ChartLoader'
+import { TA_BASE_URL } from '../../utils/CONSTANTS'
+import { useDispatch } from 'react-redux'
+import {
+  updateExternalIndicatorData,
+  updateMacdTime,
+  updateTimeStampMacd
+} from '../../redux/ducks/chart'
 
-function MACDChart ({ type, mobile }) {
+import { removeDuplicates } from '../../utils/functions'
+
+function MACDChart ({ mobile }) {
   const ref = React.useRef()
+  const dispatch = useDispatch()
+  const [visibleRange, setVisibleRange] = useState({})
 
-  const { market, marketType, timeInterval } = useSelector(state => state.chart)
+  const {
+    market,
+    marketType,
+    timeInterval,
+    macdTimeStamp,
+    macdTime,
+    externalIndicatorData
+  } = useSelector(state => state.chart)
   const [loading, setLoading] = useState(true)
 
   const url =
-    'http://127.0.0.1:5000/ta/macd' +
+    TA_BASE_URL +
+    'macd' +
     `/${marketType}/${
       marketType === 'crypto' ? market.toUpperCase() : market
-    }/${timeInterval}`
+    }/${timeInterval}/${macdTimeStamp}000`
 
   useEffect(() => {
+    setLoading(true)
     const chart = createChart(ref.current, {
       width: 0,
       height: 0,
@@ -47,6 +67,7 @@ function MACDChart ({ type, mobile }) {
         let tempMacd = []
         let tempMacdSignal = []
         let tempMacdHist = []
+        let tempTimeLine = []
 
         let dataMacd = data['macd']
         let dataMacdSignal = data['macdsignal']
@@ -54,43 +75,78 @@ function MACDChart ({ type, mobile }) {
 
         for (let key in dataMacd) {
           if (dataMacd.hasOwnProperty(key)) {
-            let object = {
-              time: key / 1000,
-              value: dataMacd[key]
+            if (dataMacd.hasOwnProperty(key)) {
+              let object = {
+                time: key / 1000,
+                value: dataMacd[key]
+              }
+              tempMacd.push(object)
+              tempTimeLine.push(object.time)
             }
-            tempMacd.push(object)
-          }
-          if (dataMacdSignal.hasOwnProperty(key)) {
-            let object = {
-              time: key / 1000,
-              value: dataMacdSignal[key]
+            if (dataMacdSignal.hasOwnProperty(key)) {
+              let object = {
+                time: key / 1000,
+                value: dataMacdSignal[key]
+              }
+              tempMacdSignal.push(object)
             }
-            tempMacdSignal.push(object)
-          }
-          if (dataMacdHist.hasOwnProperty(key)) {
-            let color
-            if (dataMacdHist[key] > 0) {
-              color = '#00733E'
-            } else {
-              color = '#BB2E2D'
-            }
+            if (dataMacdHist.hasOwnProperty(key)) {
+              let color
+              if (dataMacdHist[key] > 0) {
+                color = '#00733E'
+              } else {
+                color = '#BB2E2D'
+              }
 
-            let object = {
-              time: key / 1000,
-              value: dataMacdHist[key],
-              color
+              let object = {
+                time: key / 1000,
+                value: dataMacdHist[key],
+                color
+              }
+              tempMacdHist.push(object)
             }
-            tempMacdHist.push(object)
           }
         }
-        macdSeries.setData(tempMacd)
-        macdSignalSeries.setData(tempMacdSignal)
-        macdHistSeries.setData(tempMacdHist)
+        let tempMacdData = removeDuplicates([
+          ...tempMacd,
+          ...externalIndicatorData.macd.series
+        ])
+        let tempMacdSignalData = removeDuplicates([
+          ...tempMacdSignal,
+          ...externalIndicatorData.macd.signalSeries
+        ])
+        let tempMacdHistData = removeDuplicates([
+          ...tempMacdHist,
+          ...externalIndicatorData.macd.histSeries
+        ])
+
+        macdSeries.setData(tempMacdData)
+        macdSignalSeries.setData(tempMacdSignalData)
+        macdHistSeries.setData(tempMacdHistData)
+        dispatch(
+          updateExternalIndicatorData({
+            type: 'macd',
+            data: {
+              series: tempMacdData,
+              signalSeries: tempMacdSignalData,
+              histSeries: tempMacdHistData
+            }
+          })
+        )
+        dispatch(updateMacdTime(tempTimeLine))
         if (mobile) {
           chart.resize(325, 150)
         } else {
           chart.resize(1067, 200)
         }
+        function onVisibleTimeRangeChanged (newVisibleTimeRange) {
+          setVisibleRange(newVisibleTimeRange)
+        }
+
+        chart
+          .timeScale()
+          .subscribeVisibleTimeRangeChange(onVisibleTimeRangeChanged)
+
         setLoading(false)
       })
       .catch()
@@ -98,7 +154,13 @@ function MACDChart ({ type, mobile }) {
     return () => {
       chart.remove()
     }
-  }, [market, marketType, timeInterval, mobile])
+  }, [market, marketType, timeInterval, mobile, macdTimeStamp])
+
+  const handleDrag = () => {
+    if (macdTime[0] === visibleRange.from) {
+      dispatch(updateTimeStampMacd(visibleRange.from))
+    }
+  }
 
   return (
     <>
@@ -106,7 +168,7 @@ function MACDChart ({ type, mobile }) {
         <Typography
           style={{
             margin: '0 auto',
-
+            marginTop: '1rem',
             width: 'fit-content'
           }}
           variant='h6'
@@ -115,7 +177,11 @@ function MACDChart ({ type, mobile }) {
         </Typography>
       </div>
       {loading ? <ChartLoader /> : null}
-      <div ref={ref} />
+      <div
+        ref={ref}
+        onMouseUpCapture={handleDrag}
+        style={{ marginBottom: '1rem' }}
+      />
     </>
   )
 }

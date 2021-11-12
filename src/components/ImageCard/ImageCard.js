@@ -12,17 +12,19 @@ const subTitle =
 const useStyles = makeStyles(theme => ({
   card: {
     width: 480,
-    height: 560,
+    height: 525,
     marginRight: 'calc(4rem*0.8)',
     zIndex: '1',
     borderRadius: '10px',
     paddingLeft: 'calc(48px*0.8)',
     paddingRight: 'calc(20px*0.8)',
     [theme.breakpoints.down('sm')]: {
-      width: '280px',
-      height: '338px',
-      marginLeft: 10,
-      marginBottom: '2rem'
+      width: '90%',
+      height: 'fit-content',
+      margin: '0 auto',
+      marginBottom: '2rem',
+      paddingLeft: 'calc(25px*0.8)',
+      paddingBottom: '1rem'
     }
   },
   cardMedia: {
@@ -30,10 +32,15 @@ const useStyles = makeStyles(theme => ({
     height: props => `calc(${props.height}px*0.8)`,
     marginTop: props => `calc(${props.marginTop}px*0.8)`,
     marginBottom: 'calc(31px*0.8)',
+    transition: 'all 0.3s ease-out',
+    '&:hover': {
+      transform: 'scale(1.1)'
+    },
     [theme.breakpoints.down('sm')]: {
       width: props => `calc(${props.mWidth}px*0.8)`,
       height: props => `calc(${props.mHeight}px*0.8)`,
-      marginTop: '35px'
+      margin: '0 auto'
+      // marginTop: '35px'
     }
   },
   img: {
@@ -68,14 +75,13 @@ const ImageCard = ({
   const { isLoggedIn } = useSelector(state => state.auth)
 
   const classes = useStyles({ height, width, mWidth, mHeight, marginTop })
-  console.log(width)
 
   return (
     <Paper elevation={13} className={classes.card}>
       <div className={classes.cardMedia}>
         <img className={classes.img} src={img} alt='' />
       </div>
-      <div>
+      <div style={{ marginTop: '10px' }}>
         <Typography
           gutterBottom
           variant={`${mobile ? 'h5' : 'h4'}`}
@@ -85,7 +91,7 @@ const ImageCard = ({
           <span>{type === 'Crypto' ? 'Currency' : 'Market'}</span>
         </Typography>
         <Typography variant='body2' color='textSecondary'>
-          {mobile ? ' ' : subTitle}
+          {subTitle}
         </Typography>
         <Button
           size='large'

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Box,
   Grid,
@@ -6,14 +6,17 @@ import {
   Paper,
   Typography,
   Button,
-  useMediaQuery,
-  useTheme,
-  CircularProgress
+  // useMediaQuery,
+  // useTheme,
+  CircularProgress,
+  useMediaQuery
 } from '@material-ui/core'
-import {useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
 import SelectMarket from '../chartDropdown/SelectMarket'
-import {addToWatchlist} from "../../redux/ducks/watchlist";
+import { addToWatchlist } from '../../redux/ducks/watchlist'
+import { LISTEN_URL } from '../../utils/CONSTANTS'
+import { useTheme } from '@material-ui/styles'
 
 const useStyles = makeStyles(theme => ({
   box: {
@@ -78,11 +81,14 @@ let initObject = {
 
 const DesBox = ({ type }) => {
   const classes = useStyles()
+  const theme = useTheme()
+  const mobile = useMediaQuery(theme.breakpoints.down('sm'))
+
   const { isLoggedIn } = useSelector(state => state.auth)
   const history = useHistory()
   const { marketType } = useSelector(state => state.chart)
-  const theme = useTheme()
-  const mobile = useMediaQuery(theme.breakpoints.down('sm'))
+  // const theme = useTheme()
+  // const mobile = useMediaQuery(theme.breakpoints.down('sm'))
   const token = useSelector(state => state.auth.token)
   const dispatch = useDispatch()
   const market = useSelector(state => state.chart.market)
@@ -90,29 +96,30 @@ const DesBox = ({ type }) => {
   const isWatchlistLoading = useSelector(state => state.watchlist.isLoading)
   const added = useSelector(state => state.watchlist.added)
 
-
   useEffect(() => {
     if (marketType === 'crypto') {
       if (market !== null) {
-        let eventSource = new EventSource('http://localhost:5000/binance/listen/' + market.toUpperCase() + '/1d')
+        let eventSource = new EventSource(
+          LISTEN_URL + market.toUpperCase() + '/1d'
+        )
         eventSource.addEventListener(
-            'message',
-            function (e) {
-              let parsedData = JSON.parse(e.data)
-              let object = {
-                symbol: market,
-                price: parsedData.k.c,
-                high: parsedData.k.h,
-                low: parsedData.k.l,
-                volume: parsedData.k.v
-              }
-              setLiveData(object)
-            },
-            false
+          'message',
+          function (e) {
+            let parsedData = JSON.parse(e.data)
+            let object = {
+              symbol: market,
+              price: parsedData.k.c,
+              high: parsedData.k.h,
+              low: parsedData.k.l,
+              volume: parsedData.k.v
+            }
+            setLiveData(object)
+          },
+          false
         )
 
-        return function cleanup() {
-          eventSource.close();
+        return function cleanup () {
+          eventSource.close()
         }
       }
     }
@@ -122,7 +129,7 @@ const DesBox = ({ type }) => {
     if (!isLoggedIn) {
       return history.push('/sign_up')
     } else {
-      dispatch(addToWatchlist({"brands":[market.toUpperCase()], "token": token}))
+      dispatch(addToWatchlist({ brands: [market.toUpperCase()], token: token }))
     }
   }
   return (
@@ -142,31 +149,43 @@ const DesBox = ({ type }) => {
               <SelectMarket type={type} />
             </Grid>
             {marketType === 'crypto' ? (
-            <Grid
-              item
-              container
-              md={7}
-              sm={12}
-              spacing={4}
-              className={classes.textContainer}
-            >
-              <Grid item>
-                <Typography className={classes.textUpper}>Price</Typography>
-                <Typography className={classes.textLower}>{liveData.price}</Typography>
+              <Grid
+                item
+                container
+                md={7}
+                sm={12}
+                spacing={4}
+                className={classes.textContainer}
+              >
+                <Grid item>
+                  <Typography className={classes.textUpper}>Price</Typography>
+                  <Typography className={classes.textLower}>
+                    {parseFloat(liveData.price).toFixed(4)}
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Typography className={classes.textUpper}>
+                    24h High
+                  </Typography>
+                  <Typography className={classes.textLower}>
+                    {parseFloat(liveData.high).toFixed(4)}
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Typography className={classes.textUpper}>
+                    24h Low{' '}
+                  </Typography>
+                  <Typography className={classes.textLower}>
+                    {parseFloat(liveData.low).toFixed(4)}
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Typography className={classes.textUpper}>Volume</Typography>
+                  <Typography className={classes.textLower}>
+                    {parseFloat(liveData.volume).toFixed(4)}
+                  </Typography>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Typography className={classes.textUpper}>24h High</Typography>
-                <Typography className={classes.textLower}>{liveData.high}</Typography>
-              </Grid>
-              <Grid item>
-                <Typography className={classes.textUpper}>24h Low </Typography>
-                <Typography className={classes.textLower}>{liveData.low}</Typography>
-              </Grid>
-              <Grid item>
-                <Typography className={classes.textUpper}>Volume</Typography>
-                <Typography className={classes.textLower}>{liveData.volume}</Typography>
-              </Grid>
-            </Grid>
             ) : null}
 
             <Grid className={classes.btnContainer} item md={2} sm={12}>
@@ -177,9 +196,15 @@ const DesBox = ({ type }) => {
                   variant='contained'
                   // color='primary'
                 >
-                  {isWatchlistLoading ? <CircularProgress color="primary" size="1.6rem"/> :
-                      added.includes(market.toUpperCase()) ? 'Added' : 'Add to Watch List'
-                  }
+                  {isWatchlistLoading ? (
+                    <CircularProgress color='primary' size='1.6rem' />
+                  ) : added.includes(market.toUpperCase()) ? (
+                    'Added'
+                  ) : mobile ? (
+                    'Add'
+                  ) : (
+                    'Add to Watch List'
+                  )}
                 </Button>
               ) : null}
             </Grid>

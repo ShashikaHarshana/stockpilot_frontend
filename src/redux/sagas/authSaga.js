@@ -14,12 +14,13 @@ function * login ({ payload }) {
   try {
     const response = yield call(service.login, payload)
     let data = response.data
-    if (response.data.message === 'Login Successful!'){
+    if (response.data.message === 'Login Successful!') {
       yield put(authUserSuccess(data))
+      localStorage.setItem('token', data.token)
+      console.log(data.token)
     } else {
       yield put(authUserFail(data.message))
     }
-
   } catch (error) {
     yield put(authUserFail(error))
   }

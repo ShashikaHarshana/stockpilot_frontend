@@ -1,9 +1,8 @@
-import { Box, Grid, IconButton, Typography } from '@material-ui/core'
+import { Box, Grid, Typography } from '@material-ui/core'
 import React from 'react'
 import { makeStyles } from '@material-ui/core'
 import logo from '../../svgs/signUp/logo.svg'
 import { Link } from 'react-router-dom'
-import pin from '../../svgs/footer/pin.png'
 import FacebookIcon from '@material-ui/icons/Facebook'
 import TwitterIcon from '@material-ui/icons/Twitter'
 import LinkedInIcon from '@material-ui/icons/LinkedIn'
@@ -18,6 +17,16 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     [theme.breakpoints.down('sm')]: {
       alignItems: 'start'
+    }
+  },
+  gridItemLinks: {
+    display: 'flex',
+    // justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+    [theme.breakpoints.down('sm')]: {
+      // alignItems: 'start'
+      flexDirection: 'row'
     }
   },
 
@@ -36,7 +45,10 @@ const useStyles = makeStyles(theme => ({
     '&:hover': {
       color: '#222'
     },
-    transition: 'all linear 0.25s'
+    transition: 'all linear 0.25s',
+    [theme.breakpoints.down('sm')]: {
+      marginRight: 10
+    }
   },
   icon: {
     marginRight: 25
@@ -57,7 +69,7 @@ const useStyles = makeStyles(theme => ({
 const Footer = () => {
   const classes = useStyles()
   return (
-    <div>
+    <div style={{ marginTop: '1rem' }}>
       <Box
         borderTop={1}
         py={{ sm: 5, xs: 2 }}
@@ -76,15 +88,17 @@ const Footer = () => {
           </Grid>
           <Grid item sm={4} xs={12} className={classes.gridItem}>
             <Typography>Helpful Links</Typography>
-            <Link to='/' className={classes.link}>
-              Home
-            </Link>
-            <Link to='/crypto' className={classes.link}>
-              Crypto
-            </Link>
-            <Link to='/stock' className={classes.link}>
-              Stock
-            </Link>
+            <div className={classes.gridItemLinks}>
+              <Link to='/' className={classes.link}>
+                Home
+              </Link>
+              <Link to='/crypto' className={classes.link}>
+                Crypto
+              </Link>
+              <Link to='/stock' className={classes.link}>
+                Stock
+              </Link>
+            </div>
           </Grid>
           <Grid item sm={4} xs={12} className={classes.gridItem}>
             <Typography>Contact Us</Typography>

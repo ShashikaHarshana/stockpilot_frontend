@@ -48,6 +48,10 @@ const useStyles = makeStyles(theme => ({
       justifyContent: 'center'
     }
   },
+  divContainer: {
+    maxHeight: '100vh',
+    maxWidth: '100vw'
+  },
   img: {
     height: 'calc(442px*0.8)',
     width: 'calc(480px*0.8)',
@@ -64,11 +68,23 @@ const useStyles = makeStyles(theme => ({
     padding: 'calc(50px*0.8) calc(40px*0.8)',
     paddingBottom: '0',
     borderRadius: 15,
+
     [theme.breakpoints.down('sm')]: {
-      width: 300,
-      minHeight: 320,
+      width: '70vw',
+      height: 'fit-content',
       padding: 15,
-      marginLeft: -15
+      marginLeft: -15,
+      zIndex: 10
+    }
+  },
+  paperContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 10,
+    [theme.breakpoints.down('sm')]: {
+      marginTop: '2rem',
+      marginLeft: '1rem'
     }
   },
   linksContainer: {
@@ -88,7 +104,7 @@ const useStyles = makeStyles(theme => ({
   },
   bottom: {
     [theme.breakpoints.down('sm')]: {
-      marginTop: '0'
+      marginTop: '10px'
     }
   },
   bottomImg: {
@@ -135,7 +151,8 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down('sm')]: {
       width: 300,
       height: 20,
-      marginTop: '1rem'
+      marginTop: '1rem',
+      marginLeft: '-2rem'
     }
   },
   logoContainer: {
@@ -146,7 +163,6 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const SignUp = () => {
-  const [user, setUser] = useState(initialFValues)
   const classes = useStyles()
   const theme = useTheme()
   const mobile = useMediaQuery(theme.breakpoints.down('sm'))
@@ -175,8 +191,8 @@ const SignUp = () => {
 
     setErrors({ ...temp })
 
-    if (fieldValues == values) {
-      return Object.values(temp).every(item => item == '')
+    if (fieldValues === values) {
+      return Object.values(temp).every(item => item === '')
     }
   }
 
@@ -213,9 +229,7 @@ const SignUp = () => {
     return <Redirect to='/sign_in' />
   } else {
     return (
-      <div
-        style={{ maxHeight: '100vh', maxWidth: '100vw', overflow: 'hidden' }}
-      >
+      <div className={classes.divContainer}>
         <Fade top>
           <img src={top} alt='top' className={classes.topImg} />
         </Fade>
@@ -233,7 +247,7 @@ const SignUp = () => {
               <img src={signUpImg} className={classes.img} alt='' />
             </Fade>
           </article>
-          <article>
+          <article className={classes.paperContainer}>
             <Fade right delay={1500}>
               <Paper className={classes.paper} elevation={8}>
                 <Grid>
@@ -269,7 +283,7 @@ const SignUp = () => {
                     </Grid>
                   )}
                 </Grid>
-                <Grid container className={classes.linksContainer}>
+                {/* <Grid container className={classes.linksContainer}>
                   <Grid
                     item
                     sm={12}
@@ -283,8 +297,8 @@ const SignUp = () => {
                         Sign in with Google
                       </Typography>
                     </IconButton>
-                  </Grid>
-                  <Grid
+                  </Grid> */}
+                {/* <Grid
                     item
                     sm={12}
                     md={6}
@@ -298,7 +312,7 @@ const SignUp = () => {
                       </Typography>
                     </IconButton>
                   </Grid>
-                </Grid>
+                </Grid> */}
                 <form onSubmit={handleSubmit}>
                   <Grid style={{ marginTop: '1rem' }}>
                     <Controls.Input
@@ -357,7 +371,7 @@ const SignUp = () => {
                   </Button>
                 </form>
                 <Typography className={classes.bottom}>
-                  Already have an account?{' '}
+                  Already have an account?
                   <Button
                     component={Link}
                     to='/sign_in'

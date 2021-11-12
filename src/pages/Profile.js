@@ -1,17 +1,33 @@
 import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
 import NavBar from '../components/NavBar'
+// import VerticalTabs from '../components/TabPanel'
+// import ImageAvatars from '../components/ImageAvatars'
+import CenteredGrid from '../components/ProfileComponents/CenteredGrid'
+import { makeStyles } from '@material-ui/core'
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    padding: theme.spacing(3, 2),
+    height: 200,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center'
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary
+  }
+}))
 
 const Profile = () => {
   const handleClick = () => {}
-  const { token } = useSelector(state => state.auth)
-
+  const classes = useStyles()
   return (
-    <div>
+    <>
       <NavBar />
-      <h2>This is profile</h2>
-      <h2>{token}</h2>
-    </div>
+      <CenteredGrid />
+    </>
   )
 }
 
