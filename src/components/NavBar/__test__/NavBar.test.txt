@@ -9,21 +9,14 @@ import * as reactRedux from 'react-redux'
 
 const MockNavBar = () => {
     return (
-        //<Provider store={store}>
             <ThemeProvider theme={theme}>
             <BrowserRouter>
                 <NavBar/>
             </BrowserRouter>
             </ThemeProvider>
-       // </Provider>
     )
 }
 global.window = { location: { pathname: null } };
-
-
-// jest.spyOn(redux, 'useSelector')
-//     .mockReturnValue({ auth : { isLoggedIn: true} })
-    // .mockImplementation((callback) => callback(state))
 
 
 describe('NavBar', () => {
@@ -140,6 +133,17 @@ describe('NavBar', () => {
         const buttonElement = screen.getByTestId("signup");
         fireEvent.click(buttonElement);
         expect(global.window.location.pathname).toEqual('/sign_up');
+    });
+
+    it('should open Notifications', () => {
+        useSelectorMock.mockReturnValue({ isLoggedIn: true, notifications: []})
+        render(
+            <MockNavBar />
+        );
+        const buttonElement = screen.getByTestId("notifs");
+        fireEvent.click(buttonElement);
+        const modalElement = screen.queryByTestId("notifModel")
+        expect(modalElement).toBeInTheDocument();
     });
 
 })

@@ -34,9 +34,9 @@ function NotificationModal () {
   return (
     <>
       {notifications.length === 0 ? (
-        <h1>No new Notifications</h1>
+        <h1 data-testid="notifModel">No new Notifications</h1>
       ) : (
-        <Paper>
+        <Paper >
           <TblContainer>
             <TblHead />
 
@@ -46,11 +46,11 @@ function NotificationModal () {
                   <TableRow key={index}>
                     <TableCell>{item[1].symbol}</TableCell>
                     <TableCell>{item[1].type}</TableCell>
-                    <TableCell>
+                    <TableCell data-testid='open'>
                       {parseFloat(item[1]['open price']).toFixed(4)}
                     </TableCell>
                     <TableCell>{item[1]['current peak price']}</TableCell>
-                    <TableCell>
+                    <TableCell >
                       <Controls.ActionButton
                         color='secondary'
                         onClick={() => handleDelete(item[0])}

@@ -222,6 +222,7 @@ const NavBar = () => {
                 <IconButton
                   onClick={() => setOpenPopup(true)}
                   style={{ marginRight: '10px' }}
+                  data-testid="notifs"
                 >
                   <Badge
                     badgeContent={notifications ? notifications.length : 0}
