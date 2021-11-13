@@ -27,8 +27,21 @@ describe('Footer', () => {
     expect(divElement).toBeTruthy()
   })
   it('navigate to Home', () => {
+    render(<Footer />)
     const buttonElement = screen.getByTestId('home')
     fireEvent.click(buttonElement)
     expect(global.window.location.pathname).toEqual('/')
+  })
+  it('navigate to Stock page', () => {
+    render(<Footer />)
+    const buttonElement = screen.getByTestId('stock')
+    fireEvent.click(buttonElement)
+    expect(global.window.location.pathname).toEqual('/analyze/stock')
+  })
+  it('navigate to Crypto page', () => {
+    render(<Footer />)
+    const buttonElement = screen.getByTestId('crypto')
+    fireEvent.click(buttonElement)
+    expect(global.window.location.pathname).toEqual('/analyze/crypto')
   })
 })
