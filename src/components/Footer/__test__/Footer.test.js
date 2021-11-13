@@ -1,8 +1,10 @@
-import { render, screen } from '../../../utils/testUtils'
+import { render, screen, fireEvent } from '../../../utils/testUtils'
 import Footer from '../Footer'
 import '@testing-library/jest-dom/extend-expect'
+import '@testing-library/user-event'
 import { BrowserRouter } from 'react-router-dom'
 import renderer from 'react-test-renderer'
+global.window = { location: { pathname: null } }
 
 describe('Footer', () => {
   it('renders the slogan', async () => {
@@ -23,5 +25,10 @@ describe('Footer', () => {
     render(<Footer />)
     const divElement = screen.getByTestId('header')
     expect(divElement).toBeTruthy()
+  })
+  it('navigate to Home', () => {
+    const buttonElement = screen.getByTestId('home')
+    fireEvent.click(buttonElement)
+    expect(global.window.location.pathname).toEqual('/')
   })
 })

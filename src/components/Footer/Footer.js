@@ -89,13 +89,21 @@ const Footer = () => {
           <Grid item sm={4} xs={12} className={classes.gridItem}>
             <Typography>Helpful Links</Typography>
             <div className={classes.gridItemLinks}>
-              <Link to='/' className={classes.link}>
+              <Link to='/' className={classes.link} data-testid='home'>
                 Home
               </Link>
-              <Link to='/analyze/crypto' className={classes.link}>
+              <Link
+                to='/analyze/crypto'
+                data-testid='crypto'
+                className={classes.link}
+              >
                 Crypto
               </Link>
-              <Link to='/analyze/stock' className={classes.link}>
+              <Link
+                to='/analyze/stock'
+                data-testid='stock'
+                className={classes.link}
+              >
                 Stock
               </Link>
             </div>
