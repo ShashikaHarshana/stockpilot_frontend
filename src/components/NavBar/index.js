@@ -186,6 +186,7 @@ const NavBar = () => {
               component={Link}
               to={`/analyze/crypto`}
               className={classes.tabBtn}
+              data-testid='crypto'
             >
               crypto
             </Button>
@@ -214,6 +215,7 @@ const NavBar = () => {
                   to='/watchList'
                   variant='text'
                   className={classes.logBtn}
+                  data-testid='watchlist'
                 >
                   Watch List
                 </Button>
@@ -244,11 +246,13 @@ const NavBar = () => {
                     keepMounted
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
+                    data-testid="openMenu"
                   >
                     <MenuItem
                       component={Link}
                       to='/profile'
                       onClick={handleClose}
+                      data-testid='profile'
                     >
                       My account
                     </MenuItem>
@@ -263,6 +267,7 @@ const NavBar = () => {
                   className={classes.logBtn}
                   to='/sign_in'
                   variant='text'
+                  data-testid='signin'
                 >
                   Log In
                 </Button>
@@ -272,6 +277,7 @@ const NavBar = () => {
                   to='/sign_up'
                   variant='contained'
                   color='secondary'
+                  data-testid='signup'
                 >
                   Sign Up
                 </Button>
