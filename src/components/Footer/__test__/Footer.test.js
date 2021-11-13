@@ -1,9 +1,12 @@
 import { render, screen, fireEvent } from '../../../utils/testUtils'
+import React from 'react'
 import Footer from '../Footer'
 import '@testing-library/jest-dom/extend-expect'
 import '@testing-library/user-event'
 import { BrowserRouter } from 'react-router-dom'
 import renderer from 'react-test-renderer'
+import 'regenerator-runtime/runtime'
+
 global.window = { location: { pathname: null } }
 
 describe('Footer', () => {
