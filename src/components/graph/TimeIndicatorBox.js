@@ -63,7 +63,7 @@ const TimeIndicatorBox = ({ type }) => {
   }, [timeInterval])
 
   return (
-    <div>
+    <div data-testid='timeIndicator'>
       <Box>
         <Paper elevation={2} className={classes.timeIndicatorPaper}>
           <Grid
@@ -104,6 +104,7 @@ const TimeIndicatorBox = ({ type }) => {
                     return (
                       <Grid item key={index}>
                         <Button
+                          data-testid={`timeButton-${index}`}
                           onClick={() => {
                             setTimeInterval(time)
                           }}

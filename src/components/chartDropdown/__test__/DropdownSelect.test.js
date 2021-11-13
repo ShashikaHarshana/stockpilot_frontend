@@ -7,12 +7,20 @@ import 'regenerator-runtime/runtime'
 import DropdownSelect from '../DropdownSelect'
 
 describe('Market Select', () => {
+  const setState = jest.fn()
+  const useStateSpy = jest.spyOn(React, 'useState')
+  useStateSpy.mockImplementation(init => [init, setState])
+
   const useSelectorMock = jest.spyOn(reactRedux, 'useSelector')
   const useDispatchMock = jest.spyOn(reactRedux, 'useDispatch')
+
   beforeEach(() => {
     useSelectorMock.mockClear()
     useDispatchMock.mockClear()
     useSelectorMock.mockReturnValue({ marketType: 'stock' })
+  })
+  afterEach(() => {
+    jest.clearAllMocks()
   })
 
   it('renders properly', () => {
@@ -36,17 +44,25 @@ describe('Market Select', () => {
     fireEvent.click(label)
   })
   it('choosing a indicator', () => {
-    render(<DropdownSelect />)
+    const { container } = render(<DropdownSelect />)
 
-    const setIndicators = jest.fn()
-    const useStyles = jest.fn()
-    const handleClick = jest.spyOn(React, 'useState')
-    handleClick.mockImplementation(indicators => [indicators, setIndicators])
-
+    const checkBox = container.firstChild
     const dropDown = screen.getByTestId('internalSelect')
     fireEvent.click(dropDown)
     const label = screen.getByText(/SMA/i)
     fireEvent.click(label)
-    expect(setIndicators).toBeCalledTimes(1)
+
+    expect(checkBox).not.toBeChecked()
   })
+  // it('choosing a indicator', () => {
+  //   const { container } = render(<DropdownSelect />)
+
+  //   const checkBox = container.firstChild
+  //   const dropDown = screen.getByTestId('internalSelect')
+  //   fireEvent.click(dropDown)
+  //   const label = screen.getByText(/SMA/i)
+  //   fireEvent.click(label)
+
+  //   expect(setState).toBeCalledWith
+  // })
 })

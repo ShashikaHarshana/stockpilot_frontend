@@ -65,7 +65,7 @@ const DropdownSelect = () => {
   }
 
   return (
-    <div>
+    <div data-testid='externalIndicators'>
       <Button
         aria-controls='simple-menu'
         aria-haspopup='true'

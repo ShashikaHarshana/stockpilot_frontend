@@ -6,6 +6,10 @@ const config = {
     // '^.+.(ts|tsx)?$': 'ts-jest'
   },
   reporters: ['default', 'jest-html-reporters'],
+  transformIgnorePatterns: [
+    'node_modules/(?!(lightweight-charts|fancy-canvas)/)'
+  ],
+
   coveragePathIgnorePatterns: [],
   collectCoverage: true
 }

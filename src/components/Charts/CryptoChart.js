@@ -436,7 +436,12 @@ function CryptoChart ({ mobile }) {
   return (
     <>
       {loading ? <ChartLoader /> : null}
-      <div ref={ref} onMouseUpCapture={handleDrag} onTouchEnd={handleDrag} />
+      <div
+        ref={ref}
+        onMouseUpCapture={handleDrag}
+        onTouchEnd={handleDrag}
+        data-testid='cryptoChart'
+      />
     </>
   )
 }

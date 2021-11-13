@@ -77,7 +77,7 @@ const ImageCard = ({
   const classes = useStyles({ height, width, mWidth, mHeight, marginTop })
 
   return (
-    <Paper elevation={13} className={classes.card}>
+    <Paper elevation={13} className={classes.card} data-testid='imageCard'>
       <div className={classes.cardMedia}>
         <img className={classes.img} src={img} alt='' />
       </div>
