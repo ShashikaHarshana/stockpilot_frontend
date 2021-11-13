@@ -38,6 +38,11 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "jest": {
+    "transformIgnorePatterns": [
+      "node_modules/(?!(lightweight-charts|fancy-canvas)/)"
+    ]
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -57,7 +62,8 @@
     ]
   },
   "devDependencies": {
-    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.5"
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.5",
+    "jest-canvas-mock": "^2.3.1",
+    "jest-html-reporters": "^2.1.6"
   }
-
 }

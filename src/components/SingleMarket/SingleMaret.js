@@ -31,7 +31,6 @@ const SingleMarket = () => {
   const { type } = useParams()
   const theme = useTheme()
   const mobile = useMediaQuery(theme.breakpoints.down('sm'))
-
   const { externalIndicators } = useSelector(state => state.chart)
   const { macd, obv, roc, rsi, stoch } = externalIndicators
 

@@ -10,7 +10,7 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
       {...rest}
       render={props => {
         if (isLoggedIn) {
-          return <Component />
+          return <Component data-testid="component"/>
         } else {
           return (
             <Redirect to={{ pathname: '/', state: { from: props.location } }} />
