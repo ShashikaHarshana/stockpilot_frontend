@@ -55,7 +55,8 @@ const initialState = {
   isLoading: false,
   isRegistered: false,
   error: null,
-  message: null
+  loginMessage: null,
+  signupMessage: null
 }
 
 export const authReducer = (state = initialState, { type, payload }) => {
@@ -71,7 +72,7 @@ export const authReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         token: payload.token,
-        message: payload.message,
+        loginMessage: payload.message,
         isLoggedIn: true,
         isLoading: false
       }
@@ -79,13 +80,13 @@ export const authReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         isLoading: false,
-        message: payload,
+        loginMessage: payload,
         error: payload
       }
     case USER_REGISTER_SUCCESS:
       return {
         ...state,
-        message: payload,
+        signupMessage: payload,
         isRegistered: true,
         isLoading: false
       }

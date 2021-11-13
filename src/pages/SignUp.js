@@ -212,7 +212,7 @@ const SignUp = () => {
     }
   }
 
-  const message = useSelector(state => state.auth.message)
+  const message = useSelector(state => state.auth.signupMessage)
 
   const showAlert = () => {
     console.log(message)

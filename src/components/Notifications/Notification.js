@@ -30,7 +30,7 @@ export default function Notification (props) {
       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       onClose={handleClose}
     >
-      <Alert severity={notify.type} onClose={handleClose}>
+      <Alert severity={notify.type} onClose={handleClose} data-testid="notifAlert">
         {notify.message}
       </Alert>
     </Snackbar>

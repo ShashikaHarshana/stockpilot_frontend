@@ -166,6 +166,7 @@ const NavBar = () => {
               component={Link}
               to='/'
               className={classes.tabBtn}
+              data-testid='home'
             >
               Home
             </Button>
@@ -175,6 +176,7 @@ const NavBar = () => {
               component={Link}
               to={`/analyze/stock`}
               className={classes.tabBtn}
+              data-testid='stock'
             >
               Stock
             </Button>
@@ -188,22 +190,22 @@ const NavBar = () => {
               crypto
             </Button>
           </Grid>
-          <Grid item className={classes.search}>
-            <SearchBox open={open} setOpen={setOpen} />
-          </Grid>
-          <div className={classes.searchIcons}>
-            <div style={{ display: 'flex' }}>
-              <SearchIcon
-                style={{ marginRight: '10px', color: '#A6A4A4' }}
-                onClick={() => setOpen(true)}
-                className={classes.searchIcon}
-              />
-              <MenuIcon
-                onClick={() => setOpenDrawer(true)}
-                className={classes.searchIcon}
-              />
-            </div>
-          </div>
+          {/*<Grid item className={classes.search}>*/}
+          {/*  <SearchBox open={open} setOpen={setOpen} />*/}
+          {/*</Grid>*/}
+          {/*<div className={classes.searchIcons}>*/}
+          {/*  <div style={{ display: 'flex' }}>*/}
+          {/*    <SearchIcon*/}
+          {/*      style={{ marginRight: '10px', color: '#A6A4A4' }}*/}
+          {/*      onClick={() => setOpen(true)}*/}
+          {/*      className={classes.searchIcon}*/}
+          {/*    />*/}
+          {/*    <MenuIcon*/}
+          {/*      onClick={() => setOpenDrawer(true)}*/}
+          {/*      className={classes.searchIcon}*/}
+          {/*    />*/}
+          {/*  </div>*/}
+          {/*</div>*/}
           <Grid item className={classes.signUpTab}>
             {isLoggedIn ? (
               <>
