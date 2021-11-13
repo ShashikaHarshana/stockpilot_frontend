@@ -80,7 +80,7 @@ const Footer = () => {
         <Grid container spacing={5}>
           <Grid item xs={12} sm={4}>
             <Grid component={Link} to='/'>
-              <img src={logo} alt='logo' className={classes.logo} />
+              <img src={`${logo}`} alt='logo' className={classes.logo} />
             </Grid>
             <Typography data-testid='header'>
               The website for all Your Crypto and Stock Analysis needs
