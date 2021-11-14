@@ -7,18 +7,14 @@ import 'regenerator-runtime/runtime'
 import DropdownSelect from '../DropdownSelect'
 
 describe('Market Select', () => {
-  const setState = jest.fn()
-  const useStateSpy = jest.spyOn(React, 'useState')
-  useStateSpy.mockImplementation(init => [init, setState])
-
   const useSelectorMock = jest.spyOn(reactRedux, 'useSelector')
   const useDispatchMock = jest.spyOn(reactRedux, 'useDispatch')
-
   beforeEach(() => {
     useSelectorMock.mockClear()
     useDispatchMock.mockClear()
-    useSelectorMock.mockReturnValue({ marketType: 'stock' })
+    useSelectorMock.mockReturnValue({ marketType: 'crypto' })
   })
+
   afterEach(() => {
     jest.clearAllMocks()
   })

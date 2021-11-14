@@ -7,10 +7,7 @@ import CryptoChart from '../CryptoChart'
 import 'jest-canvas-mock'
 import Lottie from 'react-lottie'
 
-jest.mock('react-lottie')
-const lodashMock = require('react-lottie')
-const { repeat } = jest.requireActual('react-lottie')
-const lottieRepeat = require('../react-lottie')
+jest.mock('../../Loading/ChartLoader', () => () => <div></div>)
 
 describe('Crypto Chart', () => {
   it('renders without crashing', () => {

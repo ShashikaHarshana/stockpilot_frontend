@@ -8,7 +8,7 @@ import SelectMarket from '../SelectMarket'
 
 describe('SelectMarket', () => {
   it('renders properly', () => {
-    render(<SelectMarket />)
+    render(<SelectMarket type='crypto' />)
     const dropDown = screen.getByTestId('selectMarket')
     expect(dropDown).toBeInTheDocument()
   })
