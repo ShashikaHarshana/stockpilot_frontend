@@ -6,10 +6,12 @@ const config = {
         // '^.+.(ts|tsx)?$': 'ts-jest'
     },
     reporters: ['default', 'jest-html-reporters'],
-    coveragePathIgnorePatterns: [],
     transformIgnorePatterns: [
-        "node_modules/(?!(lightweight-charts|fancy-canvas)/)"
-    ]
+        'node_modules/(?!(lightweight-charts|fancy-canvas)/)'
+    ],
+
+    coveragePathIgnorePatterns: [],
+    collectCoverage: true
 }
 
 module.exports = config
