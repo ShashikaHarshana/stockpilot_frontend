@@ -238,6 +238,7 @@ const NavBar = () => {
                     aria-controls='simple-menu'
                     aria-haspopup='true'
                     onClick={handleClick}
+                    data-testid="profilePic"
                   >
                     Open Menu
                   </Avatar>
@@ -257,7 +258,7 @@ const NavBar = () => {
                     >
                       My account
                     </MenuItem>
-                    <MenuItem onClick={handleLogOut}>Logout</MenuItem>
+                    <MenuItem data-testid='logout' onClick={handleLogOut}>Logout</MenuItem>
                   </Menu>
                 </div>
               </>

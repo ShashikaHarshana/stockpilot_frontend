@@ -3,7 +3,7 @@ import Loading1 from "./Loading1";
 
 const ChartLoader = () => {
     return (
-        <div style={{display: 'flex',  justifyContent: 'center',  alignItems: 'center', width:'70vw'}}>
+        <div data-testid='chartLoader' style={{display: 'flex',  justifyContent: 'center',  alignItems: 'center', width:'70vw'}}>
             <center>
                 <Loading1/>
             </center>

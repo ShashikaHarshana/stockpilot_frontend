@@ -18,6 +18,7 @@ const Loading1 = () => {
       options={defaultOptions}
       height={300}
       width={300}
+      data-testid='loading1'
     />
   )
 }

@@ -148,5 +148,33 @@ describe('NavBar', () => {
         expect(modalElement).toBeInTheDocument();
     });
 
+    it('should handle profile pic button', () => {
+        useSelectorMock.mockReturnValue({ isLoggedIn: true, notifications: []})
+        render(
+            <MockNavBar />
+        );
+        const buttonElement = screen.getByTestId("profilePic");
+        fireEvent.click(buttonElement);
+        expect(buttonElement).toBeInTheDocument();
+    });
+
+    it('should handle logout', () => {
+        useSelectorMock.mockReturnValue({ isLoggedIn: true})
+        const dummyDispatch = jest.fn()
+        useDispatchMock.mockReturnValue(dummyDispatch)
+
+        render(
+            <MockNavBar />
+        );
+        const buttonElement = screen.queryByTestId("openMenu");
+        fireEvent.click(buttonElement);
+        const logoutButtonElement = screen.queryByTestId("logout");
+        fireEvent.click(logoutButtonElement);
+        expect(dummyDispatch).toHaveBeenCalled();
+
+
+    });
+
+
 })
 

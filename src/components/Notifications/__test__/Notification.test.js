@@ -10,5 +10,18 @@ describe("Notification", () => {
         );
         const alertElement = screen.getByTestId("notifAlert");
         expect(alertElement.innerHTML).toMatch(/Test message/i);
+
+    })
+
+    it('should close notif correctly', async () => {
+        render(
+            <Notification notify={{message: "Test message", isOpen:true }} setNotify={jest.fn()}/>
+        );
+
+        setTimeout(() => {
+            const alertElement = screen.queryByTestId("notifAlert");
+            expect(alertElement).not.toBeInTheDocument()
+        }, 3000)
+
     })
 })
