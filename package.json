@@ -39,7 +39,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest --collectCoverage",
+    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -59,6 +59,8 @@
     "jest-html-reporters": "^2.1.6"
   },
   "jest": {
-    "setupFilesAfterEnv": "<rootDir>src/setupTest.js"
+    "transformIgnorePatterns": [
+      "node_modules/(?!(lightweight-charts|fancy-canvas)/)"
+    ]
   }
 }
