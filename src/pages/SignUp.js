@@ -167,8 +167,8 @@ const SignUp = () => {
   const theme = useTheme()
   const mobile = useMediaQuery(theme.breakpoints.down('sm'))
   const dispatch = useDispatch()
-  const isRegistered = useSelector(state => state.auth.isRegistered)
-  const isLoading = useSelector(state => state.auth.isLoading)
+  const {isRegistered} = useSelector(state => state.auth)
+  const {isLoading} = useSelector(state => state.auth)
 
   const validate = (fieldValues = values) => {
     let temp = { ...errors }
@@ -212,15 +212,15 @@ const SignUp = () => {
     }
   }
 
-  const message = useSelector(state => state.auth.signupMessage)
+  const {signupMessage} = useSelector(state => state.auth)
 
   const showAlert = () => {
-    console.log(message)
-    if (message != null) {
-      if (message === 'Successfully Registered') {
-        return <Alert severity='success'> {message} </Alert>
+    console.log(signupMessage)
+    if (signupMessage != null) {
+      if (signupMessage === 'Successfully Registered') {
+        return <Alert severity='success' data-testid='success'> {signupMessage} </Alert>
       } else {
-        return <Alert severity='error'> {message} </Alert>
+        return <Alert severity='error' data-testid='error'> {signupMessage} </Alert>
       }
     }
   }
@@ -322,6 +322,7 @@ const SignUp = () => {
                       value={values.firstName}
                       onChange={handleInputChange}
                       error={errors.firstName}
+                      inputProps={{ "data-testid": 'firstName' }}
                     />
                   </Grid>
                   <Grid style={{ marginTop: '1rem' }}>
@@ -332,6 +333,7 @@ const SignUp = () => {
                       value={values.lastName}
                       onChange={handleInputChange}
                       error={errors.lastName}
+                      inputProps={{ "data-testid": 'lastName' }}
                     />
                   </Grid>
                   <Grid style={{ marginTop: '1rem' }}>
@@ -342,6 +344,7 @@ const SignUp = () => {
                       value={values.email}
                       onChange={handleInputChange}
                       error={errors.email}
+                      inputProps={{ "data-testid": 'email' }}
                     />
                   </Grid>
                   <Grid style={{ marginTop: '1rem' }}>
@@ -354,6 +357,7 @@ const SignUp = () => {
                       value={values.password}
                       onChange={handleInputChange}
                       error={errors.password}
+                      inputProps={{ "data-testid": 'password' }}
                     />
                   </Grid>
                   <Button
@@ -362,9 +366,10 @@ const SignUp = () => {
                     color='secondary'
                     type='submit'
                     fullWidth
+                    data-testid="submitButton"
                   >
                     {isLoading ? (
-                      <CircularProgress color='inherit' size='1.6rem' />
+                      <CircularProgress data-testid="loading" color='inherit' size='1.6rem' />
                     ) : (
                       <Typography>Sign Up</Typography>
                     )}
@@ -377,6 +382,7 @@ const SignUp = () => {
                     to='/sign_in'
                     variant='text'
                     className={classes.primary}
+                    data-testid='signInButton'
                   >
                     Log in
                   </Button>

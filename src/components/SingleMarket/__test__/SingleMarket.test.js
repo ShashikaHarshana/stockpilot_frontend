@@ -9,13 +9,13 @@ import * as ReactRouter from 'react-router'
 import SingleMarket from "../SingleMaret";
 import store from "../../../redux/Store";
 import {Provider} from "react-redux";
-jest.mock('G:\\Projects\\stockpilot_frontend\\src\\components\\chartDropdown\\SelectMarket.js');
-jest.mock('G:\\Projects\\stockpilot_frontend\\src\\components\\graph\\TimeIndicatorBox.js');
-jest.mock('G:\\Projects\\stockpilot_frontend\\src\\components\\Charts\\CryptoChart.js');
-jest.mock('G:\\Projects\\stockpilot_frontend\\src\\components\\Charts\\StockChart.js')
-jest.mock('G:\\Projects\\stockpilot_frontend\\src\\components\\technicalIndicators\\linechart.js')
-jest.mock('G:\\Projects\\stockpilot_frontend\\src\\components\\technicalIndicators\\macd.js')
-jest.mock('G:\\Projects\\stockpilot_frontend\\src\\components\\technicalIndicators\\stochChart.js')
+jest.mock('../../chartDropdown/SelectMarket.js');
+jest.mock('../../graph/TimeIndicatorBox.js');
+jest.mock('../../Charts/CryptoChart.js');
+jest.mock('../../Charts/StockChart.js')
+jest.mock('../../technicalIndicators/linechart.js')
+jest.mock('../../technicalIndicators/macd.js')
+jest.mock('../../technicalIndicators/stochChart.js')
 
 
 jest.mock("react-router", () => ({

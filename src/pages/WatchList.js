@@ -30,9 +30,9 @@ const WatchList = () => {
   const [records, setRecords] = useState([])
   const [records1, setRecords1] = useState(new Map())
   const [highVal, setHighVal] = useState(0)
-  const token = useSelector(state => state.auth.token)
-  let brands = useSelector(state => state.watchlist.brands)
-  const isLoading = useSelector(state => state.watchlist.isLoading)
+  const {token} = useSelector(state => state.auth)
+  let {brands} = useSelector(state => state.watchlist)
+  const {isLoading} = useSelector(state => state.watchlist)
   const [tableLoading, setTableLoading] = useState(true)
 
   useEffect(() => {
@@ -126,8 +126,8 @@ const WatchList = () => {
       ) : brands && brands.length < 1 ? (
         <h1>No items currently in your Watch List</h1>
       ) : (
-        <Paper>
-          <TblContainer>
+        <Paper data-testid='watchlistTable'>
+          <TblContainer >
             <TblHead />
             <TableBody>
               {recordsAfterPagingAndSorting().map(item => (
