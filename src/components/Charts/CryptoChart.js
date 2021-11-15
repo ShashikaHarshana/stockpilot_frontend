@@ -5,7 +5,7 @@ import getBBands from '../technicalIndicators/bbands'
 import { useDispatch, useSelector } from 'react-redux'
 import ChartLoader from '../Loading/ChartLoader'
 import { HISTORICAL_URL, LISTEN_URL } from '../../utils/CONSTANTS'
-import { updateChartData, updateTimeStamp } from '../../redux/ducks/chart'
+import {updateChartData, updateInternalIndicatorData, updateTimeStamp} from '../../redux/ducks/chart'
 import { removeDuplicates } from '../../utils/functions'
 import { compare } from '../../utils/functions'
 
@@ -266,6 +266,17 @@ function CryptoChart ({ mobile }) {
         chart.current.remove()
         console.log('Closed Stream.')
         eventSource.close()
+        dispatch(updateInternalIndicatorData({ type: 'ma', data: [] }))
+        dispatch(updateInternalIndicatorData({ type: 'sma', data: [] }))
+        dispatch(updateInternalIndicatorData({ type: 'wma', data: [] }))
+        dispatch(updateInternalIndicatorData({ type: 'ema', data: [] }))
+        dispatch(updateInternalIndicatorData({ type: 'bbands', data: {upper: [], middle: [], lower: [] }}))
+        dispatch(
+            updateChartData({
+              chartData: [],
+              timeLine: []
+            })
+        )
       }
     }
   }, [market, timeInterval, internalIndicators, mobile])
