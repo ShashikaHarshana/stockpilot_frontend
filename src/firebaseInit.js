@@ -1,6 +1,5 @@
 import firebase from 'firebase/app'
 import 'firebase/messaging'
-import { useDispatch } from 'react-redux'
 import { postFirebaseToken } from './redux/ducks/notifications'
 
 const firebaseConfig = {

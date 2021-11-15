@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Paper from '@material-ui/core/Paper'
 import {
   CircularProgress,
   Grid,
-  IconButton,
   Typography,
   useMediaQuery,
   useTheme
@@ -19,8 +18,6 @@ import { useForm } from '../components/hooks/useForm.js'
 import logo from '../svgs/signUp/logo.svg'
 import bottom from '../svgs/signUp/bottomLeft.svg'
 import top from '../svgs/signUp/topRight.svg'
-import facebook from '../svgs/signUp/facebook.svg'
-import google from '../svgs/signUp/google.svg'
 import { useDispatch } from 'react-redux'
 import { userRegister } from '../redux/ducks/auth'
 import { Alert } from '@material-ui/lab'
