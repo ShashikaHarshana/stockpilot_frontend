@@ -11,4 +11,6 @@ describe('Home', () => {
   })
   const textElement = getBytext(/smart trading/i)
   expect(textElement).toBeInTheDocument()
+
+  it('renders button', () => {})
 })

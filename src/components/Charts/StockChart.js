@@ -141,6 +141,7 @@ function StockChart ({ mobile }) {
             .timeScale()
             .subscribeVisibleTimeRangeChange(onVisibleTimeRangeChanged)
           chart.current.timeScale().setVisibleLogicalRange({ from: 0, to: 150 })
+          chart.current.timeScale().scrollToPosition(1)
         })
         // const barsInfo = candleSeries.barsInLogicalRange(
         //   chart.current.timeScale().getVisibleLogicalRange()
