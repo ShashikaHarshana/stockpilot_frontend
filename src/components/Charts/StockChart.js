@@ -8,7 +8,6 @@ import { BASE_URL } from '../../utils/CONSTANTS'
 import { useDispatch } from 'react-redux'
 import { updateChartData, updateTimeStamp } from '../../redux/ducks/chart'
 import { compare } from '../../utils/functions'
-import { removeDuplicates } from '../../utils/functions'
 
 function StockChart ({ mobile }) {
   const ref = React.useRef()

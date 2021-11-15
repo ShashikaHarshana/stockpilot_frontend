@@ -3,7 +3,6 @@ import { watchWatchlist } from './watchlistSaga'
 import { all } from 'redux-saga/effects'
 import { watchInit } from './chartSaga'
 import {
-  watchNotifications,
   watchNotificationWatcher
 } from './notificationSaga'
 

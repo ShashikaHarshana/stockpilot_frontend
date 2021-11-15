@@ -3,7 +3,6 @@ import Paper from '@material-ui/core/Paper'
 import {
   CircularProgress,
   Grid,
-  IconButton,
   Typography,
   useMediaQuery,
   useTheme
@@ -18,8 +17,6 @@ import { Link, Redirect } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core'
 import bottom from '../svgs/signUp/bottomLeft.svg'
 import top from '../svgs/signUp/topRight.svg'
-import facebook from '../svgs/signUp/facebook.svg'
-import google from '../svgs/signUp/google.svg'
 import { useDispatch, useSelector } from 'react-redux'
 import { authUser } from '../redux/ducks/auth'
 import logo from '../svgs/signUp/logo.svg'
@@ -57,8 +54,6 @@ const useStyles = makeStyles(theme => ({
     padding: 'calc(50px*0.8) calc(40px*0.8)',
     paddingBottom: '0',
     [theme.breakpoints.down('sm')]: {
-      width: 300,
-      height: 465,
       padding: 15,
       marginLeft: -15,
       height: '63vh',
@@ -322,16 +317,16 @@ const SignIn = () => {
                     Sign Up
                   </Button>
                 </Typography>
-                <Typography>
-                  <Button
-                    component={Link}
-                    to='/'
-                    variant='text'
-                    className={classes.primary}
-                  >
-                    Forgot Password?
-                  </Button>
-                </Typography>
+                {/*<Typography>*/}
+                {/*  <Button*/}
+                {/*    component={Link}*/}
+                {/*    to='/'*/}
+                {/*    variant='text'*/}
+                {/*    className={classes.primary}*/}
+                {/*  >*/}
+                {/*    Forgot Password?*/}
+                {/*  </Button>*/}
+                {/*</Typography>*/}
                 {showAlert()}
               </Paper>
             </Fade>

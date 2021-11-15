@@ -12,7 +12,6 @@ import Controls from './Controls'
 import NotListedLocationIcon from '@material-ui/icons/NotListedLocation'
 import { useDispatch, useSelector } from 'react-redux'
 import { closePopUp } from '../../redux/ducks/notifications'
-import { handleDelete } from '../../pages/WatchList'
 
 const useStyles = makeStyles(theme => ({
   dialog: {

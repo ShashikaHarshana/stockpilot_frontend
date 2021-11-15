@@ -18,8 +18,6 @@ import Test from '../components/Test'
 import { userRefresh } from '../redux/ducks/auth'
 import { getNotifications } from '../redux/ducks/notifications'
 import { onMessageListener } from '../firebaseInit'
-import Notifications from '../components/Notifications/Notifications'
-import ReactNotificationComponent from '../components/Notifications/ReactNotifications'
 import { toast } from 'react-toastify'
 
 const useStyles = makeStyles(theme => ({

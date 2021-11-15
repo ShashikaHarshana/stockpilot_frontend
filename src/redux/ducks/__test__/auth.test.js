@@ -1,17 +1,11 @@
-import { render, screen, fireEvent } from '../../../utils/testUtils'
 import React from 'react'
-import * as reactRedux from 'react-redux'
 import '@testing-library/jest-dom/extend-expect'
 import '@testing-library/user-event'
 
 import { AUTH_USER_REQUEST } from '../auth'
 import { AUTH_USER_SUCCESS } from '../auth'
-import { AUTH_USER_FAIL } from '../auth'
 import { USER_REGISTER_REQUEST } from '../auth'
 import { USER_REGISTER_SUCCESS } from '../auth'
-import { USER_REGISTER_FAIL } from '../auth'
-import { USER_LOGOUT } from '../auth'
-import { USER_REFRESH } from '../auth'
 import { initialState } from '../auth'
 import { authReducer } from '../auth'
 

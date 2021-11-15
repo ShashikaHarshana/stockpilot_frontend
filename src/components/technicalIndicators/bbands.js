@@ -1,4 +1,3 @@
-import { useDispatch } from 'react-redux'
 import { updateInternalIndicatorData } from '../../redux/ducks/chart'
 import { TA_BASE_URL } from '../../utils/CONSTANTS'
 
