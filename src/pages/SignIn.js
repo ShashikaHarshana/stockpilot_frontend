@@ -57,8 +57,6 @@ const useStyles = makeStyles(theme => ({
     padding: 'calc(50px*0.8) calc(40px*0.8)',
     paddingBottom: '0',
     [theme.breakpoints.down('sm')]: {
-      width: 300,
-      height: 465,
       padding: 15,
       marginLeft: -15,
       height: '63vh',
@@ -322,16 +320,16 @@ const SignIn = () => {
                     Sign Up
                   </Button>
                 </Typography>
-                <Typography>
-                  <Button
-                    component={Link}
-                    to='/'
-                    variant='text'
-                    className={classes.primary}
-                  >
-                    Forgot Password?
-                  </Button>
-                </Typography>
+                {/*<Typography>*/}
+                {/*  <Button*/}
+                {/*    component={Link}*/}
+                {/*    to='/'*/}
+                {/*    variant='text'*/}
+                {/*    className={classes.primary}*/}
+                {/*  >*/}
+                {/*    Forgot Password?*/}
+                {/*  </Button>*/}
+                {/*</Typography>*/}
                 {showAlert()}
               </Paper>
             </Fade>
