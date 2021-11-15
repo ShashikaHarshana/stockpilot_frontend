@@ -33,12 +33,17 @@ function MACDChart ({ mobile }) {
   } = useSelector(state => state.chart)
   const [loading, setLoading] = useState(true)
 
+    let timestamp = macdTimeStamp * 1000;
+    if (timestamp === 0){
+        timestamp = '0000'
+    }
+
   const url =
     TA_BASE_URL +
     'macd' +
     `/${marketType}/${
       marketType === 'crypto' ? market.toUpperCase() : market
-    }/${timeInterval}/${macdTimeStamp}000`
+    }/${timeInterval}/${timestamp}`
 
   useEffect(() => {
     setLoading(true)

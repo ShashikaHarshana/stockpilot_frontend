@@ -30,12 +30,17 @@ function StochChart ({ mobile }) {
   const [loading, setLoading] = useState(true)
   const [visibleRange, setVisibleRange] = useState({})
 
+    let timestamp = stochTimeStamp * 1000;
+    if (timestamp === 0){
+        timestamp = '0000'
+    }
+
   const url =
     TA_BASE_URL +
     'stoch' +
     `/${marketType}/${
       marketType === 'crypto' ? market.toUpperCase() : market
-    }/${timeInterval}/${stochTimeStamp}000`
+    }/${timeInterval}/${timestamp}`
 
   // console.log(market, marketType, timeInterval)
 

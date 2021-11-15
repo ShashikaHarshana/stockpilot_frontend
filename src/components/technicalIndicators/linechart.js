@@ -29,14 +29,21 @@ function LineChart ({ type, mobile }) {
     lineTime,
     externalIndicatorData
   } = useSelector(state => state.chart)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
+
+
+  let timestamp = lineTimeStamp[type] * 1000;
+  if (timestamp === 0){
+      timestamp = '0000'
+  }
+
 
   const url =
     TA_BASE_URL +
     type +
     `/${marketType}/${
       marketType === 'crypto' ? market.toUpperCase() : market
-    }/${timeInterval}/${lineTimeStamp[type]}000`
+    }/${timeInterval}/${timestamp}`
 
   useEffect(() => {
     setLoading(true)
