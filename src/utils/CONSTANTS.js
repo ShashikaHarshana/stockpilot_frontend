@@ -20,4 +20,6 @@ export const GET_ALL_CRYPTO_URL = BASE_URL + 'binance/get_crypto'
 export const GET_ALL_STOCK_URL = BASE_URL + 'stock/get_stock_list'
 
 export const GET_NOTIFICATIONS_URL =
-  BASE_URL + 'acfiiinnoostt / listen_nots / open_price'
+  BASE_URL + 'notifications/historical_nots/open_price'
+
+export const ADD_FIREBASE_TOKEN_URL = BASE_URL + '/listen_nots/open_price'

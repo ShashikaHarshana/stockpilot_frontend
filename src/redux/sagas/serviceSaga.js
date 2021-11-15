@@ -6,7 +6,8 @@ import {
   LOGIN_URL,
   REGISTER_URL,
   REMOVE_FROM_WATCHLIST_URL,
-  VIEW_WATCHLIST_URL
+  VIEW_WATCHLIST_URL,
+  GET_NOTIFICATIONS_URL, ADD_FIREBASE_TOKEN_URL
 } from '../../utils/CONSTANTS'
 
 export function register (user) {
@@ -59,9 +60,13 @@ export function getStockList () {
 }
 
 export function notifications () {
-  return axios.get()
+  return axios.get(GET_NOTIFICATIONS_URL)
 }
-
+export function firebase (payload) {
+  return axios.post(ADD_FIREBASE_TOKEN_URL, {
+    token: payload
+  })
+}
 //
 ///user/login
 //user/register

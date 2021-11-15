@@ -8,7 +8,6 @@ import cardsRight from '../svgs/home/cardsRight.svg'
 import middleImg from '../svgs/home/middleImg.svg'
 import img1 from '../svgs/home/card1.svg'
 import img2 from '../svgs/home/card2.svg'
-
 import botmLeft from '../svgs/home/botmLeft.svg'
 import elipse from '../svgs/home/elipse.svg'
 import { Link } from 'react-router-dom'
@@ -21,7 +20,6 @@ import Footer from '../components/Footer/Footer'
 import Zoom from 'react-reveal/Zoom'
 import Fade from 'react-reveal/Fade'
 import Pulse from 'react-reveal/Pulse'
-import HeadShake from 'react-reveal/HeadShake'
 
 //classes for css
 const useStyles = makeStyles(theme => ({
@@ -161,6 +159,7 @@ const useStyles = makeStyles(theme => ({
     // fontFamily: 'arial
     fontWeight: 400,
     letterSpacing: '1.75px',
+    // whiteSpace: 'breakSpace',
     [theme.breakpoints.down('sm')]: { width: '80%', fontSize: '2.38rem' }
   },
   subTitle: {
@@ -170,7 +169,7 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 500,
     marginTop: 'calc(25px*0.8)',
     width: '82%',
-    textOverflow: 'ellipsis',
+
     [theme.breakpoints.down('sm')]: { fontSize: '0.8rem', width: '93%' }
   },
   signupBtnB: {
@@ -221,22 +220,36 @@ const Home = () => {
       </Fade>
       <section className={classes.section1} id='topSection'>
         <article className={classes.articleTypo}>
-          <Typography variant={`${mobile} ? h5 :h4`} className={classes.title}>
+          {mobile ? (
             <Zoom right big cascade delay={500} duration={2000}>
-              Smart Investing Platform
+              <Typography
+                variant={`${mobile} ? h5 :h4`}
+                className={classes.title}
+              >
+                Smart Investing Platform
+              </Typography>
             </Zoom>
-          </Typography>
-          <Typography variant='subtitle1' className={classes.subTitle}>
-            <Fade top cascade delay={3000}>
+          ) : (
+            <Typography
+              variant={`${mobile} ? h5 :h4`}
+              className={classes.title}
+            >
+              <Zoom right big cascade delay={500} duration={2000}>
+                Smart Investing Platform
+              </Zoom>
+            </Typography>
+          )}
+          <Fade top cascade delay={3000}>
+            <Typography variant='subtitle1' className={classes.subTitle}>
               The one stop website for all your stock and crypto analysis needs
               without any commission or deposits.
-            </Fade>
-          </Typography>
+            </Typography>
+          </Fade>
           <Fade left delay={4000}>
             <Button
               className={classes.signupBtn}
               component={Link}
-              to={`${isLoggedIn ? '/analyze/stock' : '/sign_up'}`}
+              to={`${isLoggedIn ? '/analyze/crypto' : '/sign_up'}`}
               variant='contained'
               color='secondary'
             >
@@ -318,7 +331,7 @@ const Home = () => {
             </Typography>{' '}
             <Typography
               variant='subtitle1'
-              style={{ marginTop: 'calc(25px*0.8)' }}
+              style={{ marginTop: 'calc(25px*0.8)', lineHeight: '22px' }}
             >
               The one stop website for all your stock and crypto analysis needs
               without any commission or deposits.

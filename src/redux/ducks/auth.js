@@ -1,13 +1,13 @@
 export const AUTH_USER_REQUEST = 'AUTH_USER_REQUEST'
-const AUTH_USER_SUCCESS = 'AUTH_USER_SUCCESS'
-const AUTH_USER_FAIL = 'AUTH_USER_FAIL'
+export const AUTH_USER_SUCCESS = 'AUTH_USER_SUCCESS'
+export const AUTH_USER_FAIL = 'AUTH_USER_FAIL'
 
 export const USER_REGISTER_REQUEST = 'USER_REGISTER'
-const USER_REGISTER_SUCCESS = 'USER_REGISTER_SUCCESS'
-const USER_REGISTER_FAIL = 'USER_REGISTER_FAIL'
+export const USER_REGISTER_SUCCESS = 'USER_REGISTER_SUCCESS'
+export const USER_REGISTER_FAIL = 'USER_REGISTER_FAIL'
 
 export const USER_LOGOUT = 'USER_LOGOUT'
-const USER_REFRESH = 'USER_REFRESH'
+export const USER_REFRESH = 'USER_REFRESH'
 
 export const authUser = creds => ({
   type: AUTH_USER_REQUEST,
@@ -48,7 +48,7 @@ export const userRefresh = payload => ({
   payload
 })
 
-const initialState = {
+export const initialState = {
   user: null,
   token: null,
   isLoggedIn: false,

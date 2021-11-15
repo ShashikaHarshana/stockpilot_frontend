@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { createChart, CrosshairMode } from 'lightweight-charts'
 import getMAChart from '../technicalIndicators/maChartFunction'
 import getBBands from '../technicalIndicators/bbands'
 import { useDispatch, useSelector } from 'react-redux'
 import ChartLoader from '../Loading/ChartLoader'
 import { HISTORICAL_URL, LISTEN_URL } from '../../utils/CONSTANTS'
-import { updateChartData, updateTimeStamp } from '../../redux/ducks/chart'
+import {updateChartData, updateInternalIndicatorData, updateTimeStamp} from '../../redux/ducks/chart'
 import { removeDuplicates } from '../../utils/functions'
 import { compare } from '../../utils/functions'
 
@@ -32,11 +32,13 @@ function CryptoChart ({ mobile }) {
 
   // const [timeLine, setTimeLine] = useState([])
   const dispatch = useDispatch()
+  const chart = useRef()
+  const candleSeries = useRef()
 
   useEffect(() => {
     if (cryptoList.includes(market.toUpperCase())) {
       setLoading(true)
-      const chart = createChart(ref.current, {
+      chart.current = createChart(ref.current, {
         width: 0,
         height: 0,
         // layout: {
@@ -61,22 +63,26 @@ function CryptoChart ({ mobile }) {
         //     borderColor: 'rgba(197, 203, 206, 0.8)',
         // },
       })
-      let candleSeries = chart.addCandlestickSeries({
+      candleSeries.current = chart.current.addCandlestickSeries({
         upColor: '#00733E',
         downColor: '#BB2E2D'
       })
 
-      chart.applyOptions({
+      chart.current.applyOptions({
         timeScale: {
           visible: true,
           timeVisible: true,
-          secondsVisible: true
+          secondsVisible: true,
+          autoScale: false,
+          shiftVisibleRangeOnNewBar: false
+        },
+        priceScale: {
+          autoScale: true
         }
       })
 
       let newCrypto =
-        HISTORICAL_URL +
-        `${market.toUpperCase()}/${timeInterval}/${timeStamp}000`
+        HISTORICAL_URL + `${market.toUpperCase()}/${timeInterval}/0000`
 
       fetch(newCrypto)
         .then(res => res.json())
@@ -100,14 +106,20 @@ function CryptoChart ({ mobile }) {
             ...tempCandlesticks,
             ...chartData
           ]).sort(compare)
-          let tempTimeLineData = removeDuplicates([
-            ...tempTimeLine,
-            ...timeLine
-          ]).sort(compare)
+          // let tempTimeLineData = removeDuplicates([
+          //   ...tempTimeLine,
+          //   ...timeLine
+          // ]).sort(compare)
+          let chars = [...tempTimeLine, ...timeLine]
+          let tempTimeLineData = chars.filter((c, index) => {
+            return chars.indexOf(c) === index
+          })
 
-          // candleSeries.setData(tempCandlesticks)
-          candleSeries.setData(tempChartData)
-          console.log('temp', tempChartData)
+          // console.log(tempTimeLineData)
+
+          // candleSeries.current.setData(tempCandlesticks)
+          console.log('temp', tempCandlesticks)
+          candleSeries.current.setData(tempChartData)
 
           dispatch(
             updateChartData({
@@ -119,9 +131,9 @@ function CryptoChart ({ mobile }) {
           // setTimeLine([...tempTimeLine, ...timeLine])
 
           if (mobile) {
-            chart.resize(325, 150)
+            chart.current.resize(325, 150)
           } else {
-            chart.resize(1067, 450)
+            chart.current.resize(1067, 450)
           }
           setLoading(false)
 
@@ -129,9 +141,11 @@ function CryptoChart ({ mobile }) {
             setVisibleRange(newVisibleTimeRange)
           }
 
-          chart
+          chart.current
             .timeScale()
             .subscribeVisibleTimeRangeChange(onVisibleTimeRangeChanged)
+          chart.current.timeScale().setVisibleLogicalRange({ from: 0, to: 150 })
+          chart.current.timeScale().scrollToPosition(1)
         })
         .catch()
 
@@ -149,14 +163,17 @@ function CryptoChart ({ mobile }) {
             low: parsedData.k.l,
             close: parsedData.k.c
           }
-          candleSeries.update(object)
+          candleSeries.current.update(object)
           // console.log(object.time)
         },
         false
       )
 
       if (ma) {
-        const maSeries = chart.addLineSeries({ lineWidth: 1, title: 'MA' })
+        const maSeries = chart.current.addLineSeries({
+          lineWidth: 1,
+          title: 'MA'
+        })
         getMAChart(
           'ma',
           maSeries,
@@ -169,7 +186,10 @@ function CryptoChart ({ mobile }) {
         )
       }
       if (ema) {
-        const emaSeries = chart.addLineSeries({ lineWidth: 1, title: 'EMA' })
+        const emaSeries = chart.current.addLineSeries({
+          lineWidth: 1,
+          title: 'EMA'
+        })
         getMAChart(
           'ema',
           emaSeries,
@@ -182,7 +202,10 @@ function CryptoChart ({ mobile }) {
         )
       }
       if (sma) {
-        const smaSeries = chart.addLineSeries({ lineWidth: 1, title: 'SMA' })
+        const smaSeries = chart.current.addLineSeries({
+          lineWidth: 1,
+          title: 'SMA'
+        })
         getMAChart(
           'sma',
           smaSeries,
@@ -195,7 +218,10 @@ function CryptoChart ({ mobile }) {
         )
       }
       if (wma) {
-        const wmaSeries = chart.addLineSeries({ lineWidth: 1, title: 'WMA' })
+        const wmaSeries = chart.current.addLineSeries({
+          lineWidth: 1,
+          title: 'WMA'
+        })
         getMAChart(
           'wma',
           wmaSeries,
@@ -208,17 +234,17 @@ function CryptoChart ({ mobile }) {
         )
       }
       if (bbands) {
-        const bbandUpper = chart.addLineSeries({
+        const bbandUpper = chart.current.addLineSeries({
           lineWidth: 1,
           title: 'BBAND Upper',
           color: '#0069CD'
         })
-        const bbandMiddle = chart.addLineSeries({
+        const bbandMiddle = chart.current.addLineSeries({
           lineWidth: 1,
           title: 'BBAND Middle',
           color: 'orange'
         })
-        const bbandLower = chart.addLineSeries({
+        const bbandLower = chart.current.addLineSeries({
           lineWidth: 1,
           title: 'BBAND Lower',
           color: '#0069CD'
@@ -237,19 +263,176 @@ function CryptoChart ({ mobile }) {
       }
       console.log('Opened Stream ' + market.toUpperCase())
       return () => {
-        chart.remove()
+        chart.current.remove()
         console.log('Closed Stream.')
         eventSource.close()
+        dispatch(updateInternalIndicatorData({ type: 'ma', data: [] }))
+        dispatch(updateInternalIndicatorData({ type: 'sma', data: [] }))
+        dispatch(updateInternalIndicatorData({ type: 'wma', data: [] }))
+        dispatch(updateInternalIndicatorData({ type: 'ema', data: [] }))
+        dispatch(updateInternalIndicatorData({ type: 'bbands', data: {upper: [], middle: [], lower: [] }}))
+        dispatch(
+            updateChartData({
+              chartData: [],
+              timeLine: []
+            })
+        )
       }
     }
-  }, [market, timeInterval, internalIndicators, mobile, timeStamp])
+  }, [market, timeInterval, internalIndicators, mobile])
+
+  useEffect(() => {
+    let newCrypto =
+      HISTORICAL_URL + `${market.toUpperCase()}/${timeInterval}/${timeStamp}000`
+    console.log('timestamp', timeStamp)
+    timeStamp !== 0 &&
+      fetch(newCrypto)
+        .then(res => res.json())
+        .then(data => {
+          let newData = []
+          let tempTimeLine = []
+
+          data.forEach(row => {
+            let object = {
+              time: row[0] / 1000,
+              open: row[1],
+              high: row[2],
+              low: row[3],
+              close: row[4]
+            }
+            tempTimeLine.push(object.time)
+            newData.push(object)
+            // console.log(object)
+          })
+          let chars = [...tempTimeLine, ...timeLine]
+          // console.log('timeLine', timeLine)
+          // console.log('timeStamp', timeStamp)
+          let tempTimeLineData = chars.filter((c, index) => {
+            return chars.indexOf(c) === index
+          })
+          let tempChartData = removeDuplicates([...newData, ...chartData]).sort(
+            compare
+          )
+          console.log('newData', newData)
+          console.log('chartData', tempChartData)
+          candleSeries.current.setData(tempChartData)
+
+          // chart.current.timeScale().setVisibleRange({
+          //   from: tempTimeLine[0],
+          //   to: tempTimeLine[tempTimeLine.length - 1]
+          // })
+          dispatch(
+            updateChartData({
+              chartData: tempChartData,
+              timeLine: tempTimeLineData
+            })
+          )
+          if (timeStamp !== 0) {
+            if (ma) {
+              const maSeries = chart.current.addLineSeries({
+                lineWidth: 1,
+                title: 'MA'
+              })
+              getMAChart(
+                'ma',
+                maSeries,
+                market,
+                marketType,
+                timeInterval,
+                timeStamp,
+                dispatch,
+                internalIndicatorData.ma
+              )
+            }
+            if (ema) {
+              const emaSeries = chart.current.addLineSeries({
+                lineWidth: 1,
+                title: 'EMA'
+              })
+              getMAChart(
+                'ema',
+                emaSeries,
+                market,
+                marketType,
+                timeInterval,
+                timeStamp,
+                dispatch,
+                internalIndicatorData.ema
+              )
+            }
+            if (sma) {
+              const smaSeries = chart.current.addLineSeries({
+                lineWidth: 1,
+                title: 'SMA'
+              })
+              getMAChart(
+                'sma',
+                smaSeries,
+                market,
+                marketType,
+                timeInterval,
+                timeStamp,
+                dispatch,
+                internalIndicatorData.sma
+              )
+            }
+            if (wma) {
+              const wmaSeries = chart.current.addLineSeries({
+                lineWidth: 1,
+                title: 'WMA'
+              })
+              getMAChart(
+                'wma',
+                wmaSeries,
+                market,
+                marketType,
+                timeInterval,
+                timeStamp,
+                dispatch,
+                internalIndicatorData.wma
+              )
+            }
+            if (bbands) {
+              const bbandUpper = chart.current.addLineSeries({
+                lineWidth: 1,
+                title: 'BBAND Upper',
+                color: '#0069CD'
+              })
+              const bbandMiddle = chart.current.addLineSeries({
+                lineWidth: 1,
+                title: 'BBAND Middle',
+                color: 'orange'
+              })
+              const bbandLower = chart.current.addLineSeries({
+                lineWidth: 1,
+                title: 'BBAND Lower',
+                color: '#0069CD'
+              })
+              getBBands(
+                bbandUpper,
+                bbandMiddle,
+                bbandLower,
+                market,
+                marketType,
+                timeInterval,
+                timeStamp,
+                dispatch,
+                internalIndicatorData.bbands
+              )
+            }
+          }
+
+          // console.log(object)
+        })
+        .catch()
+  }, [timeStamp])
 
   const handleDrag = () => {
     // console.log('api call to load data')
     // console.log(visibleRange.from)
     // console.log('state', timeLine)
     // console.log('state', chartData)
-    // console.log(timeStamp)
+    console.log(timeStamp)
     // console.log(timeLine[0])
     // if (visibleRange.from !== null) {
     //   setTimeStamp(visibleRange.from)
@@ -264,7 +447,12 @@ function CryptoChart ({ mobile }) {
   return (
     <>
       {loading ? <ChartLoader /> : null}
-      <div ref={ref} onMouseUpCapture={handleDrag} onTouchEnd={handleDrag} />
+      <div
+        ref={ref}
+        onMouseUpCapture={handleDrag}
+        onTouchEnd={handleDrag}
+        data-testid='cryptoChart'
+      />
     </>
   )
 }

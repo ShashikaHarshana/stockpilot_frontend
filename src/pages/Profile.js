@@ -23,6 +23,7 @@ const useStyles = makeStyles(theme => ({
 const Profile = () => {
   const handleClick = () => {}
   const classes = useStyles()
+
   return (
     <>
       <NavBar />

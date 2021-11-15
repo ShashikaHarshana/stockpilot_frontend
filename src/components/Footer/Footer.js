@@ -80,22 +80,30 @@ const Footer = () => {
         <Grid container spacing={5}>
           <Grid item xs={12} sm={4}>
             <Grid component={Link} to='/'>
-              <img src={logo} alt='logo' className={classes.logo} />
+              <img src={`${logo}`} alt='logo' className={classes.logo} />
             </Grid>
-            <Typography>
+            <Typography data-testid='header'>
               The website for all Your Crypto and Stock Analysis needs
             </Typography>
           </Grid>
           <Grid item sm={4} xs={12} className={classes.gridItem}>
             <Typography>Helpful Links</Typography>
             <div className={classes.gridItemLinks}>
-              <Link to='/' className={classes.link}>
+              <Link to='/' className={classes.link} data-testid='home'>
                 Home
               </Link>
-              <Link to='/crypto' className={classes.link}>
+              <Link
+                to='/analyze/crypto'
+                data-testid='crypto'
+                className={classes.link}
+              >
                 Crypto
               </Link>
-              <Link to='/stock' className={classes.link}>
+              <Link
+                to='/analyze/stock'
+                data-testid='stock'
+                className={classes.link}
+              >
                 Stock
               </Link>
             </div>
