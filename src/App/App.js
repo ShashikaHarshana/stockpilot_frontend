@@ -61,7 +61,6 @@ function App () {
 
   return (
     <>
-      <Router>
         <ThemeProvider theme={theme}>
           <Container className={classes.container}>
             <Switch>
@@ -88,7 +87,6 @@ function App () {
             </Switch>
           </Container>
         </ThemeProvider>
-      </Router>
     </>
   )
 }
