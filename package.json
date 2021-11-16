@@ -73,6 +73,9 @@
   "jest": {
     "transformIgnorePatterns": [
       "node_modules/(?!(lightweight-charts|fancy-canvas)/)"
-    ]
+    ],
+    "moduleNameMapper": {
+      "\\.(css|less|scss|sass)$": "identity-obj-proxy"
+    }
   }
 }
