@@ -3,7 +3,7 @@ import { createChart, CrosshairMode } from 'lightweight-charts'
 import { Typography } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 import ChartLoader from '../Loading/ChartLoader'
-import { TA_BASE_URL } from '../../utils/CONSTANTS'
+import {MACD_COLOUR, MACD_SIGNAL_COLOUR, TA_BASE_URL} from '../../utils/CONSTANTS'
 import { useDispatch } from 'react-redux'
 import {
   updateExternalIndicatorData,
@@ -33,12 +33,17 @@ function MACDChart ({ mobile }) {
   } = useSelector(state => state.chart)
   const [loading, setLoading] = useState(true)
 
+    let timestamp = macdTimeStamp * 1000;
+    if (timestamp === 0){
+        timestamp = '0000'
+    }
+
   const url =
     TA_BASE_URL +
     'macd' +
     `/${marketType}/${
       marketType === 'crypto' ? market.toUpperCase() : market
-    }/${timeInterval}/${macdTimeStamp}000`
+    }/${timeInterval}/${timestamp}`
 
   useEffect(() => {
     setLoading(true)
@@ -59,11 +64,11 @@ function MACDChart ({ mobile }) {
     })
     macdSeries.current = chart.current.addLineSeries({
       lineWidth: 1.5,
-      color: '#22568E'
+      color: MACD_COLOUR
     })
     macdSignalSeries.current = chart.current.addLineSeries({
       lineWidth: 1.5,
-      color: '#973A80'
+      color: MACD_SIGNAL_COLOUR
     })
     macdHistSeries.current = chart.current.addHistogramSeries({
       base: 0

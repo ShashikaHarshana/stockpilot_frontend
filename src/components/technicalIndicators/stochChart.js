@@ -3,7 +3,7 @@ import { createChart, CrosshairMode } from 'lightweight-charts'
 import { Typography } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 import ChartLoader from '../Loading/ChartLoader'
-import { TA_BASE_URL } from '../../utils/CONSTANTS'
+import {SLOWD_COLOUR, SLOWK_COLOUR, TA_BASE_URL} from '../../utils/CONSTANTS'
 import {
   updateExternalIndicatorData,
   updateStochTime,
@@ -30,12 +30,17 @@ function StochChart ({ mobile }) {
   const [loading, setLoading] = useState(true)
   const [visibleRange, setVisibleRange] = useState({})
 
+    let timestamp = stochTimeStamp * 1000;
+    if (timestamp === 0){
+        timestamp = '0000'
+    }
+
   const url =
     TA_BASE_URL +
     'stoch' +
     `/${marketType}/${
       marketType === 'crypto' ? market.toUpperCase() : market
-    }/${timeInterval}/${stochTimeStamp}000`
+    }/${timeInterval}/${timestamp}`
 
   // console.log(market, marketType, timeInterval)
 
@@ -58,11 +63,11 @@ function StochChart ({ mobile }) {
     })
     slowkSeries.current = chart.current.addLineSeries({
       lineWidth: 1.5,
-      color: '#8E0072'
+      color: SLOWK_COLOUR
     })
     slowdSeries.current = chart.current.addLineSeries({
       lineWidth: 1.5,
-      color: '#00733E'
+      color: SLOWD_COLOUR
     })
 
     fetch(url)

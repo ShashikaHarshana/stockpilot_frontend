@@ -4,11 +4,17 @@ import getMAChart from '../technicalIndicators/maChartFunction'
 import getBBands from '../technicalIndicators/bbands'
 import { useSelector } from 'react-redux'
 import ChartLoader from '../Loading/ChartLoader'
-import { BASE_URL } from '../../utils/CONSTANTS'
+import {
+  BASE_URL, BBANDS_COLOUR, BBANDS_MIDDLE_COLOUR,
+  DOWN_CANDLESTICK_COLOUR,
+  EMA_COLOUR,
+  MA_COLOUR,
+  SMA_COLOUR,
+  UP_CANDLESTICK_COLOUR, WMA_COLOUR
+} from '../../utils/CONSTANTS'
 import { useDispatch } from 'react-redux'
 import { updateChartData, updateTimeStamp } from '../../redux/ducks/chart'
 import { compare } from '../../utils/functions'
-import { removeDuplicates } from '../../utils/functions'
 
 function StockChart ({ mobile }) {
   const ref = React.useRef()
@@ -34,6 +40,7 @@ function StockChart ({ mobile }) {
 
   const removeDuplicates = arr => {
     const seen = new Set()
+    // noinspection UnnecessaryLocalVariableJS
     const filteredArr = arr.filter(el => {
       const duplicate = seen.has(el.time)
       seen.add(el.time)
@@ -76,8 +83,8 @@ function StockChart ({ mobile }) {
         // },
       })
       candleSeries.current = chart.current.addCandlestickSeries({
-        upColor: '#00733E',
-        downColor: '#BB2E2D'
+        upColor: UP_CANDLESTICK_COLOUR,
+        downColor: DOWN_CANDLESTICK_COLOUR
       })
 
       chart.current.applyOptions({
@@ -160,7 +167,8 @@ function StockChart ({ mobile }) {
       if (ma) {
         const maSeries = chart.current.addLineSeries({
           lineWidth: 1,
-          title: 'MA'
+          title: 'MA',
+          color:MA_COLOUR
         })
         getMAChart(
           'ma',
@@ -176,7 +184,8 @@ function StockChart ({ mobile }) {
       if (ema) {
         const emaSeries = chart.current.addLineSeries({
           lineWidth: 1,
-          title: 'EMA'
+          title: 'EMA',
+          color: EMA_COLOUR
         })
         getMAChart(
           'ema',
@@ -192,7 +201,8 @@ function StockChart ({ mobile }) {
       if (sma) {
         const smaSeries = chart.current.addLineSeries({
           lineWidth: 1,
-          title: 'SMA'
+          title: 'SMA',
+          color: SMA_COLOUR
         })
         getMAChart(
           'sma',
@@ -208,7 +218,8 @@ function StockChart ({ mobile }) {
       if (wma) {
         const wmaSeries = chart.current.addLineSeries({
           lineWidth: 1,
-          title: 'WMA'
+          title: 'WMA',
+          color: WMA_COLOUR
         })
         getMAChart(
           'wma',
@@ -225,17 +236,17 @@ function StockChart ({ mobile }) {
         const bbandUpper = chart.current.addLineSeries({
           lineWidth: 1,
           title: 'BBAND Upper',
-          color: '#0069CD'
+          color: BBANDS_COLOUR
         })
         const bbandMiddle = chart.current.addLineSeries({
           lineWidth: 1,
           title: 'BBAND Middle',
-          color: 'orange'
+          color: BBANDS_MIDDLE_COLOUR
         })
         const bbandLower = chart.current.addLineSeries({
           lineWidth: 1,
           title: 'BBAND Lower',
-          color: '#0069CD'
+          color: BBANDS_COLOUR
         })
         getBBands(
           bbandUpper,
@@ -302,7 +313,8 @@ function StockChart ({ mobile }) {
             if (ma) {
               const maSeries = chart.current.addLineSeries({
                 lineWidth: 1,
-                title: 'MA'
+                title: 'MA',
+                color: MA_COLOUR
               })
               getMAChart(
                 'ma',
@@ -318,7 +330,8 @@ function StockChart ({ mobile }) {
             if (ema) {
               const emaSeries = chart.current.addLineSeries({
                 lineWidth: 1,
-                title: 'EMA'
+                title: 'EMA',
+                color: EMA_COLOUR
               })
               getMAChart(
                 'ema',
@@ -334,7 +347,8 @@ function StockChart ({ mobile }) {
             if (sma) {
               const smaSeries = chart.current.addLineSeries({
                 lineWidth: 1,
-                title: 'SMA'
+                title: 'SMA',
+                color: SMA_COLOUR
               })
               getMAChart(
                 'sma',
@@ -350,7 +364,8 @@ function StockChart ({ mobile }) {
             if (wma) {
               const wmaSeries = chart.current.addLineSeries({
                 lineWidth: 1,
-                title: 'WMA'
+                title: 'WMA',
+                color: WMA_COLOUR
               })
               getMAChart(
                 'wma',
@@ -367,17 +382,17 @@ function StockChart ({ mobile }) {
               const bbandUpper = chart.current.addLineSeries({
                 lineWidth: 1,
                 title: 'BBAND Upper',
-                color: '#0069CD'
+                color: BBANDS_COLOUR
               })
               const bbandMiddle = chart.current.addLineSeries({
                 lineWidth: 1,
                 title: 'BBAND Middle',
-                color: 'orange'
+                color: BBANDS_MIDDLE_COLOUR
               })
               const bbandLower = chart.current.addLineSeries({
                 lineWidth: 1,
                 title: 'BBAND Lower',
-                color: '#0069CD'
+                color: BBANDS_COLOUR
               })
               getBBands(
                 bbandUpper,

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import {
   AppBar,
   Button,
@@ -8,29 +8,22 @@ import {
   Menu,
   MenuItem,
   IconButton,
-  useMediaQuery,
-  Paper,
-  TableBody,
-  TableRow,
-  TableCell
+  useMediaQuery
 } from '@material-ui/core'
-import { Redirect, useHistory, withRouter } from 'react-router'
+import { useHistory} from 'react-router'
 import { Link } from 'react-router-dom'
 import logo from '../../svgs/signUp/logo.svg'
-import SearchBox from './SearchBox'
 import { makeStyles } from '@material-ui/core'
-import SearchIcon from '@material-ui/icons/Search'
-import MenuIcon from '@material-ui/icons/Menu'
 import profilePic from '../../svgs/profilePhoto.png'
 import Badge from '@material-ui/core/Badge'
 import MailIcon from '@material-ui/icons/Mail'
+import MenuIcon from '@material-ui/icons/Menu'
 import { useSelector } from 'react-redux'
 import { useTheme } from '@material-ui/styles'
 import MobDrawer from './MobDrawer'
 import { useDispatch } from 'react-redux'
 import { logOut } from '../../redux/ducks/auth'
 import Popup from '../controls/Popup'
-import useTable from '../hooks/useTable'
 // import notifications from './../../utils/data'
 
 import NotificationModal from '../Notifications/NotificationModal'
@@ -188,6 +181,7 @@ const NavBar = () => {
               crypto
             </Button>
           </Grid>
+
           {/* <Grid item className={classes.search}>
             <SearchBox open={open} setOpen={setOpen} />
           </Grid> */}
@@ -198,6 +192,7 @@ const NavBar = () => {
                 onClick={() => setOpen(true)}
                 className={classes.searchIcon}
               /> */}
+
               <MenuIcon
                 onClick={() => setOpenDrawer(true)}
                 className={classes.searchIcon}
