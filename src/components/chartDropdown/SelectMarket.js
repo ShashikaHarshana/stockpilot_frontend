@@ -51,14 +51,14 @@ const SelectMarket = ({ type }) => {
   const dispatch = useDispatch()
   const cryptoMarkets = useSelector(state => state.chart.cryptoList)
   const stockMarkets = useSelector(state => state.chart.stockList)
-  const { marketType } = useSelector(state => state.chart)
-  const [market, setMarket] = React.useState(
-    type === 'stock' && stockMarkets && cryptoMarkets
-      ? stockMarkets[0].toUpperCase()
-      : cryptoMarkets[2]
-  )
+  const [market, setMarket] = React.useState('')
+  // const [market, setMarket] = React.useState(
+  //   type === 'stock' && stockMarkets && cryptoMarkets
+  //     ? stockMarkets[0]
+  //     : cryptoMarkets[0]
+  // )
   if (!stockMarkets || !cryptoMarkets) {
-    console.log('loading')
+    // console.log('loading')
   }
 
   const handleChange = event => {
@@ -67,7 +67,11 @@ const SelectMarket = ({ type }) => {
 
   useEffect(() => {
     setMarket(
-      type === 'stock' ? stockMarkets[0].toUpperCase() : cryptoMarkets[2]
+      type === 'stock'
+        ? stockMarkets[0] !== undefined
+          ? 'AAPL'
+          : stockMarkets[0]
+        : cryptoMarkets[0]
     )
     dispatch(resetIndicators())
   }, [type])
@@ -77,7 +81,7 @@ const SelectMarket = ({ type }) => {
   }, [market])
 
   return (
-    <div>
+    <div data-testid='selectMarket'>
       <FormControl className={classes.formControl}>
         <Select
           autoWidth

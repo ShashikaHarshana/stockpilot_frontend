@@ -159,6 +159,7 @@ const useStyles = makeStyles(theme => ({
     // fontFamily: 'arial
     fontWeight: 400,
     letterSpacing: '1.75px',
+    // whiteSpace: 'breakSpace',
     [theme.breakpoints.down('sm')]: { width: '80%', fontSize: '2.38rem' }
   },
   subTitle: {
@@ -168,7 +169,7 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 500,
     marginTop: 'calc(25px*0.8)',
     width: '82%',
-    textOverflow: 'ellipsis',
+
     [theme.breakpoints.down('sm')]: { fontSize: '0.8rem', width: '93%' }
   },
   signupBtnB: {
@@ -219,17 +220,31 @@ const Home = () => {
       </Fade>
       <section className={classes.section1} id='topSection'>
         <article className={classes.articleTypo}>
-          <Typography variant={`${mobile} ? h5 :h4`} className={classes.title}>
+          {mobile ? (
             <Zoom right big cascade delay={500} duration={2000}>
-              Smart Investing Platform
+              <Typography
+                variant={`${mobile} ? h5 :h4`}
+                className={classes.title}
+              >
+                Smart Investing Platform
+              </Typography>
             </Zoom>
-          </Typography>
-          <Typography variant='subtitle1' className={classes.subTitle}>
-            <Fade top cascade delay={3000}>
+          ) : (
+            <Typography
+              variant={`${mobile} ? h5 :h4`}
+              className={classes.title}
+            >
+              <Zoom right big cascade delay={500} duration={2000}>
+                Smart Investing Platform
+              </Zoom>
+            </Typography>
+          )}
+          <Fade top cascade delay={3000}>
+            <Typography variant='subtitle1' className={classes.subTitle}>
               The one stop website for all your stock and crypto analysis needs
               without any commission or deposits.
-            </Fade>
-          </Typography>
+            </Typography>
+          </Fade>
           <Fade left delay={4000}>
             <Button
               className={classes.signupBtn}
@@ -250,31 +265,35 @@ const Home = () => {
           </Fade>
         </article>
       </section>
-      <Fade left fraction={1}>
-        <section className={classes.section}>
-          <ImageCard
-            mobile={mobile}
-            img={img1}
-            width={492}
-            height={324}
-            mWidth={250}
-            mHeight={164}
-            marginTop={74}
-            type={'Crypto'}
-          />
-          <ImageCard
-            className={classes.imgCard}
-            mobile={mobile}
-            img={img2}
-            width={405}
-            height={355}
-            mWidth={217}
-            mHeight={190}
-            marginTop={44}
-            type={'Stock'}
-          />
-        </section>
-      </Fade>
+      <section className={classes.section}>
+        <ImageCard
+          mobile={mobile}
+          img={img1}
+          width={492}
+          height={324}
+          mWidth={250}
+          mHeight={164}
+          marginTop={74}
+          type={'Crypto'}
+          text={
+            'Crypto currency is the future of currency. Invest now ease with the help of Stock Pilot. We provide you all the tools necessary for analyzing'
+          }
+        />
+        <ImageCard
+          className={classes.imgCard}
+          mobile={mobile}
+          img={img2}
+          width={405}
+          height={355}
+          mWidth={217}
+          mHeight={190}
+          marginTop={44}
+          type={'Stock'}
+          text={
+            'Buy and sell shares to make interest with the guidence of stock pilot. No need to worry about analyzing. We provide you visual analysis of all the indicators.'
+          }
+        />
+      </section>
       <section className={classes.section}>
         <article>
           <Zoom cascade top duration={1500}>
@@ -316,7 +335,7 @@ const Home = () => {
             </Typography>{' '}
             <Typography
               variant='subtitle1'
-              style={{ marginTop: 'calc(25px*0.8)' }}
+              style={{ marginTop: 'calc(25px*0.8)', lineHeight: '22px' }}
             >
               The one stop website for all your stock and crypto analysis needs
               without any commission or deposits.

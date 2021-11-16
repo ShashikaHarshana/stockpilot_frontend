@@ -6,9 +6,6 @@ import Tab from '@material-ui/core/Tab'
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 import Variants from './Variants'
-import { blue, red } from '@material-ui/core/colors'
-import CenteredGrid from './CenteredGrid'
-import PaperGrid from './PaperGrid'
 import ReactPlayer from 'react-player'
 import { FormControlLabel, FormGroup, Switch } from '@material-ui/core'
 import { useSelector } from 'react-redux'
@@ -83,7 +80,7 @@ const useStyles = makeStyles(theme => ({
 export default function VerticalTabs () {
   const classes = useStyles()
   const [value, setValue] = useState(0)
-  const [checked, setChecked] = useState(false)
+  const [checked, setChecked] = useState(true)
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }

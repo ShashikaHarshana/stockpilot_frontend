@@ -3,7 +3,6 @@ import Paper from '@material-ui/core/Paper'
 import {
   CircularProgress,
   Grid,
-  IconButton,
   Typography,
   useMediaQuery,
   useTheme
@@ -18,8 +17,6 @@ import { Link, Redirect } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core'
 import bottom from '../svgs/signUp/bottomLeft.svg'
 import top from '../svgs/signUp/topRight.svg'
-import facebook from '../svgs/signUp/facebook.svg'
-import google from '../svgs/signUp/google.svg'
 import { useDispatch, useSelector } from 'react-redux'
 import { authUser } from '../redux/ducks/auth'
 import logo from '../svgs/signUp/logo.svg'
@@ -325,6 +322,7 @@ const SignIn = () => {
                   </Button>
                 </Typography>
                 {/*<Typography>*/}
+
                   {/*<Button*/}
                   {/*  component={Link}*/}
                   {/*  to='/'*/}
@@ -333,6 +331,7 @@ const SignIn = () => {
                   {/*>*/}
                   {/*  Forgot Password?*/}
                   {/*</Button>*/}
+
                 {/*</Typography>*/}
                 {showAlert()}
               </Paper>

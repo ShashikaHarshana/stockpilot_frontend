@@ -64,7 +64,7 @@ const DropdownSelect = () => {
   }, [marketType])
 
   return (
-    <div>
+    <div data-testid='internalSelect'>
       <Button
         aria-controls='simple-menu'
         aria-haspopup='true'

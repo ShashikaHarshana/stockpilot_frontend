@@ -22,21 +22,23 @@ let getMAChart = (
   fetch(url)
     .then(res => res.json())
     .then(data => {
-      let tempLines = []
-      for (let key in data) {
-        if (data.hasOwnProperty(key)) {
-          let object = {
-            time: key / 1000,
-            value: data[key]
-          }
-          tempLines.push(object)
+        if (!data.hasOwnProperty('error')) {
+            let tempLines = []
+            for (let key in data) {
+                if (data.hasOwnProperty(key)) {
+                    let object = {
+                        time: key / 1000,
+                        value: data[key]
+                    }
+                    tempLines.push(object)
+                }
+            }
+            let tempLineData = removeDuplicates([...tempLines, ...lineData])
+            lineSeries.setData(tempLineData)
+            console.log(lineData)
+            dispatch(updateInternalIndicatorData({type, data: tempLineData}))
+            console.log('ma line series')
         }
-      }
-      let tempLineData = removeDuplicates([...tempLines, ...lineData])
-      lineSeries.setData(tempLineData)
-      console.log(lineData)
-      dispatch(updateInternalIndicatorData({ type, data: tempLineData }))
-      console.log('ma line series')
     })
     .catch()
 }

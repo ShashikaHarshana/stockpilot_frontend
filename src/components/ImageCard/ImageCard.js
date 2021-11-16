@@ -1,13 +1,10 @@
 import * as React from 'react'
-import { Button, Typography, Paper } from '@material-ui/core'
+import { Button, Typography, Paper, Fade } from '@material-ui/core'
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt'
 
 import { makeStyles } from '@material-ui/core'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-
-const subTitle =
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi augue nunc, tempor at congue a, efficitur at sapien. Sed efficitur molestie ex, nec sagittis ipsum.'
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -70,50 +67,53 @@ const ImageCard = ({
   mWidth,
   mHeight,
   marginTop,
-  type
+  type,
+  text
 }) => {
   const { isLoggedIn } = useSelector(state => state.auth)
 
   const classes = useStyles({ height, width, mWidth, mHeight, marginTop })
 
   return (
-    <Paper elevation={13} className={classes.card}>
-      <div className={classes.cardMedia}>
-        <img className={classes.img} src={img} alt='' />
-      </div>
-      <div style={{ marginTop: '10px' }}>
-        <Typography
-          gutterBottom
-          variant={`${mobile ? 'h5' : 'h4'}`}
-          // component='div'
-        >
-          <span>{type}</span>{' '}
-          <span>{type === 'Crypto' ? 'Currency' : 'Market'}</span>
-        </Typography>
-        <Typography variant='body2' color='textSecondary'>
-          {subTitle}
-        </Typography>
-        <Button
-          size='large'
-          className={classes.btn}
-          variant='text'
-          color='secondary'
-          component={Link}
-          to={`${
-            isLoggedIn
-              ? type === 'Crypto'
-                ? '/analyze/crypto'
-                : '/analyze/stock'
-              : '/sign_up'
-          }`}
-        >
-          {`Analyze ${type}`}
-          <span style={{ marginTop: 'calc(0.75rem*0.8)' }}>
-            <ArrowRightAltIcon fontSize='small' />
-          </span>
-        </Button>
-      </div>
-    </Paper>
+    <>
+      <Paper elevation={13} className={classes.card} data-testid='imageCard'>
+        <div className={classes.cardMedia}>
+          <img className={classes.img} src={img} alt='' />
+        </div>
+        <div style={{ marginTop: '10px' }}>
+          <Typography
+            gutterBottom
+            variant={`${mobile ? 'h5' : 'h4'}`}
+            // component='div'
+          >
+            <span>{type}</span>{' '}
+            <span>{type === 'Crypto' ? 'Currency' : 'Market'}</span>
+          </Typography>
+          <Typography variant='body2' color='textSecondary'>
+            {text}
+          </Typography>
+          <Button
+            size='large'
+            className={classes.btn}
+            variant='text'
+            color='secondary'
+            component={Link}
+            to={`${
+              isLoggedIn
+                ? type === 'Crypto'
+                  ? '/analyze/crypto'
+                  : '/analyze/stock'
+                : '/sign_up'
+            }`}
+          >
+            {`Analyze ${type}`}
+            <span style={{ marginTop: 'calc(0.75rem*0.8)' }}>
+              <ArrowRightAltIcon fontSize='small' />
+            </span>
+          </Button>
+        </div>
+      </Paper>
+    </>
   )
 }
 
