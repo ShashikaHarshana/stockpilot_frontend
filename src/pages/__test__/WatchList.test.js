@@ -1,11 +1,10 @@
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import React from 'react'
 
 import { ThemeProvider } from '@material-ui/core/styles'
 import '@testing-library/jest-dom'
 import * as reactRedux from 'react-redux'
-import SignIn from "../SignIn";
 import theme from "../../utils/theme";
 import WatchList from "../WatchList";
 
@@ -18,7 +17,7 @@ const MockWatchList = () => {
     return (
         <ThemeProvider theme={theme}>
             <BrowserRouter>
-                <WatchList />
+                <WatchList test={true} />
             </BrowserRouter>
         </ThemeProvider>
     )

@@ -24,7 +24,7 @@ const headCells = [
   { id: 'actions', label: 'Actions', disableSorting: true }
 ]
 
-const WatchList = () => {
+const WatchList = ({test}) => {
   const dispatch = useDispatch()
   const [eventSources, setEventSources] = useState([])
   const [records, setRecords] = useState([])
@@ -33,9 +33,14 @@ const WatchList = () => {
   const {token} = useSelector(state => state.auth)
   let {brands} = useSelector(state => state.watchlist)
   const {isLoading} = useSelector(state => state.watchlist)
-  const [tableLoading, setTableLoading] = useState(true)
+  let [tableLoading, setTableLoading] = useState(true)
+
+
 
   useEffect(() => {
+    if (test){
+      setTableLoading(false)
+    }
     dispatch(viewWatchlist(token))
   }, [])
 
