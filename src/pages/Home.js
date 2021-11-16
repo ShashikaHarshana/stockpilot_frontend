@@ -265,31 +265,35 @@ const Home = () => {
           </Fade>
         </article>
       </section>
-      <Fade left fraction={1}>
-        <section className={classes.section}>
-          <ImageCard
-            mobile={mobile}
-            img={img1}
-            width={492}
-            height={324}
-            mWidth={250}
-            mHeight={164}
-            marginTop={74}
-            type={'Crypto'}
-          />
-          <ImageCard
-            className={classes.imgCard}
-            mobile={mobile}
-            img={img2}
-            width={405}
-            height={355}
-            mWidth={217}
-            mHeight={190}
-            marginTop={44}
-            type={'Stock'}
-          />
-        </section>
-      </Fade>
+      <section className={classes.section}>
+        <ImageCard
+          mobile={mobile}
+          img={img1}
+          width={492}
+          height={324}
+          mWidth={250}
+          mHeight={164}
+          marginTop={74}
+          type={'Crypto'}
+          text={
+            'Crypto currency is the future of currency. Invest now ease with the help of Stock Pilot. We provide you all the tools necessary for analyzing'
+          }
+        />
+        <ImageCard
+          className={classes.imgCard}
+          mobile={mobile}
+          img={img2}
+          width={405}
+          height={355}
+          mWidth={217}
+          mHeight={190}
+          marginTop={44}
+          type={'Stock'}
+          text={
+            'Buy and sell shares to make interest with the guidence of stock pilot. No need to worry about analyzing. We provide you visual analysis of all the indicators.'
+          }
+        />
+      </section>
       <section className={classes.section}>
         <article>
           <Zoom cascade top duration={1500}>

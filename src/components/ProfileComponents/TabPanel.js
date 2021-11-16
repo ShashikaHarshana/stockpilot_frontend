@@ -83,7 +83,7 @@ const useStyles = makeStyles(theme => ({
 export default function VerticalTabs () {
   const classes = useStyles()
   const [value, setValue] = useState(0)
-  const [checked, setChecked] = useState(false)
+  const [checked, setChecked] = useState(true)
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
