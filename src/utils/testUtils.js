@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import { authReducer } from '../redux/ducks/auth'
 import { chartReducer } from '../redux/ducks/chart'
 import { watchlistReducer } from '../redux/ducks/watchlist'
-import { notificationReducer } from '../redux/ducks/notifications'
+
 import { BrowserRouter } from 'react-router-dom'
 import { ThemeProvider } from '@material-ui/core/styles'
 import theme from '../utils/theme'
@@ -20,7 +20,6 @@ function render (
         auth: authReducer,
         watchlist: watchlistReducer,
         chart: chartReducer,
-        notifications: notificationReducer
       },
       preloadedState
     }),

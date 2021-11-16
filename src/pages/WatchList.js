@@ -11,8 +11,6 @@ import FullPageLoader from '../components/Loading/FullPageLoader'
 import Fade from 'react-reveal/Fade'
 import CloseIcon from '@material-ui/icons/Close'
 import { LISTEN_URL } from '../utils/CONSTANTS'
-import ConfirmDialog from '../components/controls/ConfirmDialog'
-import { openPopUp } from '../redux/ducks/notifications'
 
 const headCells = [
   //   { id: 'no', label: 'No', disableSorting: true },
@@ -150,16 +148,8 @@ const WatchList = ({test}) => {
                       // onClick={() => handleDelete(item.symbol)
                       // }
                       onClick={() =>
-                        dispatch(
-                          openPopUp({
-                            isOpen: true,
-                            title: 'Are you sure you want to delete this item!',
-                            subTitle:
-                              'This item will be deleted from the Watch List...!',
-                            item,
-                            handleDelete
-                          })
-                        )
+                         handleDelete()
+
                       }
                     >
                       <CloseIcon fontSize='small' />
@@ -171,7 +161,6 @@ const WatchList = ({test}) => {
           </TblContainer>
         </Paper>
       )}
-      <ConfirmDialog handleDelete={handleDelete} />
     </div>
   )
 }

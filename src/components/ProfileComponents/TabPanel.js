@@ -11,7 +11,6 @@ import { FormControlLabel, FormGroup, Switch } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 import jwt_decode from 'jwt-decode'
 
-// import Notification from './Notification'
 
 function TabPanel (props) {
   const { children, value, index, ...other } = props

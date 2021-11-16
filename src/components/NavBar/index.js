@@ -23,10 +23,7 @@ import { useTheme } from '@material-ui/styles'
 import MobDrawer from './MobDrawer'
 import { useDispatch } from 'react-redux'
 import { logOut } from '../../redux/ducks/auth'
-import Popup from '../controls/Popup'
-// import notifications from './../../utils/data'
 
-import NotificationModal from '../Notifications/NotificationModal'
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -118,14 +115,9 @@ const NavBar = () => {
   const dispatch = useDispatch()
   const { isLoggedIn } = useSelector(state => state.auth)
   const [openPopup, setOpenPopup] = useState(false)
-  // const { notifications } = useSelector(state => state.notifications)
+
 
   const history = useHistory()
-
-  // const handleDelete = time => {
-  //   let tempNotifications = newNotifications.filter(item => item[0] !== time)
-  //   setNewNotifications(tempNotifications)
-  // }
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget)
@@ -215,18 +207,6 @@ const NavBar = () => {
                 >
                   Watch List
                 </Button>
-                {/*<IconButton*/}
-                {/*  onClick={() => setOpenPopup(true)}*/}
-                {/*  style={{ marginRight: '10px' }}*/}
-                {/*  data-testid="notifs"*/}
-                {/*>*/}
-                {/*  <Badge*/}
-                {/*    badgeContent={notifications ? notifications.length : 0}*/}
-                {/*    color='secondary'*/}
-                {/*  >*/}
-                {/*    <MailIcon />*/}
-                {/*  </Badge>*/}
-                {/*</IconButton>*/}
                 <div>
                   <Avatar
                     alt='profile pic'
@@ -284,13 +264,7 @@ const NavBar = () => {
           </Grid>
         </Toolbar>
       </AppBar>
-      {/*<Popup*/}
-      {/*  title='Notifications'*/}
-      {/*  openPopup={openPopup}*/}
-      {/*  setOpenPopup={setOpenPopup}*/}
-      {/*>*/}
-      {/*  <NotificationModal />*/}
-      {/*</Popup>*/}
+
     </div>
   )
 }
