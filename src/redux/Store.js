@@ -4,13 +4,13 @@ import { authReducer } from './ducks/auth'
 import { chartReducer } from './ducks/chart'
 import { watcherSaga } from './sagas/rootSaga'
 import { watchlistReducer } from './ducks/watchlist'
-import { notificationReducer } from './ducks/notifications'
+// import { notificationReducer } from './ducks/notifications'
 
 const reducer = combineReducers({
   auth: authReducer,
   watchlist: watchlistReducer,
   chart: chartReducer,
-  notifications: notificationReducer
+  // notifications: notificationReducer
 })
 
 const sagaMiddleware = createSagaMiddleware()

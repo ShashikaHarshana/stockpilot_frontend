@@ -16,8 +16,8 @@ import FullPageLoader from '../components/Loading/FullPageLoader'
 import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute'
 import Test from '../components/Test'
 import { userRefresh } from '../redux/ducks/auth'
-import { getNotifications } from '../redux/ducks/notifications'
-import { onMessageListener } from '../firebaseInit'
+// import { getNotifications } from '../redux/ducks/notifications'
+// import { onMessageListener } from '../firebaseInit'
 import { toast } from 'react-toastify'
 
 const useStyles = makeStyles(theme => ({
@@ -34,28 +34,28 @@ function App () {
   const dispatch = useDispatch()
   const isLoading = useSelector(state => state.chart.isLoading)
   const [show, setShow] = useState(false)
-  const [notification, setNotification] = useState({ title: '', body: '' })
+  // const [notification, setNotification] = useState({ title: '', body: '' })
 
-  console.log(show, notification)
+  // console.log(show, notification)
 
-  onMessageListener()
-    .then(payload => {
-      // setShow(true)
-      toast.success(`${payload.notification.body}`)
-      setNotification({
-        title: 'New notification',
-        body: payload.notification.body
-      })
-      console.log(payload.notification)
-    })
-    .catch(err => console.log('failed: ', err))
+  // onMessageListener()
+  //   .then(payload => {
+  //     // setShow(true)
+  //     toast.success(`${payload.notification.body}`)
+  //     setNotification({
+  //       title: 'New notification',
+  //       body: payload.notification.body
+  //     })
+  //     console.log(payload.notification)
+  //   })
+  //   .catch(err => console.log('failed: ', err))
 
   useEffect(() => {
     dispatch(initializeDataRequest())
     if (localStorage.getItem('token')) {
       dispatch(userRefresh(localStorage.getItem('token')))
     }
-    dispatch(getNotifications())
+    // dispatch(getNotifications())
   }, [])
   console.log('show', show)
 
