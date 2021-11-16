@@ -92,6 +92,7 @@ const WatchList = () => {
         }
       }
       setRecords(temp)
+      setTableLoading(false)
     }
   }, [highVal])
 
@@ -121,7 +122,7 @@ const WatchList = () => {
         <NavBar />
       </Fade>
 
-      {isLoading && tableLoading ? (
+      {isLoading || tableLoading ? (
         <FullPageLoader />
       ) : brands && brands.length < 1 ? (
         <h1>No items currently in your Watch List</h1>

@@ -172,7 +172,8 @@ function CryptoChart ({ mobile }) {
       if (ma) {
         const maSeries = chart.current.addLineSeries({
           lineWidth: 1,
-          title: 'MA'
+          title: 'MA',
+          color: '#0083ff'
         })
         getMAChart(
           'ma',
@@ -188,7 +189,8 @@ function CryptoChart ({ mobile }) {
       if (ema) {
         const emaSeries = chart.current.addLineSeries({
           lineWidth: 1,
-          title: 'EMA'
+          title: 'EMA',
+          color: '#0069CD'
         })
         getMAChart(
           'ema',
@@ -204,7 +206,8 @@ function CryptoChart ({ mobile }) {
       if (sma) {
         const smaSeries = chart.current.addLineSeries({
           lineWidth: 1,
-          title: 'SMA'
+          title: 'SMA',
+          color: '#023f78'
         })
         getMAChart(
           'sma',
@@ -220,7 +223,8 @@ function CryptoChart ({ mobile }) {
       if (wma) {
         const wmaSeries = chart.current.addLineSeries({
           lineWidth: 1,
-          title: 'WMA'
+          title: 'WMA',
+          color: '#01203d'
         })
         getMAChart(
           'wma',
@@ -237,7 +241,7 @@ function CryptoChart ({ mobile }) {
         const bbandUpper = chart.current.addLineSeries({
           lineWidth: 1,
           title: 'BBAND Upper',
-          color: '#0069CD'
+          color: 'purple'
         })
         const bbandMiddle = chart.current.addLineSeries({
           lineWidth: 1,
@@ -247,7 +251,7 @@ function CryptoChart ({ mobile }) {
         const bbandLower = chart.current.addLineSeries({
           lineWidth: 1,
           title: 'BBAND Lower',
-          color: '#0069CD'
+          color: 'purple'
         })
         getBBands(
           bbandUpper,
@@ -331,7 +335,8 @@ function CryptoChart ({ mobile }) {
             if (ma) {
               const maSeries = chart.current.addLineSeries({
                 lineWidth: 1,
-                title: 'MA'
+                title: 'MA',
+                color: '#0083ff'
               })
               getMAChart(
                 'ma',
@@ -347,7 +352,8 @@ function CryptoChart ({ mobile }) {
             if (ema) {
               const emaSeries = chart.current.addLineSeries({
                 lineWidth: 1,
-                title: 'EMA'
+                title: 'EMA',
+                color: '#0069CD'
               })
               getMAChart(
                 'ema',
@@ -363,7 +369,8 @@ function CryptoChart ({ mobile }) {
             if (sma) {
               const smaSeries = chart.current.addLineSeries({
                 lineWidth: 1,
-                title: 'SMA'
+                title: 'SMA',
+                color: '#023f78'
               })
               getMAChart(
                 'sma',
@@ -379,7 +386,8 @@ function CryptoChart ({ mobile }) {
             if (wma) {
               const wmaSeries = chart.current.addLineSeries({
                 lineWidth: 1,
-                title: 'WMA'
+                title: 'WMA',
+                color: '#01203d'
               })
               getMAChart(
                 'wma',
@@ -396,7 +404,7 @@ function CryptoChart ({ mobile }) {
               const bbandUpper = chart.current.addLineSeries({
                 lineWidth: 1,
                 title: 'BBAND Upper',
-                color: '#0069CD'
+                color: 'purple'
               })
               const bbandMiddle = chart.current.addLineSeries({
                 lineWidth: 1,
@@ -406,7 +414,7 @@ function CryptoChart ({ mobile }) {
               const bbandLower = chart.current.addLineSeries({
                 lineWidth: 1,
                 title: 'BBAND Lower',
-                color: '#0069CD'
+                color: 'purple'
               })
               getBBands(
                 bbandUpper,
