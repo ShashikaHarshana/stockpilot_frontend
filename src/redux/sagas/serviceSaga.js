@@ -59,14 +59,7 @@ export function getStockList () {
   return axios.get(GET_ALL_STOCK_URL)
 }
 
-// export function notifications () {
-//   return axios.get(GET_NOTIFICATIONS_URL)
-// }
-// export function firebase (payload) {
-//   // return axios.post(ADD_FIREBASE_TOKEN_URL, {
-//   //   token: payload
-//   // })
-// }
+
 //
 ///user/login
 //user/register
