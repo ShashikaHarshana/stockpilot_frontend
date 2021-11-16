@@ -228,7 +228,7 @@ const SignUp = () => {
     return (
       <div className={classes.divContainer}>
         <Fade top>
-          <img src={top} alt='top' className={classes.topImg} />
+          <img src={top} alt='topRight' className={classes.topImg} />
         </Fade>
         <Grid className={classes.logoContainer} item component={Link} to='/'>
           <Fade top>
