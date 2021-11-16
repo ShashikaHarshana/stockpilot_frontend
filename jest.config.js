@@ -1,3 +1,4 @@
+
 const config = {
     verbose: true,
     transform: {
@@ -9,8 +10,7 @@ const config = {
     transformIgnorePatterns: [
         'node_modules/(?!(lightweight-charts|fancy-canvas)/)'
     ],
-
-    coveragePathIgnorePatterns: [],
+    coveragePathIgnorePatterns: ['/node_modules/', '.*.svg'],
     collectCoverage: true
 }
 
