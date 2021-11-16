@@ -4,7 +4,14 @@ import getMAChart from '../technicalIndicators/maChartFunction'
 import getBBands from '../technicalIndicators/bbands'
 import { useDispatch, useSelector } from 'react-redux'
 import ChartLoader from '../Loading/ChartLoader'
-import { HISTORICAL_URL, LISTEN_URL } from '../../utils/CONSTANTS'
+import {
+  BBANDS_COLOUR, BBANDS_MIDDLE_COLOUR,
+  DOWN_CANDLESTICK_COLOUR, EMA_COLOUR,
+  HISTORICAL_URL,
+  LISTEN_URL,
+  MA_COLOUR, SMA_COLOUR,
+  UP_CANDLESTICK_COLOUR, WMA_COLOUR
+} from '../../utils/CONSTANTS'
 import {updateChartData, updateInternalIndicatorData, updateTimeStamp} from '../../redux/ducks/chart'
 import { removeDuplicates } from '../../utils/functions'
 import { compare } from '../../utils/functions'
@@ -64,8 +71,8 @@ function CryptoChart ({ mobile }) {
         // },
       })
       candleSeries.current = chart.current.addCandlestickSeries({
-        upColor: '#00733E',
-        downColor: '#BB2E2D'
+        upColor: UP_CANDLESTICK_COLOUR,
+        downColor: DOWN_CANDLESTICK_COLOUR
       })
 
       chart.current.applyOptions({
@@ -173,7 +180,7 @@ function CryptoChart ({ mobile }) {
         const maSeries = chart.current.addLineSeries({
           lineWidth: 1,
           title: 'MA',
-          color: '#0083ff'
+          color: MA_COLOUR
         })
         getMAChart(
           'ma',
@@ -190,7 +197,7 @@ function CryptoChart ({ mobile }) {
         const emaSeries = chart.current.addLineSeries({
           lineWidth: 1,
           title: 'EMA',
-          color: '#0069CD'
+          color: EMA_COLOUR
         })
         getMAChart(
           'ema',
@@ -207,7 +214,7 @@ function CryptoChart ({ mobile }) {
         const smaSeries = chart.current.addLineSeries({
           lineWidth: 1,
           title: 'SMA',
-          color: '#023f78'
+          color: SMA_COLOUR
         })
         getMAChart(
           'sma',
@@ -224,7 +231,7 @@ function CryptoChart ({ mobile }) {
         const wmaSeries = chart.current.addLineSeries({
           lineWidth: 1,
           title: 'WMA',
-          color: '#01203d'
+          color: WMA_COLOUR
         })
         getMAChart(
           'wma',
@@ -241,17 +248,17 @@ function CryptoChart ({ mobile }) {
         const bbandUpper = chart.current.addLineSeries({
           lineWidth: 1,
           title: 'BBAND Upper',
-          color: 'purple'
+          color: BBANDS_COLOUR
         })
         const bbandMiddle = chart.current.addLineSeries({
           lineWidth: 1,
           title: 'BBAND Middle',
-          color: 'orange'
+          color: BBANDS_MIDDLE_COLOUR
         })
         const bbandLower = chart.current.addLineSeries({
           lineWidth: 1,
           title: 'BBAND Lower',
-          color: 'purple'
+          color: BBANDS_COLOUR
         })
         getBBands(
           bbandUpper,
@@ -336,7 +343,7 @@ function CryptoChart ({ mobile }) {
               const maSeries = chart.current.addLineSeries({
                 lineWidth: 1,
                 title: 'MA',
-                color: '#0083ff'
+                color: MA_COLOUR
               })
               getMAChart(
                 'ma',
@@ -353,7 +360,7 @@ function CryptoChart ({ mobile }) {
               const emaSeries = chart.current.addLineSeries({
                 lineWidth: 1,
                 title: 'EMA',
-                color: '#0069CD'
+                color: EMA_COLOUR
               })
               getMAChart(
                 'ema',
@@ -370,7 +377,7 @@ function CryptoChart ({ mobile }) {
               const smaSeries = chart.current.addLineSeries({
                 lineWidth: 1,
                 title: 'SMA',
-                color: '#023f78'
+                color: SMA_COLOUR
               })
               getMAChart(
                 'sma',
@@ -387,7 +394,7 @@ function CryptoChart ({ mobile }) {
               const wmaSeries = chart.current.addLineSeries({
                 lineWidth: 1,
                 title: 'WMA',
-                color: '#01203d'
+                color: WMA_COLOUR
               })
               getMAChart(
                 'wma',
@@ -404,17 +411,17 @@ function CryptoChart ({ mobile }) {
               const bbandUpper = chart.current.addLineSeries({
                 lineWidth: 1,
                 title: 'BBAND Upper',
-                color: 'purple'
+                color: BBANDS_COLOUR
               })
               const bbandMiddle = chart.current.addLineSeries({
                 lineWidth: 1,
                 title: 'BBAND Middle',
-                color: 'orange'
+                color: BBANDS_MIDDLE_COLOUR
               })
               const bbandLower = chart.current.addLineSeries({
                 lineWidth: 1,
                 title: 'BBAND Lower',
-                color: 'purple'
+                color: BBANDS_COLOUR
               })
               getBBands(
                 bbandUpper,

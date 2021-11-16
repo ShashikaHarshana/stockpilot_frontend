@@ -3,7 +3,7 @@ import { createChart, CrosshairMode } from 'lightweight-charts'
 import { Typography } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 import ChartLoader from '../Loading/ChartLoader'
-import { TA_BASE_URL } from '../../utils/CONSTANTS'
+import {LINE_SERIES_COLOUR, TA_BASE_URL} from '../../utils/CONSTANTS'
 import { useDispatch } from 'react-redux'
 import {
   updateExternalIndicatorData,
@@ -75,7 +75,7 @@ function LineChart ({ type, mobile }) {
     })
 
     lineSeries.current = chart.current.addLineSeries({
-      color: '#001341',
+      color: LINE_SERIES_COLOUR,
       lineWidth: 1.5
 
       // lineType: 1

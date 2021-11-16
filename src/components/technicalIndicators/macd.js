@@ -3,7 +3,7 @@ import { createChart, CrosshairMode } from 'lightweight-charts'
 import { Typography } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 import ChartLoader from '../Loading/ChartLoader'
-import { TA_BASE_URL } from '../../utils/CONSTANTS'
+import {MACD_COLOUR, MACD_SIGNAL_COLOUR, TA_BASE_URL} from '../../utils/CONSTANTS'
 import { useDispatch } from 'react-redux'
 import {
   updateExternalIndicatorData,
@@ -64,11 +64,11 @@ function MACDChart ({ mobile }) {
     })
     macdSeries.current = chart.current.addLineSeries({
       lineWidth: 1.5,
-      color: '#22568E'
+      color: MACD_COLOUR
     })
     macdSignalSeries.current = chart.current.addLineSeries({
       lineWidth: 1.5,
-      color: '#973A80'
+      color: MACD_SIGNAL_COLOUR
     })
     macdHistSeries.current = chart.current.addHistogramSeries({
       base: 0
