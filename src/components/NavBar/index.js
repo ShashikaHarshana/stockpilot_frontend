@@ -159,6 +159,7 @@ const NavBar = () => {
               component={Link}
               to='/'
               className={classes.tabBtn}
+              data-testid='home'
             >
               Home
             </Button>
@@ -168,6 +169,7 @@ const NavBar = () => {
               component={Link}
               to={`/analyze/stock`}
               className={classes.tabBtn}
+              data-testid='stock'
             >
               Stock
             </Button>
@@ -177,6 +179,7 @@ const NavBar = () => {
               component={Link}
               to={`/analyze/crypto`}
               className={classes.tabBtn}
+              data-testid='crypto'
             >
               crypto
             </Button>
@@ -199,6 +202,7 @@ const NavBar = () => {
               />
             </div>
           </div>
+
           <Grid item className={classes.signUpTab}>
             {isLoggedIn ? (
               <>
@@ -207,12 +211,14 @@ const NavBar = () => {
                   to='/watchList'
                   variant='text'
                   className={classes.logBtn}
+                  data-testid='watchlist'
                 >
                   Watch List
                 </Button>
                 <IconButton
                   onClick={() => setOpenPopup(true)}
                   style={{ marginRight: '10px' }}
+                  data-testid="notifs"
                 >
                   <Badge
                     badgeContent={notifications ? notifications.length : 0}
@@ -228,6 +234,7 @@ const NavBar = () => {
                     aria-controls='simple-menu'
                     aria-haspopup='true'
                     onClick={handleClick}
+                    data-testid="profilePic"
                   >
                     Open Menu
                   </Avatar>
@@ -237,15 +244,17 @@ const NavBar = () => {
                     keepMounted
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
+                    data-testid="openMenu"
                   >
                     <MenuItem
                       component={Link}
                       to='/profile'
                       onClick={handleClose}
+                      data-testid='profile'
                     >
                       My account
                     </MenuItem>
-                    <MenuItem onClick={handleLogOut}>Logout</MenuItem>
+                    <MenuItem data-testid='logout' onClick={handleLogOut}>Logout</MenuItem>
                   </Menu>
                 </div>
               </>
@@ -256,6 +265,7 @@ const NavBar = () => {
                   className={classes.logBtn}
                   to='/sign_in'
                   variant='text'
+                  data-testid='signin'
                 >
                   Log In
                 </Button>
@@ -265,6 +275,7 @@ const NavBar = () => {
                   to='/sign_up'
                   variant='contained'
                   color='secondary'
+                  data-testid='signup'
                 >
                   Sign Up
                 </Button>

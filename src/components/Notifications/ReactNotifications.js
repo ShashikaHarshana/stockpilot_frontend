@@ -12,7 +12,7 @@ const ReactNotificationComponent = ({ title, body }) => {
 
   function Display () {
     return (
-      <div>
+      <div data-testid='display'>
         <h4>{title}</h4>
         <p>{body}</p>
       </div>

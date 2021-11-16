@@ -152,9 +152,9 @@ const SignIn = () => {
   const theme = useTheme()
   const mobile = useMediaQuery(theme.breakpoints.down('sm'))
   const dispatch = useDispatch()
-  const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
-  const message = useSelector(state => state.auth.message)
-  const isLoading = useSelector(state => state.auth.isLoading)
+  const {isLoggedIn} = useSelector(state => state.auth)
+  const {loginMessage} = useSelector(state => state.auth)
+  const {isLoading} = useSelector(state => state.auth)
 
   const handleChange = e => {
     const { name, value } = e.target
@@ -169,15 +169,15 @@ const SignIn = () => {
   }
 
   const showAlert = () => {
-    console.log(message)
-    if (message != null) {
+    console.log(loginMessage)
+    if (loginMessage != null) {
       if (
-        message === 'Login Successful!' ||
-        message === 'Successfully Registered'
+        loginMessage === 'Login Successful!' ||
+        loginMessage === 'Successfully Registered'
       ) {
-        return <Alert severity='success'> {message} </Alert>
+        return <Alert severity='success' data-testid='success'> {loginMessage} </Alert>
       } else {
-        return <Alert severity='error'> {message} </Alert>
+        return <Alert severity='error' data-testid='error'> {loginMessage} </Alert>
       }
     }
   }
@@ -280,6 +280,7 @@ const SignIn = () => {
                       name='email'
                       value={creds.email}
                       onChange={handleChange}
+                      inputProps={{ "data-testid": 'email' }}
                     />
                   </Grid>
                   <Grid style={{ marginTop: '2rem' }}>
@@ -290,6 +291,7 @@ const SignIn = () => {
                       type='password'
                       value={creds.password}
                       onChange={handleChange}
+                      inputProps={{ "data-testid": 'password' }}
                     />
                   </Grid>
                   <Button
@@ -298,9 +300,10 @@ const SignIn = () => {
                     color='secondary'
                     type='submit'
                     fullWidth
+                    data-testid='submitButton'
                   >
                     {isLoading ? (
-                      <CircularProgress color='inherit' size='1.6rem' />
+                      <CircularProgress data-testid="loading" color='inherit' size='1.6rem' />
                     ) : (
                       <Typography>Login</Typography>
                     )}
@@ -313,19 +316,22 @@ const SignIn = () => {
                     to='/sign_up'
                     variant='text'
                     className={classes.primary}
+                    data-testid='signupButton'
                   >
                     Sign Up
                   </Button>
                 </Typography>
                 {/*<Typography>*/}
-                {/*  <Button*/}
-                {/*    component={Link}*/}
-                {/*    to='/'*/}
-                {/*    variant='text'*/}
-                {/*    className={classes.primary}*/}
-                {/*  >*/}
-                {/*    Forgot Password?*/}
-                {/*  </Button>*/}
+
+                  {/*<Button*/}
+                  {/*  component={Link}*/}
+                  {/*  to='/'*/}
+                  {/*  variant='text'*/}
+                  {/*  className={classes.primary}*/}
+                  {/*>*/}
+                  {/*  Forgot Password?*/}
+                  {/*</Button>*/}
+
                 {/*</Typography>*/}
                 {showAlert()}
               </Paper>
