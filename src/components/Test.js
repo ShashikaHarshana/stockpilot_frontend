@@ -1,16 +1,17 @@
 import React from 'react'
 
-import { makeStyles } from '@material-ui/core'
+function Test () {
+  const seen = new Set()
+  let arr;
+  const filteredArr = arr.filter(el => {
+    const duplicate = seen.has(el.id)
+    seen.add(el.id)
+    return !duplicate
+  })
 
-const useStyles = makeStyles({})
+  console.log(filteredArr)
 
-const Test = () => {
-  const classes = useStyles()
-  return (
-    <div>
-      <h1>test....</h1>
-    </div>
-  )
+  return <div></div>
 }
 
 export default Test

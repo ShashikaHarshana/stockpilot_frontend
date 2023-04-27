@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Drawer from '@material-ui/core/Drawer'
 import Button from '@material-ui/core/Button'
@@ -89,19 +89,19 @@ const MobDrawer = ({ openDrawer, setOpenDrawer }) => {
           )}
           <ListItem button component={Link} to='/'>
             <ListItemIcon className={classes.listIcon}>
-              <img src={home} className={classes.bitcoin} />
+              <img alt="home" src={home} className={classes.bitcoin} />
             </ListItemIcon>
             <ListItemText>Home</ListItemText>
           </ListItem>
-          <ListItem button component={Link} to='/stock'>
+          <ListItem button component={Link} to={`/analyze/stock`}>
             <ListItemIcon className={classes.listIcon}>
-              <img src={stock} className={classes.bitcoin} />
+              <img alt="stock" src={stock} className={classes.bitcoin} />
             </ListItemIcon>
             <ListItemText>Stock</ListItemText>
           </ListItem>
-          <ListItem button component={Link} to='/crypto'>
+          <ListItem button component={Link} to={`/analyze/crypto`}>
             <ListItemIcon className={classes.listIcon}>
-              <img className={classes.bitcoin} src={Bitcoin} />
+              <img alt="bitcoin" className={classes.bitcoin} src={Bitcoin} />
             </ListItemIcon>
             <ListItemText>Crypto</ListItemText>
           </ListItem>
@@ -109,7 +109,7 @@ const MobDrawer = ({ openDrawer, setOpenDrawer }) => {
             <>
               <ListItem button onClick={handleClick} component={Link} to='/'>
                 <ListItemIcon className={classes.listIcon}>
-                  <img className={classes.bitcoin} src={logout} />
+                  <img alt="logout" className={classes.bitcoin} src={logout} />
                 </ListItemIcon>
                 <ListItemText>Log Out</ListItemText>
               </ListItem>

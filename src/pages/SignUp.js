@@ -1,29 +1,27 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Paper from '@material-ui/core/Paper'
 import {
+  CircularProgress,
   Grid,
-  IconButton,
   Typography,
   useMediaQuery,
   useTheme
 } from '@material-ui/core'
-import GitHubIcon from '@material-ui/icons/GitHub'
+
 import signUpImg from '../svgs/signUp/signUpImg.svg'
 import Controls from '../components/controls/Controls'
-import FacebookIcon from '@material-ui/icons/Facebook'
 import { Button } from '@material-ui/core'
-import { Link } from 'react-router-dom'
-import Form from '../components/Form'
+import { Link, Redirect } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 import { useForm } from '../components/hooks/useForm.js'
 import logo from '../svgs/signUp/logo.svg'
 import bottom from '../svgs/signUp/bottomLeft.svg'
 import top from '../svgs/signUp/topRight.svg'
-import facebook from '../svgs/signUp/facebook.svg'
-import google from '../svgs/signUp/google.svg'
 import { useDispatch } from 'react-redux'
 import { userRegister } from '../redux/ducks/auth'
+import { Alert } from '@material-ui/lab'
+import Fade from 'react-reveal/Fade'
 
 const initialFValues = {
   id: 0,
@@ -43,16 +41,18 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-between',
     [theme.breakpoints.down('sm')]: {
       flexDirection: 'column',
-      // minHeight: '1vh',
+
       justifyContent: 'center'
     }
+  },
+  divContainer: {
+    maxHeight: '100vh',
+    maxWidth: '100vw'
   },
   img: {
     height: 'calc(442px*0.8)',
     width: 'calc(480px*0.8)',
     [theme.breakpoints.down('sm')]: {
-      // width: 260,
-      // height: 239
       display: 'none'
     }
   },
@@ -65,11 +65,23 @@ const useStyles = makeStyles(theme => ({
     padding: 'calc(50px*0.8) calc(40px*0.8)',
     paddingBottom: '0',
     borderRadius: 15,
+
     [theme.breakpoints.down('sm')]: {
-      width: 300,
-      minHeight: 320,
+      width: '70vw',
+      height: 'fit-content',
       padding: 15,
-      marginLeft: -15
+      marginLeft: -15,
+      zIndex: 10
+    }
+  },
+  paperContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 10,
+    [theme.breakpoints.down('sm')]: {
+      marginTop: '2rem',
+      marginLeft: '1rem'
     }
   },
   linksContainer: {
@@ -89,7 +101,7 @@ const useStyles = makeStyles(theme => ({
   },
   bottom: {
     [theme.breakpoints.down('sm')]: {
-      marginTop: '0'
+      marginTop: '10px'
     }
   },
   bottomImg: {
@@ -136,7 +148,8 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down('sm')]: {
       width: 300,
       height: 20,
-      marginTop: '1rem'
+      marginTop: '1rem',
+      marginLeft: '-2rem'
     }
   },
   logoContainer: {
@@ -146,14 +159,13 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-// const url = '#'
-
 const SignUp = () => {
-  const [user, setUser] = useState(initialFValues)
   const classes = useStyles()
   const theme = useTheme()
   const mobile = useMediaQuery(theme.breakpoints.down('sm'))
   const dispatch = useDispatch()
+  const {isRegistered} = useSelector(state => state.auth)
+  const {isLoading} = useSelector(state => state.auth)
 
   const validate = (fieldValues = values) => {
     let temp = { ...errors }
@@ -176,8 +188,8 @@ const SignUp = () => {
 
     setErrors({ ...temp })
 
-    if (fieldValues == values) {
-      return Object.values(temp).every(item => item == '')
+    if (fieldValues === values) {
+      return Object.values(temp).every(item => item === '')
     }
   }
 
@@ -194,155 +206,192 @@ const SignUp = () => {
     e.preventDefault()
     if (validate()) {
       dispatch(userRegister(values))
-      resetForm()
     }
   }
 
-  return (
-    <div style={{ maxHeight: '100vh', maxWidth: '100vw', overflow: 'hidden' }}>
-      <img src={top} alt='top' className={classes.topImg} />
-      <Grid className={classes.logoContainer} item component={Link} to='/'>
-        <img src={logo} alt='top' className={classes.logo} />
-      </Grid>
-      <img src={bottom} className={classes.bottomImg} alt='bottom' />
-      <Grid container className={classes.container}>
-        <article>
-          <img src={signUpImg} className={classes.img} alt='' />
-        </article>
-        <article>
-          <Paper className={classes.paper} elevation={8}>
-            <Grid>
-              <Typography
-                variant={`${mobile ? 'h5' : 'h4'}`}
-                style={{
-                  margin: '0 auto',
-                  display: 'flex',
-                  justifyContent: 'center'
-                }}
-              >
-                Welcome to{' '}
-                {!mobile && (
-                  <span
-                    className={classes.primary}
+  const {signupMessage} = useSelector(state => state.auth)
+
+  const showAlert = () => {
+    console.log(signupMessage)
+    if (signupMessage != null) {
+      if (signupMessage === 'Successfully Registered') {
+        return <Alert severity='success' data-testid='success'> {signupMessage} </Alert>
+      } else {
+        return <Alert severity='error' data-testid='error'> {signupMessage} </Alert>
+      }
+    }
+  }
+  console.log(isRegistered)
+  if (isRegistered) {
+    return <Redirect to='/sign_in' />
+  } else {
+    return (
+      <div className={classes.divContainer}>
+        <Fade top>
+          <img src={top} alt='topRight' className={classes.topImg} />
+        </Fade>
+        <Grid className={classes.logoContainer} item component={Link} to='/'>
+          <Fade top>
+            <img src={logo} alt='top' className={classes.logo} />
+          </Fade>
+        </Grid>
+        <Fade bottom>
+          <img src={bottom} className={classes.bottomImg} alt='bottom' />
+        </Fade>
+        <Grid container className={classes.container}>
+          <article>
+            <Fade left delay={1500}>
+              <img src={signUpImg} className={classes.img} alt='' />
+            </Fade>
+          </article>
+          <article className={classes.paperContainer}>
+            <Fade right delay={1500}>
+              <Paper className={classes.paper} elevation={8}>
+                <Grid>
+                  <Typography
+                    variant={`${mobile ? 'h5' : 'h4'}`}
                     style={{
-                      marginLeft: '1rem'
+                      margin: '0 auto',
+                      display: 'flex',
+                      justifyContent: 'center'
                     }}
                   >
-                    STOCKPILOT
-                  </span>
-                )}
-              </Typography>
-              {mobile && (
-                <Grid component={Link} to='/'>
-                  <img
-                    src={logo}
-                    component={Link}
-                    to='/'
-                    alt='top'
-                    className={classes.logoCard}
-                  />
+                    Welcome to{' '}
+                    {!mobile && (
+                      <span
+                        className={classes.primary}
+                        style={{
+                          marginLeft: '1rem'
+                        }}
+                      >
+                        STOCKPILOT
+                      </span>
+                    )}
+                  </Typography>
+                  {mobile && (
+                    <Grid component={Link} to='/'>
+                      <img
+                        src={logo}
+                        component={Link}
+                        to='/'
+                        alt='top'
+                        className={classes.logoCard}
+                      />
+                    </Grid>
+                  )}
                 </Grid>
-              )}
-            </Grid>
-            <Grid container className={classes.linksContainer}>
-              <Grid
-                item
-                sm={12}
-                md={6}
-                style={{ display: 'flex', justifyContent: 'center' }}
-              >
-                <IconButton disableRipple>
-                  <img className={classes.google} src={google} alt='' />
+                {/* <Grid container className={classes.linksContainer}>
+                  <Grid
+                    item
+                    sm={12}
+                    md={6}
+                    style={{ display: 'flex', justifyContent: 'center' }}
+                  >
+                    <IconButton disableRipple>
+                      <img className={classes.google} src={google} alt='' />
 
-                  <Typography style={{ marginLeft: '1rem', color: '#222' }}>
-                    Sign in with Google
-                  </Typography>
-                </IconButton>
-              </Grid>
-              <Grid
-                item
-                sm={12}
-                md={6}
-                style={{ display: 'flex', justifyContent: 'center' }}
-              >
-                <IconButton disableRipple>
-                  <img className={classes.facebook} src={facebook} alt='' />
+                      <Typography style={{ marginLeft: '1rem', color: '#222' }}>
+                        Sign in with Google
+                      </Typography>
+                    </IconButton>
+                  </Grid> */}
+                {/* <Grid
+                    item
+                    sm={12}
+                    md={6}
+                    style={{ display: 'flex', justifyContent: 'center' }}
+                  >
+                    <IconButton disableRipple>
+                      <img className={classes.facebook} src={facebook} alt='' />
 
-                  <Typography style={{ marginLeft: '1rem', color: '#222' }}>
-                    Sign in with facebook
-                  </Typography>
-                </IconButton>
-              </Grid>
-            </Grid>
-            <form onSubmit={handleSubmit}>
-              <Grid style={{ marginTop: '1rem' }}>
-                <Controls.Input
-                  fullWidth
-                  label='First Name'
-                  name='firstName'
-                  value={values.firstName}
-                  onChange={handleInputChange}
-                  error={errors.firstName}
-                />
-              </Grid>
-              <Grid style={{ marginTop: '1rem' }}>
-                <Controls.Input
-                  fullWidth
-                  label='Last Name'
-                  name='lastName'
-                  value={values.lastName}
-                  onChange={handleInputChange}
-                  error={errors.lastName}
-                />
-              </Grid>
-              <Grid style={{ marginTop: '1rem' }}>
-                <Controls.Input
-                  fullWidth
-                  label='Email'
-                  name='email'
-                  value={values.email}
-                  onChange={handleInputChange}
-                  error={errors.email}
-                />
-              </Grid>
-              <Grid style={{ marginTop: '1rem' }}>
-                <Controls.Input
-                  fullWidth
-                  placeholder='Password should be min.8 characters and numbers '
-                  label='Password'
-                  name='password'
-                  type='password'
-                  value={values.password}
-                  onChange={handleInputChange}
-                  error={errors.password}
-                />
-              </Grid>
-              <Button
-                className={classes.btn}
-                variant='contained'
-                color='secondary'
-                type='submit'
-                fullWidth
-              >
-                Sign up
-              </Button>
-            </form>
-            <Typography className={classes.bottom}>
-              Already have an account?{' '}
-              <Button
-                component={Link}
-                to='/sign_in'
-                variant='text'
-                className={classes.primary}
-              >
-                Log in
-              </Button>
-            </Typography>
-          </Paper>
-        </article>
-      </Grid>
-    </div>
-  )
+                      <Typography style={{ marginLeft: '1rem', color: '#222' }}>
+                        Sign in with facebook
+                      </Typography>
+                    </IconButton>
+                  </Grid>
+                </Grid> */}
+                <form onSubmit={handleSubmit}>
+                  <Grid style={{ marginTop: '1rem' }}>
+                    <Controls.Input
+                      fullWidth
+                      label='First Name'
+                      name='firstName'
+                      value={values.firstName}
+                      onChange={handleInputChange}
+                      error={errors.firstName}
+                      inputProps={{ "data-testid": 'firstName' }}
+                    />
+                  </Grid>
+                  <Grid style={{ marginTop: '1rem' }}>
+                    <Controls.Input
+                      fullWidth
+                      label='Last Name'
+                      name='lastName'
+                      value={values.lastName}
+                      onChange={handleInputChange}
+                      error={errors.lastName}
+                      inputProps={{ "data-testid": 'lastName' }}
+                    />
+                  </Grid>
+                  <Grid style={{ marginTop: '1rem' }}>
+                    <Controls.Input
+                      fullWidth
+                      label='Email'
+                      name='email'
+                      value={values.email}
+                      onChange={handleInputChange}
+                      error={errors.email}
+                      inputProps={{ "data-testid": 'email' }}
+                    />
+                  </Grid>
+                  <Grid style={{ marginTop: '1rem' }}>
+                    <Controls.Input
+                      fullWidth
+                      placeholder='Password should be min.8 characters and numbers '
+                      label='Password'
+                      name='password'
+                      type='password'
+                      value={values.password}
+                      onChange={handleInputChange}
+                      error={errors.password}
+                      inputProps={{ "data-testid": 'password' }}
+                    />
+                  </Grid>
+                  <Button
+                    className={classes.btn}
+                    variant='contained'
+                    color='secondary'
+                    type='submit'
+                    fullWidth
+                    data-testid="submitButton"
+                  >
+                    {isLoading ? (
+                      <CircularProgress data-testid="loading" color='inherit' size='1.6rem' />
+                    ) : (
+                      <Typography>Sign Up</Typography>
+                    )}
+                  </Button>
+                </form>
+                <Typography className={classes.bottom}>
+                  Already have an account?
+                  <Button
+                    component={Link}
+                    to='/sign_in'
+                    variant='text'
+                    className={classes.primary}
+                    data-testid='signInButton'
+                  >
+                    Log in
+                  </Button>
+                </Typography>
+                {showAlert()}
+              </Paper>
+            </Fade>
+          </article>
+        </Grid>
+      </div>
+    )
+  }
 }
 
 export default SignUp

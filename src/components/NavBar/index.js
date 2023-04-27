@@ -3,30 +3,30 @@ import {
   AppBar,
   Button,
   Grid,
-  Tabs,
   Toolbar,
-  Tab,
   Avatar,
   Menu,
   MenuItem,
   IconButton,
   useMediaQuery
 } from '@material-ui/core'
-import { Redirect, useHistory, withRouter } from 'react-router'
+import { useHistory} from 'react-router'
 import { Link } from 'react-router-dom'
 import logo from '../../svgs/signUp/logo.svg'
-import SearchBox from './SearchBox'
 import { makeStyles } from '@material-ui/core'
-import SearchIcon from '@material-ui/icons/Search'
-import MenuIcon from '@material-ui/icons/Menu'
-import profilePic from '../../svgs/profilePic.png'
+import profilePic from '../../svgs/profilePhoto.png'
 import Badge from '@material-ui/core/Badge'
 import MailIcon from '@material-ui/icons/Mail'
+import MenuIcon from '@material-ui/icons/Menu'
 import { useSelector } from 'react-redux'
 import { useTheme } from '@material-ui/styles'
 import MobDrawer from './MobDrawer'
 import { useDispatch } from 'react-redux'
 import { logOut } from '../../redux/ducks/auth'
+import Popup from '../controls/Popup'
+// import notifications from './../../utils/data'
+
+import NotificationModal from '../Notifications/NotificationModal'
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -111,15 +111,21 @@ const NavBar = () => {
   const [open, setOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
   const [openDrawer, setOpenDrawer] = useState(false)
-  console.log(openDrawer)
   const theme = useTheme()
   const mobile = useMediaQuery(theme.breakpoints.down('sm'))
   const classes = useStyles({ open, mobile })
   // console.log(mobile)
   const dispatch = useDispatch()
   const { isLoggedIn } = useSelector(state => state.auth)
-  console.log(isLoggedIn)
+  const [openPopup, setOpenPopup] = useState(false)
+  const { notifications } = useSelector(state => state.notifications)
+
   const history = useHistory()
+
+  // const handleDelete = time => {
+  //   let tempNotifications = newNotifications.filter(item => item[0] !== time)
+  //   setNewNotifications(tempNotifications)
+  // }
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget)
@@ -134,6 +140,8 @@ const NavBar = () => {
     dispatch(logOut())
     history.push('/')
   }
+
+  const { brands } = useSelector(state => state.watchlist)
 
   return (
     <div>
@@ -151,6 +159,7 @@ const NavBar = () => {
               component={Link}
               to='/'
               className={classes.tabBtn}
+              data-testid='home'
             >
               Home
             </Button>
@@ -158,8 +167,9 @@ const NavBar = () => {
               variant='text'
               label='Stock'
               component={Link}
-              to='/stock'
+              to={`/analyze/stock`}
               className={classes.tabBtn}
+              data-testid='stock'
             >
               Stock
             </Button>
@@ -167,28 +177,32 @@ const NavBar = () => {
               variant='text'
               label='Cripto'
               component={Link}
-              to='/crypto'
+              to={`/analyze/crypto`}
               className={classes.tabBtn}
+              data-testid='crypto'
             >
               crypto
             </Button>
           </Grid>
-          <Grid item className={classes.search}>
+
+          {/* <Grid item className={classes.search}>
             <SearchBox open={open} setOpen={setOpen} />
-          </Grid>
+          </Grid> */}
           <div className={classes.searchIcons}>
             <div style={{ display: 'flex' }}>
-              <SearchIcon
+              {/* <SearchIcon
                 style={{ marginRight: '10px', color: '#A6A4A4' }}
                 onClick={() => setOpen(true)}
                 className={classes.searchIcon}
-              />
+              /> */}
+
               <MenuIcon
                 onClick={() => setOpenDrawer(true)}
                 className={classes.searchIcon}
               />
             </div>
           </div>
+
           <Grid item className={classes.signUpTab}>
             {isLoggedIn ? (
               <>
@@ -197,11 +211,19 @@ const NavBar = () => {
                   to='/watchList'
                   variant='text'
                   className={classes.logBtn}
+                  data-testid='watchlist'
                 >
                   Watch List
                 </Button>
-                <IconButton style={{ marginRight: '10px' }}>
-                  <Badge badgeContent={4} color='secondary'>
+                <IconButton
+                  onClick={() => setOpenPopup(true)}
+                  style={{ marginRight: '10px' }}
+                  data-testid="notifs"
+                >
+                  <Badge
+                    badgeContent={notifications ? notifications.length : 0}
+                    color='secondary'
+                  >
                     <MailIcon />
                   </Badge>
                 </IconButton>
@@ -212,6 +234,7 @@ const NavBar = () => {
                     aria-controls='simple-menu'
                     aria-haspopup='true'
                     onClick={handleClick}
+                    data-testid="profilePic"
                   >
                     Open Menu
                   </Avatar>
@@ -221,15 +244,17 @@ const NavBar = () => {
                     keepMounted
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
+                    data-testid="openMenu"
                   >
                     <MenuItem
                       component={Link}
                       to='/profile'
                       onClick={handleClose}
+                      data-testid='profile'
                     >
                       My account
                     </MenuItem>
-                    <MenuItem onClick={handleLogOut}>Logout</MenuItem>
+                    <MenuItem data-testid='logout' onClick={handleLogOut}>Logout</MenuItem>
                   </Menu>
                 </div>
               </>
@@ -240,6 +265,7 @@ const NavBar = () => {
                   className={classes.logBtn}
                   to='/sign_in'
                   variant='text'
+                  data-testid='signin'
                 >
                   Log In
                 </Button>
@@ -249,6 +275,7 @@ const NavBar = () => {
                   to='/sign_up'
                   variant='contained'
                   color='secondary'
+                  data-testid='signup'
                 >
                   Sign Up
                 </Button>
@@ -257,6 +284,13 @@ const NavBar = () => {
           </Grid>
         </Toolbar>
       </AppBar>
+      <Popup
+        title='Notifications'
+        openPopup={openPopup}
+        setOpenPopup={setOpenPopup}
+      >
+        <NotificationModal />
+      </Popup>
     </div>
   )
 }
